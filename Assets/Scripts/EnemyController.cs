@@ -1,18 +1,37 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyController : MonoBehaviour
 {
+    [Header("追尾設定")]
     [SerializeField] private float speed = 2f;
     private GameObject mikoshiObject;
     private Vector2 currentPosition;
     private Vector2 targetPosition;
-    
+
+    [Header("ノックバック設定")]
+    [SerializeField] private float recoilTime = 0.15f; // 硬直時間
+    public float knockbackPower = 2f;         // ノックバックの強さ
+
+    private bool canMove = true;
+
     void Start()
     {
-        mikoshiObject  = GameObject.FindWithTag("Player");
+        if (mikoshiObject == null)
+        {
+            mikoshiObject = GameObject.FindWithTag("Mikoshi");
+        }
     }
 
     void Update()
+    {
+        if (mikoshiObject != null && canMove)
+        {
+            FollowTarget();
+        }
+    }
+
+    void FollowTarget()
     {
         currentPosition = transform.position;
         targetPosition = mikoshiObject.GetComponent<Transform>().position;
@@ -20,10 +39,33 @@ public class EnemyController : MonoBehaviour
         currentPosition += direction * speed * Time.deltaTime;
 
         transform.position = currentPosition;
-
-        if (Vector2.Distance(currentPosition, targetPosition) < 0.1f)
+    }
+ 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Mikoshi"))
         {
-            Destroy(gameObject);
+            // --- ① ダメージを与える ---
+            MikoshiController.mikoshiHP -= 10;
+
+            // --- ② ノックバック ---
+            StartCoroutine(Knockback());
         }
+    }
+
+    IEnumerator Knockback()
+    {
+        // 追尾を止める
+        canMove = false;
+
+        // 現在の方向と逆方向にノックバック
+        Vector3 backDir = (transform.position - mikoshiObject.transform.position).normalized;
+        transform.position += backDir * knockbackPower;
+
+        // 少し待つ
+        yield return new WaitForSeconds(recoilTime);
+
+        // 追尾再開
+        canMove = true;
     }
 }
