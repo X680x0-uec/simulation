@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3f01d91e043e341ac702837bdf048f, type: 3}
+  m_Name: UnitDatabase
+  m_EditorClassIdentifier: 
+  allUnits:
+  - unitName: Unit1
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit2
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit3
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit4
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit5
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit6
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit7
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit8
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit9
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit10
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit11
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit12
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit13
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit14
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit15
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}
+  - unitName: Unit16
+    unitPrefab: {fileID: 0}
+    health: 3
+    cost: 0
+    icon: {fileID: 0}

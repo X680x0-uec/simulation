@@ -8,6 +8,7 @@ TagManager:
   - mikosi
   - enemy
   - Ally
+  - Mikoshi
   layers:
   - Default
   - TransparentFX

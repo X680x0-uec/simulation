@@ -4,7 +4,7 @@ public class mikosi_move : MonoBehaviour  // クラス名とファイル名を�
 {
     [SerializeField]
     public float speed = 2f;       // 自機の速度
-    public int mikosiHP = 100;     // 自機HP
+    public static int mikosiHP = 100;     // 自機HP
 
     void Update()
     {
