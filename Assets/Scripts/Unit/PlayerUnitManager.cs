@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnlockedUnitManager : MonoBehaviour
+public class PlayerUnitManager : MonoBehaviour
 {
 	[SerializeField] private UnitDatabase database;
 	[SerializeField] private int initialUnlockedUnits = 16;
