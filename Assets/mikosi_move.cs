@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class mikosi_move : MonoBehaviour  // クラス名とファイル名を一致
 {
