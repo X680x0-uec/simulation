@@ -4,7 +4,11 @@ public class UnitSpawner : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject allyPrefab;
+    private GameObject allyPrefab1;
+
+    [SerializeField]
+    private GameObject allyPrefab2;
+
     [SerializeField]
     private Transform SpawnPoint;
     void Update()
@@ -12,15 +16,29 @@ public class UnitSpawner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log("1キー");
-            SpawnAlly();
+            SpawnAlly1();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Debug.Log("2キー");
+            SpawnAlly2();
         }
     }
 
-    void SpawnAlly()
+    void SpawnAlly1()
     {
-        if (allyPrefab != null && SpawnPoint != null)
+        if (allyPrefab1 != null && SpawnPoint != null)
         {
-            Instantiate(allyPrefab, SpawnPoint.position, Quaternion.identity);
+            Instantiate(allyPrefab1, SpawnPoint.position, Quaternion.identity);
+        }
+    }
+
+    void SpawnAlly2()
+    {
+        if (allyPrefab2 != null && SpawnPoint != null)
+        {
+            Instantiate(allyPrefab2, SpawnPoint.position, Quaternion.identity);
         }
     }
 }

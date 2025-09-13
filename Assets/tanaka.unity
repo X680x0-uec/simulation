@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+  mikosiHP: 100
 --- !u!212 &651723513
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -480,18 +481,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 651723514}
-<<<<<<< HEAD
   moveSpeed: 1
   enemyHP: 10
   attackPower: 5
   canMove: 1
   knockbackPower: 1
   knockbackDuration: 0.05
-=======
-  moveSpeed: 5
-  recoilTime: 0.15
-  knockbackPower: 0.5
->>>>>>> 65cfd979bbfb0c14119aadba6a5f7f6ce55d2c3f
 --- !u!212 &1798019572
 SpriteRenderer:
   m_ObjectHideFlags: 0
