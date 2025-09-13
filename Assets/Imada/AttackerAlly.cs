@@ -1,13 +1,11 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 
 public class AttackerAlly : MonoBehaviour
 {
     [Header("アタッカー味方の設定")]
-    [SerializeField] private int HP = 100;
-    [SerializeField] private int damage = 10;
     [SerializeField] private float speed = 2f;
+    [SerializeField] private float followDistance = 1.5f; // ミコシを追尾する距離
 
     private enum State
     {
@@ -17,12 +15,14 @@ public class AttackerAlly : MonoBehaviour
     }
     private State state = State.Idle;
 
+    private Transform mikoshi;
     private Transform target;
     private Rigidbody2D rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        mikoshi = GameObject.FindWithTag("Mikoshi").transform;
     }
 
     void Update()
@@ -31,6 +31,8 @@ public class AttackerAlly : MonoBehaviour
         {
             case State.Idle:
                 // 待機状態の処理
+                FollowMikoshi();
+
                 target = Utils.FetchNearObjectWithTag(transform, "Enemy");
                 if (target != null)
                 {
@@ -59,6 +61,20 @@ public class AttackerAlly : MonoBehaviour
         // 敵に向かって移動
         Vector2 direction = (target.position - transform.position).normalized;
         rb.linearVelocity = direction * speed;
+    }
+
+    void FollowMikoshi()
+    {
+        // ミコシに向かって移動
+        if (mikoshi != null)
+        {
+            Vector2 distance = mikoshi.position - transform.position;
+            if (distance.magnitude > followDistance)
+            {
+                Vector2 direction = distance.normalized;
+                rb.linearVelocity = direction * speed;
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)

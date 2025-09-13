@@ -30,7 +30,7 @@ public class EnemyManager : MonoBehaviour
 
     void SpawnEnemy()
     {
-        float spawnDirection = Random.Range(0, 360);
+        float spawnDirection = Random.Range(-30, 30) * Mathf.Deg2Rad;
         Vector2 spawnPosition = spawnCenter + new Vector2(Mathf.Cos(spawnDirection), Mathf.Sin(spawnDirection)) * Random.Range(spawnMinRange, spawnMaxRange);
         Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
     }

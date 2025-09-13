@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class EnemyController : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class EnemyController : MonoBehaviour
     [Header("ノックバック設定")]
     [SerializeField] private float recoilTime = 0.15f; // 硬直時間
     public float knockbackPower = 2f;         // ノックバックの強さ
+
+    [Header("消滅設定")]
+    [SerializeField] private float destroyXPosition = 5f; // ミコシからのX距離がこれ以上離れたら消滅
 
     private bool canMove = true;
 
@@ -39,6 +43,11 @@ public class EnemyController : MonoBehaviour
         currentPosition += direction * speed * Time.deltaTime;
 
         transform.position = currentPosition;
+
+        if (targetPosition.x - currentPosition.x > destroyXPosition)
+        {
+            Destroy(gameObject);
+        }
     }
  
     private void OnTriggerEnter2D(Collider2D other)
