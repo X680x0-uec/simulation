@@ -4,15 +4,11 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Ally
-<<<<<<< HEAD
-  - Mikoshi
-  - Enemy
+  - Mikosi
   - mikosi
   - enemy
-=======
+  - Ally
   - ally
->>>>>>> c52c01fa5cd75f6d120aecdaf59d1c3692b053b0
   layers:
   - Default
   - TransparentFX
