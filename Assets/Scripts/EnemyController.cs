@@ -13,6 +13,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float recoilTime = 0.15f; // 硬直時間
     public float knockbackPower = 2f;         // ノックバックの強さ
 
+    [Header("消滅条件")]
+    [SerializeField] private float destroyXPosition = -5f; // ミコシのX座標からこの数値以下で消滅
+
     private bool canMove = true;
 
     void Start()
@@ -39,6 +42,11 @@ public class EnemyController : MonoBehaviour
         currentPosition += direction * speed * Time.deltaTime;
 
         transform.position = currentPosition;
+
+        if (transform.position.x - targetPosition.x < destroyXPosition)
+        {
+            Destroy(gameObject);
+        }
     }
  
     private void OnTriggerEnter2D(Collider2D other)
