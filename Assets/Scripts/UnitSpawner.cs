@@ -1,44 +1,46 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class UnitSpawner : MonoBehaviour
 {
+    [SerializeField] private GameObject allyPrefab1; // 普通の召喚
+    [SerializeField] private GameObject allyPrefab2; // 半円配置
+    [SerializeField] private Transform SpawnPoint;
 
-    [SerializeField]
-    private GameObject allyPrefab1;
+    private List<GameObject> spawnedAllies2 = new List<GameObject>(); // 半円用
 
-    [SerializeField]
-    private GameObject allyPrefab2;
-
-    [SerializeField]
-    private Transform SpawnPoint;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Debug.Log("1キー");
-            SpawnAlly1();
+            if (allyPrefab1 != null && SpawnPoint != null)
+                Instantiate(allyPrefab1, SpawnPoint.position, Quaternion.identity);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Debug.Log("2キー");
-            SpawnAlly2();
+            SpawnHalfCircleAlly(allyPrefab2);
         }
     }
 
-    void SpawnAlly1()
+    void SpawnHalfCircleAlly(GameObject prefab)
     {
-        if (allyPrefab1 != null && SpawnPoint != null)
+        if (prefab != null && SpawnPoint != null)
         {
-            Instantiate(allyPrefab1, SpawnPoint.position, Quaternion.identity);
-        }
-    }
+            GameObject newAlly = Instantiate(prefab, SpawnPoint.position, Quaternion.identity);
+            spawnedAllies2.Add(newAlly);
 
-    void SpawnAlly2()
-    {
-        if (allyPrefab2 != null && SpawnPoint != null)
-        {
-            Instantiate(allyPrefab2, SpawnPoint.position, Quaternion.identity);
+            // 全ユニットの index / totalAllies を更新
+            int total = spawnedAllies2.Count;
+            for (int i = 0; i < spawnedAllies2.Count; i++)
+            {
+                DefenseAlly script = spawnedAllies2[i].GetComponent<DefenseAlly>();
+                if (script != null)
+                {
+                    script.index = i;
+                    script.totalAllies = total;
+                }
+            }
         }
     }
 }
