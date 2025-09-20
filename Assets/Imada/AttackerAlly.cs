@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -5,7 +6,14 @@ public class AttackerAlly : MonoBehaviour
 {
     [Header("アタッカー味方の設定")]
     [SerializeField] private float speed = 2f;
-    [SerializeField] private float followDistance = 1.5f; // ミコシを追尾する距離
+
+    [Header("追従設定")]
+    [SerializeField] private float moveThreshold = 1.0f;
+    [SerializeField] private float followDistance = 2.0f;
+    [SerializeField] private float moveIntervalTime = 1.0f;
+
+    private float moveTimer = 0f;
+    private Vector2 destination;
 
     private enum State
     {
@@ -60,20 +68,26 @@ public class AttackerAlly : MonoBehaviour
     {
         // 敵に向かって移動
         Vector2 direction = (target.position - transform.position).normalized;
-        rb.linearVelocity = direction * speed;
+        rb.AddForce(direction * speed);
     }
 
     void FollowMikoshi()
     {
         // ミコシに向かって移動
-        if (mikoshi != null)
+        if (mikoshi != null && moveTimer <= 0f)
         {
-            Vector2 distance = mikoshi.position - transform.position;
-            if (distance.magnitude > followDistance)
+            float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+            moveTimer = moveIntervalTime;
+            destination = new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle)) * followDistance + (Vector2)mikoshi.position;
+        }
+        else
+        {
+            Vector2 direction = destination - (Vector2)transform.position;
+            if (direction.magnitude > moveThreshold)
             {
-                Vector2 direction = distance.normalized;
-                rb.linearVelocity = direction * speed;
+                rb.AddForce(direction.normalized * speed);
             }
+            moveTimer -= Time.deltaTime;
         }
     }
 
