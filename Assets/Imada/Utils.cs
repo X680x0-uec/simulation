@@ -24,4 +24,15 @@ public static class Utils
 		// 最後に記録されたオブジェクトを返す
 		return result?.transform;
 	}
+
+	public static Vector2 GetVelocityOfGameObject2D(GameObject obj)
+	{
+		var rb = obj.GetComponent<Rigidbody2D>();
+		if (rb != null)
+		{
+			return rb.linearVelocity;
+		}
+		Debug.LogWarning(obj.name + "にはRigidbody2Dがアタッチされていません");
+		return Vector2.zero;
+	}
 }

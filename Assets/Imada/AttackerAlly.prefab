@@ -175,7 +175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c257ddbe1df766945968ae0e0c68f97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 45
+  speed: 15
+  sightRange: 8
+  isFrontDefense: 1
+  frontDefenseAngle: 90
   moveThreshold: 0.5
-  followDistance: 2
+  followDistance: 3
   moveIntervalTime: 1
