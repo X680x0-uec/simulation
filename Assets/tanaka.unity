@@ -146,12 +146,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 651723511}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
+<<<<<<< HEAD
+  m_Script: {fileID: 11500000, guid: 6ae63652e6f2cdc4f9969865121b2124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+=======
   m_Script: {fileID: 11500000, guid: 62805261e2945d143a7ee352c9cd0bda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+>>>>>>> 1b0fc9b612ee742d4f5b3152accfe22cfed268d4
 --- !u!212 &651723513
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -447,7 +454,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allyPrefab1: {fileID: 5397536814618154323, guid: a56fd95615bda9342860f3deb89ba9ef, type: 3}
+<<<<<<< HEAD
+  allyPrefab2: {fileID: 0}
+=======
   allyPrefab2: {fileID: 5266812767448107305, guid: da733418078dcb84e8ae14dee489e8a3, type: 3}
+>>>>>>> 1b0fc9b612ee742d4f5b3152accfe22cfed268d4
   SpawnPoint: {fileID: 1847790940}
 --- !u!1 &1798019570
 GameObject:
@@ -469,6 +480,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
+--- !u!114 &1798019571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798019570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e4f7909ef074e49859233801bd92f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 651723514}
+  moveSpeed: 1
+  recoilTime: 0.15
+  knockbackPower: 1
+=======
+>>>>>>> 1b0fc9b612ee742d4f5b3152accfe22cfed268d4
 --- !u!212 &1798019572
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -6,8 +6,15 @@ public class MikoshiController : MonoBehaviour
     
     static public int mikoshiHP = 100;
 
+    private Rigidbody2D rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
     void Update()
     {
-        transform.position += Vector3.right * speed * Time.deltaTime;
+        rb.linearVelocity = Vector2.right * speed;
     }
 }
