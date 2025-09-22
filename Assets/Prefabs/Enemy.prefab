@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6841470139868938115}
   - component: {fileID: 4786586404446901761}
   - component: {fileID: 2567658345240329273}
+  - component: {fileID: -8833381014285142441}
   - component: {fileID: 4448295521710645155}
   m_Layer: 0
   m_Name: Enemy
@@ -101,9 +102,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e32096f5c7f664c91b6c9fafaab83b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.5
-  recoilTime: 0.15
-  knockbackPower: 2
+  maxHP: 100
+  speed: 5
+  mikoshiObject: {fileID: 0}
+  recoilTime: 0.5
+  knockbackPower: 30
+  destroyXPosition: 5
+--- !u!50 &-8833381014285142441
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121158916325124476}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 15
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!58 &4448295521710645155
 CircleCollider2D:
   m_ObjectHideFlags: 0

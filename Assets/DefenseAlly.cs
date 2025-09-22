@@ -6,7 +6,7 @@ public class DefenseAlly : MonoBehaviour
 {
 
     [Header("半円配置")]
-    public Transform mikosi;       // 自機（スクリプト参照）
+    public Transform mikoshi;       // 自機（スクリプト参照）
     public int index;
     public int totalAllies;
     public float radius = 3f;
@@ -28,24 +28,24 @@ public class DefenseAlly : MonoBehaviour
 
     void Start()
     {
-        if (mikosi == null)
+        if (mikoshi == null)
         {
-            GameObject obj = GameObject.FindWithTag("mikosi");
-            if (obj != null) mikosi = obj.transform;
-            else Debug.LogError("mikosi が見つからないじゅう！");
+            GameObject obj = GameObject.FindWithTag("Mikoshi");
+            if (obj != null) mikoshi = obj.transform;
+            else Debug.LogError("タグ: Mikoshi が見つからないじゅう！");
         }
     }
 
     void Update()
     {
-        if (mikosi == null) return;
+        if (mikoshi == null) return;
 
         // 半円追従
         float angleStep = 180f / (totalAllies + 1);
         float angle = -90f + angleStep * (index + 1);
         float rad = angle * Mathf.Deg2Rad;
         Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * radius;
-        Vector3 targetPos = mikosi.position + offset;
+        Vector3 targetPos = mikoshi.position + offset;
 
         rb.MovePosition(Vector2.Lerp(rb.position, (Vector2)targetPos, Time.deltaTime * moveSpeed));
 
