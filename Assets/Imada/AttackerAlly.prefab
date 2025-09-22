@@ -181,4 +181,4 @@ MonoBehaviour:
   frontDefenseAngle: 90
   moveThreshold: 0.5
   followDistance: 3
-  moveIntervalTime: 1
+  moveIntervalTime: 2
