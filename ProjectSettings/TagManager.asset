@@ -9,6 +9,7 @@ TagManager:
   - enemy
   - Ally
   - ally
+  - Enemy
   layers:
   - Default
   - TransparentFX
