@@ -3,29 +3,34 @@ using System.Collections;
 
 public class EnemyMove : MonoBehaviour
 {
+    [Header("基本ステータス")]
     public float moveSpeed = 5f;         // 通常移動速度
-    public float knockbackForce = 2f;    // ノックバック力
-    public float knockbackTime = 0.3f;   // ノックバック時間
     public int enemyHP = 50;             // HP
     public int attackPower = 5;          // 攻撃力
 
-    private Rigidbody2D rb;
-    private bool isKnockedBack = false;  // ノックバック中かどうか
+    [Header("ノックバック設定")]
+    public float knockbackForce = 2f;    // ノックバック力
+    public float knockbackTime = 0.3f;   // ノックバック時間
 
-    void Start()
+    private Rigidbody2D rb;
+    private bool isKnockedBack = false;
+
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        if (rb == null) Debug.LogError("EnemyMove に Rigidbody2D が必要です");
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        // ノックバック中でなければ通常移動
         if (!isKnockedBack)
         {
-            rb.linearVelocity = new Vector2(-moveSpeed, rb.linearVelocity.y);
+            rb.AddForce(Vector2.left * moveSpeed, ForceMode2D.Force);
         }
     }
 
-    // ダメージ処理（味方から呼ばれる）
+    // 味方から呼ばれるダメージ処理
     public void TakeDamage(int damage, Vector3 attackerPosition)
     {
         enemyHP -= damage;
@@ -43,14 +48,16 @@ public class EnemyMove : MonoBehaviour
     {
         isKnockedBack = true;
 
-        rb.linearVelocity = direction * knockbackForce;
+        // 瞬間ノックバック
+        rb.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
 
+        // ノックバック時間待機
         yield return new WaitForSeconds(knockbackTime);
 
         isKnockedBack = false;
     }
 
-    public void DisableColliderAndDestroy()
+    private void DisableColliderAndDestroy()
     {
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
