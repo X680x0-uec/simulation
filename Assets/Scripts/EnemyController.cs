@@ -85,7 +85,7 @@ public class EnemyController : MonoBehaviour
         if (other.CompareTag("Mikoshi"))
         {
             // --- ① ダメージを与える ---
-            MikoshiController.mikoshiHP -= 10;
+            // MikoshiController.mikoshiHP -= 10;
 
             // --- ② ノックバック ---
             StartCoroutine(Knockback());
