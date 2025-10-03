@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class Utils
@@ -15,7 +16,7 @@ public static class Utils
 		foreach (var target in targets)
 		{
 			// 前回計測したオブジェクトよりも近くにあれば記録
-			var targetDistance = Vector3.Distance(origin.position, target.transform.position);
+			var targetDistance = Vector2.Distance(origin.position, target.transform.position);
 			if (!(targetDistance < minTargetDistance)) continue;
 			minTargetDistance = targetDistance;
 			result = target.transform.gameObject;
@@ -23,6 +24,20 @@ public static class Utils
 
 		// 最後に記録されたオブジェクトを返す
 		return result?.transform;
+	}
+
+	public static List<Transform> FetchInRangeObjectsWithTag(Transform origin, string tagName, float range)
+	{
+		var targets = GameObject.FindGameObjectsWithTag(tagName);
+		var result = new List<Transform>();
+		foreach (var target in targets)
+		{
+			if (Vector2.Distance(origin.position, target.transform.position) <= range)
+			{
+				result.Add(target.transform);
+			}
+		}
+		return result;
 	}
 
 	public static Vector2 GetVelocityOfGameObject2D(GameObject obj)

@@ -5,11 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Mikosi
-  - mikosi
-  - enemy
   - Ally
-  - ally
   - Enemy
+  - Mikoshi
+  - ally
+  - mikosi
   layers:
   - Default
   - TransparentFX

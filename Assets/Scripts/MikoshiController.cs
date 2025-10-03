@@ -4,8 +4,9 @@ public class MikoshiController : MonoBehaviour
 {
     [SerializeField] private float speed = 2f;
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private int maxHP = 100;
 
-    static public int mikoshiHP = 100;
+    private int currentHP;
 
     private int currentIndex;
     private bool isMoving = true;
@@ -15,28 +16,32 @@ public class MikoshiController : MonoBehaviour
 
     void Start()
     {
+        currentHP = maxHP;
         BeginMove();
     }
 
     void Update()
     {
-        if (!isMoving) return;
-
-        var result = GetTargetPosition(
-            ref currentIndex,
-            speed * Time.deltaTime,
-            transform.position,
-            lineRenderer
-        );
-
-        transform.position = result.targetPosition;
-
-        if (result.isEnd)
+        if (isMoving)
         {
-            isMoving = false;
-            hasReachedEnd = true;  // ← 終点に到達したらフラグON
-            Debug.Log("神輿がゴールしました");
+            var result = GetTargetPosition
+            (
+                ref currentIndex,
+                speed * Time.deltaTime,
+                transform.position,
+                lineRenderer
+            );
+
+            transform.position = result.targetPosition;
+
+            if (result.isEnd)
+            {
+                isMoving = false;
+                hasReachedEnd = true;  // ← 終点に到達したらフラグON
+                Debug.Log("神輿がゴールしました");
+            }
         }
+        
     }
 
     public void BeginMove()
@@ -47,11 +52,13 @@ public class MikoshiController : MonoBehaviour
         transform.position = lineRenderer.GetPosition(currentIndex) + lineRenderer.transform.position;
     }
 
-    private static (Vector3 targetPosition, bool isEnd) GetTargetPosition(
+    private (Vector3 targetPosition, bool isEnd) GetTargetPosition
+    (
         ref int index,
         float moveSpeed,
         Vector3 currentPosition,
-        LineRenderer lineRenderer)
+        LineRenderer lineRenderer
+    )
     {
         int nextIndex = index + 1;
 

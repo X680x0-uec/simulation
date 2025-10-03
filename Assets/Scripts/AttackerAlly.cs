@@ -6,6 +6,7 @@ public class AttackerAlly : MonoBehaviour
 {
     [Header("アタッカー味方の設定")]
     [SerializeField] private float speed = 2f;
+    [SerializeField] private int attackPower = 10;
     [SerializeField] private float sightRange = 8f;
 
     [Header("追従設定")]
@@ -112,7 +113,12 @@ public class AttackerAlly : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             // 敵に触れたら攻撃
-            Destroy(other.gameObject);
+            EnemyController enemyScript = other.GetComponent<EnemyController>();
+            if (enemyScript != null)
+            {
+                enemyScript.TakeDamage(attackPower, transform.position);
+            }
+            moveTimer = 0f;
             state = State.Idle; // 攻撃後は待機状態に戻る
         }
     }
