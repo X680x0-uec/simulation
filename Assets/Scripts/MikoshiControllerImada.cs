@@ -34,6 +34,7 @@ public class MikoshiControllerImada : MonoBehaviour
             Vector2 targetPosition = GetTargetPosition();
             Vector2 direction = targetPosition - (Vector2)transform.position;
             rb.AddForce(direction * speed);
+            // Debug.Log("神輿が移動中");
         }
 
     }
