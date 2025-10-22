@@ -27,5 +27,13 @@ public class AllyManager : MonoBehaviour
                 Debug.Log("Ally 2 Spawned");
             }
         }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (AllyPrefabs[2] != null)
+            {
+                Instantiate(AllyPrefabs[2], spawnPosition, Quaternion.identity);
+                Debug.Log("Ally 3 Spawned");
+            }
+        }
     }
 }

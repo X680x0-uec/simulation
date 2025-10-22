@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1714952878340414974}
   - component: {fileID: 7976425042105405032}
-  - component: {fileID: 1569668192285543004}
   - component: {fileID: 1396411190455765726}
   - component: {fileID: 3900184404956668622}
+  - component: {fileID: -9070909517818302609}
   m_Layer: 0
   m_Name: Mikoshi
   m_TagString: Mikoshi
@@ -91,19 +91,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1569668192285543004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5275119290982696435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62805261e2945d143a7ee352c9cd0bda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1
 --- !u!50 &1396411190455765726
 Rigidbody2D:
   serializedVersion: 5
@@ -112,12 +99,12 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5275119290982696435}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 15
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -177,6 +164,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-9070909517818302609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5275119290982696435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79465e1e7870c6f499e6c1af50971a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  lineRenderer: {fileID: 0}
+  reachThreshold: 0.1
+  maxHP: 100
 --- !u!1 &6880172460166416619
 GameObject:
   m_ObjectHideFlags: 0
