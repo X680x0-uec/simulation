@@ -21,6 +21,12 @@ public class CostManager : MonoBehaviour
     public int initialPoints = 100;
     public int maxPoints = 9999;
 
+    [Header("自動回復設定")]
+    public bool enableRegen = false;
+    public float regenInterval = 5.0f; // 秒ごと
+    [Range(0f, 1f)] public float regenRatio = 0.1f; // maxPoints に対する割合で回復
+    private float regenTimer = 0f;
+
     private Dictionary<GameObject, int> costLookup = new Dictionary<GameObject, int>();
     private int currentPoints;
 
@@ -41,7 +47,41 @@ public class CostManager : MonoBehaviour
             if (pc.prefab == null) continue;
             if (!costLookup.ContainsKey(pc.prefab)) costLookup.Add(pc.prefab, pc.cost);
         }
-    if (enableLogs) Debug.Log($"CostManager initialized. Points={currentPoints}, entries={costLookup.Count}");
+        if (enableLogs) Debug.Log($"CostManager initialized. Points={currentPoints}, entries={costLookup.Count}");
+        regenTimer = regenInterval;
+    }
+
+    void Update()
+    {
+        if (!enableRegen) return;
+        regenTimer -= Time.deltaTime;
+        if (regenTimer <= 0f)
+        {
+            regenTimer = regenInterval;
+            // Mikoshi が終点に到達していないときのみ回復
+            var mikoshiObj = GameObject.FindWithTag("Mikoshi");
+            bool canRegen = true;
+            if (mikoshiObj != null)
+            {
+                var imada = mikoshiObj.GetComponent<MikoshiControllerImada>();
+                if (imada != null) canRegen = !imada.hasReachedEnd;
+                else
+                {
+                    var m = mikoshiObj.GetComponent<MikoshiController>();
+                    if (m != null) canRegen = !m.hasReachedEnd;
+                }
+            }
+            if (canRegen)
+            {
+                int add = Mathf.Max(1, Mathf.FloorToInt(maxPoints * regenRatio));
+                AddPoints(add);
+                if (enableLogs) Debug.Log($"CostManager: Regenerated {add} points. Current={currentPoints}");
+            }
+            else
+            {
+                if (enableLogs) Debug.Log("CostManager: Regen skipped because Mikoshi has reached end");
+            }
+        }
     }
 
     /// <summary>
