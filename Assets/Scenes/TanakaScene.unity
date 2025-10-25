@@ -357,8 +357,11 @@ MonoBehaviour:
     cost: 5
   - prefab: {fileID: 3896097207300228232, guid: ee73ae1c749d3034d9b1f91403d61273, type: 3}
     cost: 10
-  initialPoints: 1000
-  maxPoints: 9999
+  initialPoints: 9
+  maxPoints: 100
+  enableRegen: 1
+  regenInterval: 1
+  regenRatio: 0.01
 --- !u!1 &894642853
 GameObject:
   m_ObjectHideFlags: 0
@@ -712,6 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ce66089b3548dd4eaf7ae06fb2186a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  padding: {x: 10, y: 10}
 --- !u!114 &1507584223
 MonoBehaviour:
   m_ObjectHideFlags: 0

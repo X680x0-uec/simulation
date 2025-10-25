@@ -67,7 +67,7 @@ public class CostManager : MonoBehaviour
                 if (imada != null) canRegen = !imada.hasReachedEnd;
                 else
                 {
-                    var m = mikoshiObj.GetComponent<MikoshiController>();
+                    var m = mikoshiObj.GetComponent<MikoshiControllerImada>();
                     if (m != null) canRegen = !m.hasReachedEnd;
                 }
             }
