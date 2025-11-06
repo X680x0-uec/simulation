@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -8833381014285142441}
   - component: {fileID: 4448295521710645155}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemyAllyChaser
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -99,14 +99,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1121158916325124476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e32096f5c7f664c91b6c9fafaab83b, type: 3}
+  m_Script: {fileID: 11500000, guid: 3312d050ba135e54f87e97b81860fb26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  speed: 5
+  speed: 2
   mikoshiObject: {fileID: 0}
-  recoilTime: 0.5
-  knockbackPower: 30
+  allys_list: []
+  giveUpTime: 2
+  recoilTime: 0.15
+  knockbackPower: 1
   destroyXPosition: 5
 --- !u!50 &-8833381014285142441
 Rigidbody2D:
