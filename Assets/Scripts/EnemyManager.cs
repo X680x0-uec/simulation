@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private float spawnMinRange = 5f;
     [SerializeField] private float spawnMaxRange = 10f;
     [SerializeField] private float spawnInterval = 2f;
@@ -21,17 +21,19 @@ public class EnemyManager : MonoBehaviour
         {
             for (int i = 0; i < spawnCount; i++)
             {
-                SpawnEnemy();
+                int enemynum = Random.Range(0, enemyPrefab.Length);
+                SpawnEnemy(enemyPrefab[enemynum]);
             }
             spawnTimer = Time.time;
         }
         
     }
 
-    void SpawnEnemy()
+    void SpawnEnemy(GameObject enemy)
     {
         float spawnDirection = Random.Range(-30, 30) * Mathf.Deg2Rad;
         Vector2 spawnPosition = spawnCenter + new Vector2(Mathf.Cos(spawnDirection), Mathf.Sin(spawnDirection)) * Random.Range(spawnMinRange, spawnMaxRange);
-        Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        GameObject obj = Instantiate(enemy, spawnPosition, Quaternion.identity);
+
     }
 }
