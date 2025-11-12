@@ -455,9 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49218c7d655f83946adee8cf88c41640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab:
-  - {fileID: 1121158916325124476, guid: 8aabb29fc2aaad447ba666a7775bdfe0, type: 3}
-  - {fileID: 1121158916325124476, guid: c3e99ae8ff4f3f2458c9ef8a695650ec, type: 3}
+  enemyPrefab: {fileID: 1121158916325124476, guid: 8aabb29fc2aaad447ba666a7775bdfe0, type: 3}
   spawnMinRange: 5
   spawnMaxRange: 10
   spawnInterval: 10

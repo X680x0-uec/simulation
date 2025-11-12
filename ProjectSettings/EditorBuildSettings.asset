@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ExplainScene4.unity
     guid: baf67cd723ef3b043bdbb2fb772e6fa3
+  - enabled: 1
+    path: Assets/Scenes/ResultScene.unity
+    guid: 6ae3eb237471ac24c926af48d60ce8c5
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
