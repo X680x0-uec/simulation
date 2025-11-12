@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class DefenseAllyImada : MonoBehaviour
 {
-    //いまだ早く攻撃された時のやつを実装しろ
 
     [Header("半円配置")]
     [SerializeField] private Transform mikoshi;       // 自機（スクリプト参照）

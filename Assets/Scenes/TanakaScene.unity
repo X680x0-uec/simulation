@@ -357,7 +357,7 @@ MonoBehaviour:
     cost: 5
   - prefab: {fileID: 3896097207300228232, guid: ee73ae1c749d3034d9b1f91403d61273, type: 3}
     cost: 10
-  initialPoints: 9
+  initialPoints: 100
   maxPoints: 100
   enableRegen: 1
   regenInterval: 1
@@ -373,6 +373,7 @@ GameObject:
   - component: {fileID: 894642856}
   - component: {fileID: 894642855}
   - component: {fileID: 894642854}
+  - component: {fileID: 894642857}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -441,6 +442,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &894642857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894642853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6796cee7500d2b4282d2321d98bd20a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &896508590
 GameObject:
   m_ObjectHideFlags: 0
