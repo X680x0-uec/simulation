@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class UIScene : MonoBehaviour
 {
+    // Mikoshi 到達検出用
+    private MikoshiControllerImada mikoshiInstance;
+    private bool resultSceneTriggered = false;
     void Start()
     {
         // 何もしない
@@ -10,6 +13,30 @@ public class UIScene : MonoBehaviour
 
     void Update()
     {
+        // Mikoshi が終点に到達したら ResultScene に遷移（1回だけ）
+        if (!resultSceneTriggered)
+        {
+            if (mikoshiInstance == null)
+            {
+                // Use Unity version-appropriate APIs to avoid deprecated calls
+#if UNITY_2023_2_OR_NEWER
+                mikoshiInstance = UnityEngine.Object.FindAnyObjectByType<MikoshiControllerImada>();
+#elif UNITY_2023_1_OR_NEWER
+                var found = UnityEngine.Object.FindObjectsByType<MikoshiControllerImada>(UnityEngine.FindObjectsSortMode.None);
+                if (found != null && found.Length > 0) mikoshiInstance = found[0];
+#else
+                var found = UnityEngine.Object.FindObjectsOfType<MikoshiControllerImada>();
+                if (found != null && found.Length > 0) mikoshiInstance = found[0];
+#endif
+            }
+            if (mikoshiInstance != null && mikoshiInstance.hasReachedEnd)
+            {
+                resultSceneTriggered = true;
+                TryLoadScene("ResultScene");
+                return;
+            }
+        }
+
         string current = SceneManager.GetActiveScene().name;
 
         // ExplainScene1 -> D -> ExplainScene2
