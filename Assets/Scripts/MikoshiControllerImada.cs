@@ -12,15 +12,13 @@ public class MikoshiControllerImada : MonoBehaviour
     [SerializeField] private int maxHP = 100;
 
     private int currentHP;
+
     private int currentIndex;
     private bool isMoving = true;
-    private Rigidbody2D rb;
 
-    // --- ゴール到達イベント（UIへ通知用） ---
-    public static event Action OnMikoshiReachedGoal;
-
-    // 終点到達フラグ
+    // 終点に到達したかどうかのフラグ
     public bool hasReachedEnd { get; private set; } = false;
+
     private Rigidbody2D rb;
     private bool usedSpecial = false; // 必殺技を使ったかどうか（1度きり）
     [Header("Special / HitStop")]
@@ -35,9 +33,8 @@ public class MikoshiControllerImada : MonoBehaviour
         BeginMove();
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (!isMoving || hasReachedEnd) return;
         // スペースキーで必殺技（画面全体の敵を一掃）
         if (!usedSpecial && Input.GetKeyDown(KeyCode.Space))
         {
@@ -78,18 +75,14 @@ public class MikoshiControllerImada : MonoBehaviour
             // Debug.Log("神輿が移動中");
         }
 
-        Vector2 targetPosition = GetTargetPosition();
-        Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
-        rb.linearVelocity = direction * speed;
     }
 
     public void BeginMove()
     {
         currentIndex = 0;
         isMoving = true;
-        hasReachedEnd = false;
+        hasReachedEnd = false; // ← リセット
         transform.position = lineRenderer.GetPosition(currentIndex) + lineRenderer.transform.position;
-        rb.linearVelocity = Vector2.zero;
     }
 
     private Vector2 GetTargetPosition()
@@ -98,28 +91,18 @@ public class MikoshiControllerImada : MonoBehaviour
 
         if (lineRenderer.positionCount <= nextIndex)
         {
-            // ゴール到達！
             isMoving = false;
-            hasReachedEnd = true;
-            rb.linearVelocity = Vector2.zero;
-
+            hasReachedEnd = true;  // ← 終点に到達したらフラグON
             Debug.Log("神輿がゴールしました");
-
-            // --- ゲーム停止＆UIに通知 ---
-            Time.timeScale = 0f;
-            OnMikoshiReachedGoal?.Invoke();
-
             return lineRenderer.GetPosition(currentIndex) + lineRenderer.transform.position;
         }
 
         Vector2 targetPosition = lineRenderer.GetPosition(nextIndex) + lineRenderer.transform.position;
-
         if (Vector2.Distance(transform.position, targetPosition) < reachThreshold)
         {
             currentIndex++;
-            return GetTargetPosition(); // 次のポイントを再帰的に取得
+            return GetTargetPosition();
         }
-
         return targetPosition;
     }
 
