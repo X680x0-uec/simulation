@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6841470139868938115}
   - component: {fileID: 4786586404446901761}
-  - component: {fileID: 2567658345240329273}
+  - component: {fileID: 69304486984240218}
   - component: {fileID: -8833381014285142441}
   - component: {fileID: 4448295521710645155}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemyAllyChaser 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -90,7 +90,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2567658345240329273
+--- !u!114 &69304486984240218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,14 +99,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1121158916325124476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e32096f5c7f664c91b6c9fafaab83b, type: 3}
+  m_Script: {fileID: 11500000, guid: 9fbd482e3c868044a80265f42cb5b871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  speed: 5
+  speed: 2
   mikoshiObject: {fileID: 0}
-  recoilTime: 0.5
-  knockbackPower: 30
+  allys_list: []
+  giveUpTime: 2
+  recoilTime: 0.15
+  knockbackPower: 1
   destroyXPosition: 5
 --- !u!50 &-8833381014285142441
 Rigidbody2D:
