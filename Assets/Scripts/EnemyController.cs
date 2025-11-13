@@ -118,6 +118,8 @@ public class EnemyController : MonoBehaviour
         if (currentHP <= 0)
         {
             Debug.Log(gameObject.name + "は倒れたじゅう！");
+            // カウンタを増やす
+            GameStats.IncrementEnemyKill();
             Destroy(gameObject);
             return;
         }
