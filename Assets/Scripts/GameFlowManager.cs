@@ -81,7 +81,7 @@ public class GameFlowManager : MonoBehaviour
     }
 
     // --- 敵を削除する処理 ---
-    private void ClearAllUnits()
+    private void ClearEnemyUnits()
     {
         // 敵（Enemyタグ）をすべて削除
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
