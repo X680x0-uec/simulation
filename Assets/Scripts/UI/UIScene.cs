@@ -39,6 +39,8 @@ public class UIScene : MonoBehaviour
 
         string current = SceneManager.GetActiveScene().name;
 
+        // ResultScene handling is managed elsewhere; no per-frame Enter handling here.
+
         // ExplainScene1 -> D -> ExplainScene2
         if (current == "ExplainScene1" && Input.GetKeyDown(KeyCode.D))
         {
