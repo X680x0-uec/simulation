@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  speed: 5
+  speed: 2
   mikoshiObject: {fileID: 0}
   allys_list: []
   giveUpTime: 2
@@ -184,7 +184,7 @@ Animator:
   m_GameObject: {fileID: 1121158916325124476}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 09cd8cb04945b0845a639b0ac02e2836, type: 2}
+  m_Controller: {fileID: 9100000, guid: db71272ca777e454998e35b199370e2b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
