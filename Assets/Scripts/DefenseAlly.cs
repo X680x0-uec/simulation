@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.UI;
 
-public class DefenseAllyImada : MonoBehaviour
+public class DefenseAlly : MonoBehaviour
 {
 
     [Header("半円配置")]
@@ -11,8 +13,7 @@ public class DefenseAllyImada : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float moveThreshold = 0.1f;
 
-    private static int totalAllies;
-    private int index;
+    private static List<GameObject> totalAllies = new List<GameObject>();
 
     [Header("攻撃設定")]
     [SerializeField] private float attackRange = 1.5f;
@@ -43,8 +44,13 @@ public class DefenseAllyImada : MonoBehaviour
 
     void OnEnable()
     {
-        totalAllies++;
-        index = totalAllies - 1; // 0から始まるインデックス
+        totalAllies.Add(this.gameObject);
+        Debug.Log(totalAllies);
+    }
+
+    void OnDisable()
+    {
+        totalAllies.Remove(this.gameObject);
     }
 
     void Update()
@@ -66,8 +72,8 @@ public class DefenseAllyImada : MonoBehaviour
         // ミコシに向かって移動
         if (mikoshi != null)
         {
-            float angleStep = 180f / (totalAllies + 1);
-            float angle = (-90f + angleStep * (index + 1)) * Mathf.Deg2Rad;
+            float angleStep = 180f / (totalAllies.Count + 1);
+            float angle = (-90f + angleStep * (totalAllies.IndexOf(this.gameObject) + 1)) * Mathf.Deg2Rad;
             Vector2 destination = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius + (Vector2)mikoshi.position;
             Vector2 direction = destination - (Vector2)transform.position;
             if (direction.magnitude > moveThreshold)
