@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UIScene : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class UIScene : MonoBehaviour
     [Header("UI SFX")]
     [SerializeField] private AudioSource uiAudioSource;
     [SerializeField] private AudioClip transitionClip;
+    [Header("Mikoshi UI")]
+    [SerializeField] private TextMeshProUGUI mikoshiHpText;
     void Start()
     {
         // 何もしない
@@ -41,6 +44,36 @@ public class UIScene : MonoBehaviour
         }
 
         string current = SceneManager.GetActiveScene().name;
+
+        // Update Mikoshi HP display (if assigned)
+        if (mikoshiHpText != null)
+        {
+            if (mikoshiInstance == null)
+            {
+#if UNITY_2023_2_OR_NEWER
+                mikoshiInstance = UnityEngine.Object.FindAnyObjectByType<MikoshiControllerImada>();
+#elif UNITY_2023_1_OR_NEWER
+                var found2 = UnityEngine.Object.FindObjectsByType<MikoshiControllerImada>(UnityEngine.FindObjectsSortMode.None);
+                if (found2 != null && found2.Length > 0) mikoshiInstance = found2[0];
+#else
+                var found2 = UnityEngine.Object.FindObjectsOfType<MikoshiControllerImada>();
+                if (found2 != null && found2.Length > 0) mikoshiInstance = found2[0];
+#endif
+            }
+
+            if (mikoshiInstance != null)
+            {
+                try
+                {
+                    mikoshiHpText.text = $"HP:{mikoshiInstance.CurrentHP}/{mikoshiInstance.MaxHP}";
+                }
+                catch { mikoshiHpText.text = "HP:--/--"; }
+            }
+            else
+            {
+                mikoshiHpText.text = "HP:--/--";
+            }
+        }
 
         // ResultScene handling is managed elsewhere; no per-frame Enter handling here.
 

@@ -13,6 +13,10 @@ public class MikoshiControllerImada : MonoBehaviour
 
     private int currentHP;
 
+    // Expose read-only properties for UI and other systems
+    public int CurrentHP => currentHP;
+    public int MaxHP => maxHP;
+
     private int currentIndex;
     private bool isMoving = true;
 
