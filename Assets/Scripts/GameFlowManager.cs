@@ -43,7 +43,10 @@ public class GameFlowManager : MonoBehaviour
         string[] options = { "stageA", "stageB", "stageC" };
         
         if (choiceUI != null)
+        {
+            choiceUI.gameObject.SetActive(true);  // UIを表示
             choiceUI.ShowChoices(options, OnChoiceSelected);
+        }
     }
 
     // --- ChoiceUI から呼ばれる：ボタン押下時 ---
@@ -54,9 +57,14 @@ public class GameFlowManager : MonoBehaviour
 
         isTransitioning = true;
 
-        // UI非表示＆時間再開
+        // UI非表示（最初に消す）
         if (choiceUI != null)
+        {
             choiceUI.Hide();
+            choiceUI.gameObject.SetActive(false);
+        }
+
+        // 時間再開
         Time.timeScale = 1f;
 
         // 選択肢に対応した位置へ移動
@@ -89,8 +97,6 @@ public class GameFlowManager : MonoBehaviour
         {
             Destroy(enemy);
         }
-
-        
 
         Debug.Log($"敵 {enemies.Length} 体を削除しました。");
     }
