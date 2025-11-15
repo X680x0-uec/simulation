@@ -1,131 +1,98 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AllyManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> AllyPrefabs;
-    [Header("Initial HP per ally type (0=Attacker,1=Defencer,2=Archer)")]
-    [SerializeField] private int[] initialHPs = new int[3] { 50, 50, 50 };
+    public AllyDatabase allyDatabase;
     [SerializeField] private Transform spawnPoint;
     // 味方ユニットの出現数を記録する配列
-    static public int[] NumSpawn= {0, 0, 0};
+    static public int[] NumSpawn = {0, 0, 0};
     private Vector3 spawnPosition;
     // List of currently spawned ally units in spawn order (for debug P-key damage)
     private readonly List<AllyUnit> spawnedAllies = new List<AllyUnit>();
     [Header("Debug: damage to apply to allies when pressing P")]
     [SerializeField] private int debugDamageOnP = 10;
+
+    [SerializeField] private AllyIconManager allyIconManager;
+    private InputAction spawnAction;
+    private InputAction rightShift;
+    private InputAction leftShift;
+    public static int index;
     
+    void Awake()
+	{
+		spawnAction = InputSystem.actions.FindAction("Spawn");
+        rightShift = InputSystem.actions.FindAction("Right");
+        leftShift = InputSystem.actions.FindAction("Left");
+        index = 0;
+        rightShift.performed += ctx =>
+        {
+            index = (index + 1) % allyDatabase.allAllies.Count;
+            // Debug.Log("Selected Ally Index: " + index);
+            allyIconManager.SwitchIcon(index, allyDatabase);
+        };
+
+        leftShift.performed += ctx =>
+        {
+            index = (index + allyDatabase.allAllies.Count - 1) % allyDatabase.allAllies.Count;
+            // Debug.Log("Selected Ally Index: " + index);
+            allyIconManager.SwitchIcon(index, allyDatabase);
+        };
+        spawnAction.performed += ctx => SpawnAlly();
+
+        spawnAction.Enable();
+        rightShift.Enable();
+        leftShift.Enable();
+	}
+
     void Update()
     {
         spawnPosition = spawnPoint.position;
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (AllyPrefabs[0] != null)
-            {
-                if (CostManager.Instance != null)
-                {
-                    var go = CostManager.Instance.TrySpendAndSpawn(AllyPrefabs[0], spawnPosition, Quaternion.identity);
-                    if (go != null)
-                    {
-                        Debug.Log("Ally 1 Spawned (paid)");
-                        NumSpawn[0] = NumSpawn[0] + 1;
-                        // Ensure the spawned object has an AllyUnit and initialize HP/type
-                        var unit = go.GetComponent<AllyUnit>();
-                        if (unit == null) unit = go.AddComponent<AllyUnit>();
-                        int hp = (initialHPs != null && initialHPs.Length > 0) ? initialHPs[0] : 50;
-                        unit.Initialize(hp, 0);
-                        unit.OwnerManager = this;
-                        spawnedAllies.Add(unit);
-                    }
-                    else Debug.Log("Ally 1 spawn failed: not enough points");
-                }
-                else
-                {
-                    var inst = Instantiate(AllyPrefabs[0], spawnPosition, Quaternion.identity);
-                    NumSpawn[0] = NumSpawn[0] + 1;
-                    // Initialize HP
-                    var unit = inst.GetComponent<AllyUnit>();
-                    if (unit == null) unit = inst.AddComponent<AllyUnit>();
-                    int hp = (initialHPs != null && initialHPs.Length > 0) ? initialHPs[0] : 50;
-                    unit.Initialize(hp, 0);
-                    unit.OwnerManager = this;
-                    spawnedAllies.Add(unit);
-                    Debug.Log("Ally 1 Spawned (no CostManager)");
-                }
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            if (AllyPrefabs[1] != null)
-            {
-                if (CostManager.Instance != null)
-                {
-                    var go = CostManager.Instance.TrySpendAndSpawn(AllyPrefabs[1], spawnPosition, Quaternion.identity);
-                    if (go != null)
-                    {
-                        Debug.Log("Ally 2 Spawned (paid)");
-                        NumSpawn[1] = NumSpawn[1] + 1;
-                        var unit = go.GetComponent<AllyUnit>();
-                        if (unit == null) unit = go.AddComponent<AllyUnit>();
-                        int hp = (initialHPs != null && initialHPs.Length > 1) ? initialHPs[1] : 50;
-                        unit.Initialize(hp, 1);
-                        unit.OwnerManager = this;
-                        spawnedAllies.Add(unit);
-                    }
-                    else Debug.Log("Ally 2 spawn failed: not enough points");
-                }
-                else
-                {
-                    var inst = Instantiate(AllyPrefabs[1], spawnPosition, Quaternion.identity);
-                    NumSpawn[1] = NumSpawn[1] + 1;
-                    var unit = inst.GetComponent<AllyUnit>();
-                    if (unit == null) unit = inst.AddComponent<AllyUnit>();
-                    int hp = (initialHPs != null && initialHPs.Length > 1) ? initialHPs[1] : 50;
-                    unit.Initialize(hp, 1);
-                    unit.OwnerManager = this;
-                    spawnedAllies.Add(unit);
-                    Debug.Log("Ally 2 Spawned (no CostManager)");
-                }
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            if (AllyPrefabs[2] != null)
-            {
-                if (CostManager.Instance != null)
-                {
-                    var go = CostManager.Instance.TrySpendAndSpawn(AllyPrefabs[2], spawnPosition, Quaternion.identity);
-                    if (go != null)
-                    {
-                        Debug.Log("Ally 3 Spawned (paid)");
-                        NumSpawn[2] = NumSpawn[2] + 1;
-                        var unit = go.GetComponent<AllyUnit>();
-                        if (unit == null) unit = go.AddComponent<AllyUnit>();
-                        int hp = (initialHPs != null && initialHPs.Length > 2) ? initialHPs[2] : 50;
-                        unit.Initialize(hp, 2);
-                        unit.OwnerManager = this;
-                        spawnedAllies.Add(unit);
-                    }
-                    else Debug.Log("Ally 3 spawn failed: not enough points");
-                }
-                else
-                {
-                    var inst = Instantiate(AllyPrefabs[2], spawnPosition, Quaternion.identity);
-                    NumSpawn[2] = NumSpawn[2] + 1;
-                    var unit = inst.GetComponent<AllyUnit>();
-                    if (unit == null) unit = inst.AddComponent<AllyUnit>();
-                    int hp = (initialHPs != null && initialHPs.Length > 2) ? initialHPs[2] : 50;
-                    unit.Initialize(hp, 2);
-                    unit.OwnerManager = this;
-                    spawnedAllies.Add(unit);
-                    Debug.Log("Ally 3 Spawned (no CostManager)");
-                }
-            }
-        }
+
         // Debug damage: press P to apply configured damage to allies in spawn order
         if (Input.GetKeyDown(KeyCode.P))
         {
             ApplyDebugDamageToAllies(debugDamageOnP);
+        }
+    }
+
+    public void SpawnAlly()
+    {
+        AllyData ally = allyDatabase.allAllies[index];
+        if (ally.prefab != null)
+        {
+            if (CostManager.Instance != null)
+            {
+                var go = CostManager.Instance.TrySpendAndSpawn(ally.prefab, spawnPosition, Quaternion.identity);
+                if (go != null)
+                {
+                    Debug.Log(ally.name + " Spawned (paid)");
+                    NumSpawn[0] = NumSpawn[0] + 1;
+                    // Ensure the spawned object has an AllyUnit and initialize HP/type
+                    var unit = go.GetComponent<AllyUnit>();
+                    if (unit == null) unit = go.AddComponent<AllyUnit>();
+                    int hp = ally.health;
+                    unit.Initialize(hp, 0);
+                    unit.OwnerManager = this;
+                    spawnedAllies.Add(unit);
+                }
+                else Debug.Log(ally.prefab.name + " spawn failed: not enough points");
+            }
+            else
+            {
+                var inst = Instantiate(ally.prefab, spawnPosition, Quaternion.identity);
+                NumSpawn[0] = NumSpawn[0] + 1;
+                // Initialize HP
+                var unit = inst.GetComponent<AllyUnit>();
+                if (unit == null) unit = inst.AddComponent<AllyUnit>();
+                int hp = ally.health;
+                unit.Initialize(hp, 0);
+                unit.OwnerManager = this;
+                spawnedAllies.Add(unit);
+                Debug.Log(ally.name + " Spawned (no CostManager)");
+            }
         }
     }
 

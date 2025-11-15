@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 00000000b3eef4e651ba8ba0
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -529,10 +529,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a7ffa2fe4806844bf1cba078effdb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   AllyPrefabs:
   - {fileID: 6968254768228882653, guid: ddfcee7e56dc69b41a3a380eafa358d7, type: 3}
   - {fileID: 5266812767448107305, guid: df9883f73abd7e148bf4b08878878865, type: 3}
   initialHPs: 320000003200000032000000
+=======
+  allyDatabase: {fileID: 11400000, guid: f64edc053caa77342829a95265e6f2d8, type: 2}
+>>>>>>> parent of 01129f5 (Revert "コントローラー対応とAllyデータベースの作成")
   spawnPoint: {fileID: 992122541}
   debugDamageOnP: 10
 --- !u!4 &896508592

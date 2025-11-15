@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3638185126776427108}
   - component: {fileID: 9030891752947937625}
   m_Layer: 5
-  m_Name: UnitIcon
+  m_Name: AllyIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
