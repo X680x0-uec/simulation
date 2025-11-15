@@ -92,16 +92,7 @@ public class UIScene : MonoBehaviour
             }
 
             string current = SceneManager.GetActiveScene().name;
-            // Play for ExplainScene <-> ExplainScene transitions, or TanakaScene -> ResultScene
-            bool ShouldPlayBetween(string cur, string tgt)
-            {
-                if (IsExplainScene(cur) && IsExplainScene(tgt)) return true;
-                if (cur == "TanakaScene" && tgt == "ResultScene") return true;
-                if (cur == "ResultScene" && tgt == "TitleScene") return true;
-                return false;
-            }
 
-            if (transitionClip != null && ShouldPlayBetween(current, sceneName))
             {
                 if (uiAudioSource != null)
                 {
