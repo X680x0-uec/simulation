@@ -79,7 +79,7 @@ public class UIScene : MonoBehaviour
         }
     }
 
-    private void TryLoadScene(string sceneName)
+    public void TryLoadScene(string sceneName)
     {
         if (IsSceneInBuild(sceneName))
         {
@@ -92,7 +92,7 @@ public class UIScene : MonoBehaviour
             }
 
             string current = SceneManager.GetActiveScene().name;
-            if (transitionClip != null && IsExplainScene(current) && IsExplainScene(sceneName))
+
             {
                 if (uiAudioSource != null)
                 {

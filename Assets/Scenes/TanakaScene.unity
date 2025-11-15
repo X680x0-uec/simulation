@@ -804,6 +804,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6796cee7500d2b4282d2321d98bd20a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiAudioSource: {fileID: 0}
+  transitionClip: {fileID: 8300000, guid: a97b33cdcd2e1e74abeb0eb15455f4ee, type: 3}
 --- !u!1 &896508590
 GameObject:
   m_ObjectHideFlags: 0
