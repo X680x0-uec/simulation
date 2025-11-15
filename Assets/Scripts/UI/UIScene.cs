@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UIScene : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class UIScene : MonoBehaviour
     [Header("UI SFX")]
     [SerializeField] private AudioSource uiAudioSource;
     [SerializeField] private AudioClip transitionClip;
+    [Header("Mikoshi UI")]
+    [SerializeField] private TextMeshProUGUI mikoshiHpText;
     void Start()
     {
         // 何もしない
@@ -41,6 +44,36 @@ public class UIScene : MonoBehaviour
         }
 
         string current = SceneManager.GetActiveScene().name;
+
+        // Update Mikoshi HP display (if assigned)
+        if (mikoshiHpText != null)
+        {
+            if (mikoshiInstance == null)
+            {
+#if UNITY_2023_2_OR_NEWER
+                mikoshiInstance = UnityEngine.Object.FindAnyObjectByType<MikoshiControllerImada>();
+#elif UNITY_2023_1_OR_NEWER
+                var found2 = UnityEngine.Object.FindObjectsByType<MikoshiControllerImada>(UnityEngine.FindObjectsSortMode.None);
+                if (found2 != null && found2.Length > 0) mikoshiInstance = found2[0];
+#else
+                var found2 = UnityEngine.Object.FindObjectsOfType<MikoshiControllerImada>();
+                if (found2 != null && found2.Length > 0) mikoshiInstance = found2[0];
+#endif
+            }
+
+            if (mikoshiInstance != null)
+            {
+                try
+                {
+                    mikoshiHpText.text = $"HP:{mikoshiInstance.CurrentHP}/{mikoshiInstance.MaxHP}";
+                }
+                catch { mikoshiHpText.text = "HP:--/--"; }
+            }
+            else
+            {
+                mikoshiHpText.text = "HP:--/--";
+            }
+        }
 
         // ResultScene handling is managed elsewhere; no per-frame Enter handling here.
 
@@ -83,9 +116,10 @@ public class UIScene : MonoBehaviour
     {
         if (IsSceneInBuild(sceneName))
         {
-            // Play UI transition SFX only when transitioning between ExplainScene1..4.
-            // This avoids playing the UI transition sound for unrelated scene loads
-            // (e.g. ResultScene, TanakaScene).
+            // Play UI transition SFX only for these flows:
+            // - ExplainScene1..4 <-> ExplainScene1..4
+            // - TanakaScene -> ResultScene
+            // - ResultScene -> TitleScene
             bool IsExplainScene(string n)
             {
                 return n == "ExplainScene1" || n == "ExplainScene2" || n == "ExplainScene3" || n == "ExplainScene4";
@@ -93,6 +127,15 @@ public class UIScene : MonoBehaviour
 
             string current = SceneManager.GetActiveScene().name;
 
+            bool ShouldPlayBetween(string cur, string tgt)
+            {
+                if (IsExplainScene(cur) && IsExplainScene(tgt)) return true;
+                if (cur == "TanakaScene" && tgt == "ResultScene") return true;
+                if (cur == "ResultScene" && tgt == "TitleScene") return true;
+                return false;
+            }
+
+            if (transitionClip != null && ShouldPlayBetween(current, sceneName))
             {
                 if (uiAudioSource != null)
                 {
