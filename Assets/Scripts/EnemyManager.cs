@@ -5,24 +5,6 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [System.Serializable]
-    public class EnemyEntry
-    {
-        public string name;
-        public GameObject prefab;
-
-        [Header("出現割合（相対重み）")]
-        [Min(0)]
-        public int weight = 1; // インスペクタで設定する相対重み（0以上、整数）
-
-        [Header("正規化確率（表示）")]
-        [Tooltip("OnValidate で計算される確率（0〜1）。編集しないでください。")]
-        [SerializeField] private float normalizedProbability = 0f;
-
-        public float Probability => normalizedProbability;
-        internal void SetNormalizedProbability(float p) => normalizedProbability = p;
-    }
-
-    [System.Serializable]
     public class WaveConfig
     {
         [Tooltip("ウェーブ名")]
@@ -52,10 +34,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float spawnMaxRange = 10f;
     // 角度範囲は固定で -30〜30 度（元の実装と同じ）
 
-    [Header("敵設定 — 各プレハブに相対重みを設定")]
-    [SerializeField] private EnemyEntry[] enemies = new EnemyEntry[0];
-
-    [Header("ウェーブ設定 — シンプル")]
+    [Header("敵設定 — EnemyDatabase から参照")]
+    [Tooltip("敵データベースへの参照（ウェーブで生成する敵の定義）")]
+    [SerializeField] public EnemyDatabase enemyDatabase;
     [SerializeField] private WaveConfig[] waves = new WaveConfig[0];
     [Tooltip("最後のウェーブ後に最初へ戻す")]
     [SerializeField] private bool loopWaves = true;
@@ -79,9 +60,9 @@ public class EnemyManager : MonoBehaviour
             mikoshiObject = GameObject.FindWithTag("Mikoshi");
         }
 
-        if (enemies == null || enemies.Length == 0)
+        if (enemyDatabase == null || enemyDatabase.allEnemies == null || enemyDatabase.allEnemies.Count == 0)
         {
-            Debug.LogWarning("EnemyManager: enemies 配列が空です。生成は行われません。", this);
+            Debug.LogWarning("EnemyManager: EnemyDatabase が未設定または敵が0です。生成は行われません。", this);
             return;
         }
 
@@ -132,11 +113,11 @@ public class EnemyManager : MonoBehaviour
             {
                 for (int i = 0; i < count; i++)
                 {
-                    var entry = PickEnemyByWeight();
-                    if (entry != null && entry.prefab != null)
+                    var enemy = PickEnemyByWeight();
+                    if (enemy != null && enemy.prefab != null)
                     {
                         Vector3 pos = CalculateSpawnPosition(spawnCenter);
-                        Instantiate(entry.prefab, pos, Quaternion.identity);
+                        Instantiate(enemy.prefab, pos, Quaternion.identity);
                     }
 
                     if (spawnDelay > 0f)
@@ -160,31 +141,33 @@ public class EnemyManager : MonoBehaviour
         spawnRoutine = null;
     }
 
-    // weight（整数）に基づく抽選
-    private EnemyEntry PickEnemyByWeight()
+    // weight（整数）に基づく敵の抽選（EnemyDatabase から）
+    private EnemyData PickEnemyByWeight()
     {
-        if (enemies == null || enemies.Length == 0) return null;
+        if (enemyDatabase == null || enemyDatabase.allEnemies == null || enemyDatabase.allEnemies.Count == 0)
+            return null;
 
         int totalWeight = 0;
-        foreach (var e in enemies) totalWeight += (e != null) ? Mathf.Max(0, e.weight) : 0;
+        foreach (var e in enemyDatabase.allEnemies)
+            totalWeight += (e != null) ? Mathf.Max(0, e.weight) : 0;
 
         if (totalWeight <= 0)
         {
             // 全て 0 の場合は均等選択
-            int idx = Random.Range(0, enemies.Length);
-            return enemies[idx];
+            int idx = Random.Range(0, enemyDatabase.allEnemies.Count);
+            return enemyDatabase.allEnemies[idx];
         }
 
         int r = Random.Range(0, totalWeight);
         int acc = 0;
-        foreach (var e in enemies)
+        foreach (var e in enemyDatabase.allEnemies)
         {
             if (e == null) continue;
             acc += Mathf.Max(0, e.weight);
             if (r < acc) return e;
         }
 
-        return enemies[enemies.Length - 1];
+        return enemyDatabase.allEnemies[enemyDatabase.allEnemies.Count - 1];
     }
 
     private Vector3 GetSpawnCenter()
@@ -206,42 +189,7 @@ public class EnemyManager : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        // 敵の重みから表示用確率を計算
-        if (enemies != null && enemies.Length > 0)
-        {
-            int totalWeight = 0;
-            for (int i = 0; i < enemies.Length; i++)
-            {
-                if (enemies[i] != null)
-                {
-                    enemies[i].weight = Mathf.Max(0, enemies[i].weight);
-                    totalWeight += enemies[i].weight;
-                }
-            }
-
-            if (totalWeight > 0)
-            {
-                for (int i = 0; i < enemies.Length; i++)
-                {
-                    if (enemies[i] != null)
-                    {
-                        enemies[i].SetNormalizedProbability((float)enemies[i].weight / totalWeight);
-                    }
-                }
-            }
-            else
-            {
-                int len = enemies.Length;
-                for (int i = 0; i < len; i++)
-                {
-                    if (enemies[i] != null)
-                    {
-                        enemies[i].SetNormalizedProbability(1f / len);
-                    }
-                }
-            }
-        }
-
+        // ウェーブ設定を検証
         if (waves != null)
         {
             for (int i = 0; i < waves.Length; i++)
