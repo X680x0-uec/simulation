@@ -6,13 +6,30 @@ public class UIScene : MonoBehaviour
 {
     // Mikoshi 到達検出用
     private MikoshiControllerImada mikoshiInstance;
+    
     private void OnEnable()
     {
         MikoshiControllerImada.OnMikoshiReachedGoal += HandleGoal;
+        
+        // TanakaScene にロードされたときにリセット
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "TanakaScene")
+        {
+            ResetGameState();
+        }
     }
+    
     private void OnDisable()
     {
         MikoshiControllerImada.OnMikoshiReachedGoal -= HandleGoal;
+    }
+    
+    private void ResetGameState()
+    {
+        goalCount = 0;
+        resultSceneTriggered = false;
+        Time.timeScale = 1f;
+        Debug.Log("[UIScene] ゲーム状態をリセットしました");
     }
     private void HandleGoal()
 {

@@ -88,6 +88,7 @@ public class MikoshiControllerImada : MonoBehaviour
         currentIndex = 0;
         isMoving = true;
         hasReachedEnd = false; // ← リセット
+        usedSpecial = false; // ← 必殺技フラグもリセット
         transform.position = lineRenderer.GetPosition(currentIndex) + lineRenderer.transform.position;
     }
 
