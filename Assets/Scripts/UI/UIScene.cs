@@ -5,9 +5,6 @@ using TMPro;
 public class UIScene : MonoBehaviour
 {
     // Mikoshi 到達検出用
-<<<<<<< HEAD
-    private MikoshiController mikoshiInstance;
-=======
     private MikoshiControllerImada mikoshiInstance;
     private void OnEnable()
     {
@@ -42,7 +39,6 @@ public class UIScene : MonoBehaviour
     Time.timeScale = 0f;
 }
     private int goalCount = 0;
->>>>>>> 1e3ef09f493713304dbb43e01e66b7cf456a5896
     private bool resultSceneTriggered = false;
     [Header("UI SFX")]
     [SerializeField] private AudioSource uiAudioSource;
@@ -117,7 +113,7 @@ public class UIScene : MonoBehaviour
             {
                 // Use Unity version-appropriate APIs to avoid deprecated calls
 #if UNITY_2023_2_OR_NEWER
-                mikoshiInstance = UnityEngine.Object.FindAnyObjectByType<MikoshiController>();
+                mikoshiInstance = UnityEngine.Object.FindAnyObjectByType<MikoshiControllerImada>();
 #elif UNITY_2023_1_OR_NEWER
                 var found = UnityEngine.Object.FindObjectsByType<MikoshiControllerImada>(UnityEngine.FindObjectsSortMode.None);
                 if (found != null && found.Length > 0) mikoshiInstance = found[0];
