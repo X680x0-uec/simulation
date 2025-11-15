@@ -83,9 +83,10 @@ public class UIScene : MonoBehaviour
     {
         if (IsSceneInBuild(sceneName))
         {
-            // Play UI transition SFX only when transitioning between ExplainScene1..4.
-            // This avoids playing the UI transition sound for unrelated scene loads
-            // (e.g. ResultScene, TanakaScene).
+            // Play UI transition SFX only for these flows:
+            // - ExplainScene1..4 <-> ExplainScene1..4
+            // - TanakaScene -> ResultScene
+            // - ResultScene -> TitleScene
             bool IsExplainScene(string n)
             {
                 return n == "ExplainScene1" || n == "ExplainScene2" || n == "ExplainScene3" || n == "ExplainScene4";
@@ -93,6 +94,15 @@ public class UIScene : MonoBehaviour
 
             string current = SceneManager.GetActiveScene().name;
 
+            bool ShouldPlayBetween(string cur, string tgt)
+            {
+                if (IsExplainScene(cur) && IsExplainScene(tgt)) return true;
+                if (cur == "TanakaScene" && tgt == "ResultScene") return true;
+                if (cur == "ResultScene" && tgt == "TitleScene") return true;
+                return false;
+            }
+
+            if (transitionClip != null && ShouldPlayBetween(current, sceneName))
             {
                 if (uiAudioSource != null)
                 {

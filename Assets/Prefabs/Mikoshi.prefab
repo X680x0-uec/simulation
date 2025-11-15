@@ -105,8 +105,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 6
-  m_AngularDamping: 0.05
+  m_LinearDamping: 4
+  m_AngularDamping: 0.1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79465e1e7870c6f499e6c1af50971a91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 1
   lineRenderer: {fileID: 0}
   reachThreshold: 0.1
   maxHP: 100
