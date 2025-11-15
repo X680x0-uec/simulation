@@ -1241,6 +1241,7 @@ MonoBehaviour:
   volumeText: {fileID: 261078035}
   volumeSlider: {fileID: 603640894}
   audioSource: {fileID: 0}
+  settingsOpenClip: {fileID: 8300000, guid: 650cf1f565776cc45a8bc431bd86da7f, type: 3}
 --- !u!4 &516595045
 Transform:
   m_ObjectHideFlags: 0
