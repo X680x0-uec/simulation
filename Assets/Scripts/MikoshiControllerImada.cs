@@ -7,6 +7,9 @@ using UnityEngine;
 public class MikoshiControllerImada : MonoBehaviour
 {
     [SerializeField] private float speed = 2f;
+    [SerializeField] private float maxSpeed = 5f; // 最高速度を制限して暴れを抑える
+    [SerializeField] private float minForceDistance = 0.1f; // 距離に対する力の下限
+    [SerializeField] private float maxForceDistance = 1f; // 距離に対する力の上限（正規化前のスケール）
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float reachThreshold = 0.1f;
     [SerializeField] private int maxHP = 100;
@@ -38,7 +41,6 @@ public class MikoshiControllerImada : MonoBehaviour
         currentHP = maxHP;
         BeginMove();
     }
-
     void Update()
     {
         // スペースキーで必殺技（画面全体の敵を一掃）
@@ -73,11 +75,32 @@ public class MikoshiControllerImada : MonoBehaviour
             }
         }
 
-        if (isMoving)
+    if (isMoving)
         {
             Vector2 targetPosition = GetTargetPosition();
             Vector2 direction = targetPosition - (Vector2)transform.position;
-            rb.AddForce(direction * speed);
+
+            // 距離に応じて力の大きさを滑らかに決める（過剰な力を与えない）
+            float distance = direction.magnitude;
+            if (distance > reachThreshold)
+            {
+                Vector2 dir = direction.normalized;
+                // distance を [minForceDistance, maxForceDistance] にクランプして力に反映
+                float forceScale = Mathf.Clamp(distance, minForceDistance, maxForceDistance);
+                float force = speed * Mathf.Min(forceScale, 1f);
+                rb.AddForce(dir * force);
+            }
+            else
+            {
+                // 目的地に近ければ速度を止めて振動を抑える
+                if (rb != null) rb.linearVelocity = Vector2.zero;
+            }
+
+            // 速度が大きくなりすぎたら制限する
+            if (rb != null && rb.linearVelocity.magnitude > maxSpeed)
+            {
+                rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+            }
             // Debug.Log("神輿が移動中");
         }
 
@@ -90,6 +113,8 @@ public class MikoshiControllerImada : MonoBehaviour
         hasReachedEnd = false; // ← リセット
         usedSpecial = false; // ← 必殺技フラグもリセット
         transform.position = lineRenderer.GetPosition(currentIndex) + lineRenderer.transform.position;
+        // 前回の勢いをリセット（シーン遷移やリトライ後の暴れ防止）
+        if (rb != null) rb.linearVelocity = Vector2.zero;
     }
 
     private Vector2 GetTargetPosition()
@@ -102,6 +127,8 @@ public class MikoshiControllerImada : MonoBehaviour
             hasReachedEnd = true;  // ← 終点に到達したらフラグON
             Debug.Log("神輿がゴールしました");
 
+            // 停止させてからイベント通知（残った速度で飛んでいかないように）
+            if (rb != null) rb.linearVelocity = Vector2.zero;
             Time.timeScale = 0f;
             OnMikoshiReachedGoal?.Invoke();
             
