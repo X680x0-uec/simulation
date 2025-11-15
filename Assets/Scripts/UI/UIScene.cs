@@ -14,7 +14,61 @@ public class UIScene : MonoBehaviour
     [SerializeField] private TextMeshProUGUI mikoshiHpText;
     void Start()
     {
-        // 何もしない
+        // Inspector に未設定の場合はランタイムで自動生成する
+        EnsureMikoshiHpTextExists();
+    }
+
+    private void EnsureMikoshiHpTextExists()
+    {
+        if (mikoshiHpText != null) return;
+
+        // 既にシーン内に同名の TextMeshProUGUI があればそれを使う
+        var existing = GameObject.Find("MikoshiHpText_Runtime");
+        if (existing != null)
+        {
+            mikoshiHpText = existing.GetComponent<TextMeshProUGUI>();
+            if (mikoshiHpText != null) return;
+        }
+
+    // Canvas を探すか作る（Unity バージョン差分を吸収）
+    Canvas canvas = null;
+#if UNITY_2023_2_OR_NEWER
+    canvas = UnityEngine.Object.FindAnyObjectByType<Canvas>();
+#elif UNITY_2023_1_OR_NEWER
+    var _foundCanvas = UnityEngine.Object.FindObjectsByType<Canvas>(UnityEngine.FindObjectsSortMode.None);
+    if (_foundCanvas != null && _foundCanvas.Length > 0) canvas = _foundCanvas[0];
+#else
+    canvas = UnityEngine.Object.FindObjectOfType<Canvas>();
+#endif
+    if (canvas == null)
+    {
+        var canvasGO = new GameObject("Canvas_Runtime");
+        canvas = canvasGO.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvasGO.AddComponent<UnityEngine.UI.CanvasScaler>();
+        canvasGO.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+        DontDestroyOnLoad(canvasGO);
+    }
+
+        // TextMeshProUGUI を作成
+        var go = new GameObject("MikoshiHpText_Runtime");
+        go.transform.SetParent(canvas.transform, false);
+        var tmp = go.AddComponent<TextMeshProUGUI>();
+        tmp.text = "HP:--/--";
+        tmp.fontSize = 24;
+        tmp.color = Color.white;
+        tmp.raycastTarget = false;
+        tmp.alignment = TextAlignmentOptions.TopLeft;
+
+        // RectTransform をトップ左に固定
+        var rt = go.GetComponent<RectTransform>();
+        rt.anchorMin = new Vector2(0f, 1f);
+        rt.anchorMax = new Vector2(0f, 1f);
+        rt.pivot = new Vector2(0f, 1f);
+        rt.anchoredPosition = new Vector2(10f, -10f);
+        rt.sizeDelta = new Vector2(300f, 50f);
+
+        mikoshiHpText = tmp;
     }
 
     void Update()
