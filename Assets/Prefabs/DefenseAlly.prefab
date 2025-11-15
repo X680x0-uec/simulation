@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7523672815471921629}
   - component: {fileID: -2820310495558919725}
   m_Layer: 0
-  m_Name: DefenseAllyImada
+  m_Name: DefenseAlly
   m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -179,7 +179,7 @@ MonoBehaviour:
   mikoshi: {fileID: 0}
   radius: 2
   moveSpeed: 15
-  moveThreshold: 0.5
+  moveThreshold: 0.1
   attackRange: 1.5
   attackRangeIndicator: {fileID: 5943508509082681126}
   attackRangeVisualizeDuration: 0.1
