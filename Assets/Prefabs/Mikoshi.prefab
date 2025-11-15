@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1396411190455765726}
   - component: {fileID: 3900184404956668622}
   - component: {fileID: -9070909517818302609}
+  - component: {fileID: 6358241805413361762}
   m_Layer: 0
   m_Name: Mikoshi
   m_TagString: Mikoshi
@@ -104,7 +105,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 15
+  m_LinearDamping: 6
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -183,6 +184,28 @@ MonoBehaviour:
   enableHitStop: 1
   hitStopDuration: 0.15
   hitStopTimeScale: 0.02
+--- !u!95 &6358241805413361762
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5275119290982696435}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f505e95c6865a384d8135012a6292c1b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6880172460166416619
 GameObject:
   m_ObjectHideFlags: 0

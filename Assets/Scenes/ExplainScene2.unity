@@ -421,6 +421,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6796cee7500d2b4282d2321d98bd20a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiAudioSource: {fileID: 0}
+  transitionClip: {fileID: 8300000, guid: 6f4038e54885a7a42995886fb303f27b, type: 3}
 --- !u!4 &1165895670
 Transform:
   m_ObjectHideFlags: 0

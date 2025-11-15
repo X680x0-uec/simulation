@@ -6,6 +6,9 @@ public class UIScene : MonoBehaviour
     // Mikoshi 到達検出用
     private MikoshiControllerImada mikoshiInstance;
     private bool resultSceneTriggered = false;
+    [Header("UI SFX")]
+    [SerializeField] private AudioSource uiAudioSource;
+    [SerializeField] private AudioClip transitionClip;
     void Start()
     {
         // 何もしない
@@ -38,6 +41,8 @@ public class UIScene : MonoBehaviour
         }
 
         string current = SceneManager.GetActiveScene().name;
+
+        // ResultScene handling is managed elsewhere; no per-frame Enter handling here.
 
         // ExplainScene1 -> D -> ExplainScene2
         if (current == "ExplainScene1" && Input.GetKeyDown(KeyCode.D))
@@ -74,10 +79,41 @@ public class UIScene : MonoBehaviour
         }
     }
 
-    private void TryLoadScene(string sceneName)
+    public void TryLoadScene(string sceneName)
     {
         if (IsSceneInBuild(sceneName))
         {
+            // Play UI transition SFX only when transitioning between ExplainScene1..4.
+            // This avoids playing the UI transition sound for unrelated scene loads
+            // (e.g. ResultScene, TanakaScene).
+            bool IsExplainScene(string n)
+            {
+                return n == "ExplainScene1" || n == "ExplainScene2" || n == "ExplainScene3" || n == "ExplainScene4";
+            }
+
+            string current = SceneManager.GetActiveScene().name;
+
+            {
+                if (uiAudioSource != null)
+                {
+                    uiAudioSource.PlayOneShot(transitionClip);
+                }
+                else
+                {
+                    var tmp = new GameObject("_TempUITransitionSfx");
+                    var src = tmp.AddComponent<AudioSource>();
+                    src.clip = transitionClip;
+                    src.playOnAwake = false;
+                    src.spatialBlend = 0f;
+                    src.loop = false;
+                    // Respect current master volume
+                    src.volume = AudioListener.volume;
+                    DontDestroyOnLoad(tmp);
+                    src.Play();
+                    Destroy(tmp, transitionClip.length + 0.1f);
+                }
+            }
+
             SceneManager.LoadScene(sceneName);
         }
         else
