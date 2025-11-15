@@ -6,6 +6,39 @@ public class UIScene : MonoBehaviour
 {
     // Mikoshi 到達検出用
     private MikoshiControllerImada mikoshiInstance;
+    private void OnEnable()
+    {
+        MikoshiControllerImada.OnMikoshiReachedGoal += HandleGoal;
+    }
+    private void OnDisable()
+    {
+        MikoshiControllerImada.OnMikoshiReachedGoal -= HandleGoal;
+    }
+    private void HandleGoal()
+{
+    // ゴール回数を増やす
+    goalCount++;
+    Debug.Log($"[UIScene] ゴール回数：{goalCount}");
+
+    // --- ３回目のゴールで ResultScene へ ---
+    if (goalCount >= 3)
+    {
+        if (resultSceneTriggered) return;
+        resultSceneTriggered = true;
+
+        Time.timeScale = 1f;
+        TryLoadScene("ResultScene");
+        return;
+    }
+
+    // --- 1回目・2回目のゴール → いつも通り ChoiceUI を表示 ---
+    Debug.Log("[UIScene] ChoiceUI を表示します（1 or 2 回目）");
+
+    // ★ポイント：GameFlowManager に通知されて ChoiceUI が表示される
+    // UIScene 側は特に何もせずゲームを止めるだけ
+    Time.timeScale = 0f;
+}
+    private int goalCount = 0;
     private bool resultSceneTriggered = false;
     [Header("UI SFX")]
     [SerializeField] private AudioSource uiAudioSource;
@@ -88,12 +121,6 @@ public class UIScene : MonoBehaviour
                 var found = UnityEngine.Object.FindObjectsOfType<MikoshiControllerImada>();
                 if (found != null && found.Length > 0) mikoshiInstance = found[0];
 #endif
-            }
-            if (mikoshiInstance != null && mikoshiInstance.hasReachedEnd)
-            {
-                resultSceneTriggered = true;
-                TryLoadScene("ResultScene");
-                return;
             }
         }
 

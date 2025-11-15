@@ -57,14 +57,9 @@ public class GameFlowManager : MonoBehaviour
 
         isTransitioning = true;
 
-        // UI非表示（最初に消す）
+        // UI非表示＆時間再開
         if (choiceUI != null)
-        {
             choiceUI.Hide();
-            choiceUI.gameObject.SetActive(false);
-        }
-
-        // 時間再開
         Time.timeScale = 1f;
 
         // 選択肢に対応した位置へ移動
