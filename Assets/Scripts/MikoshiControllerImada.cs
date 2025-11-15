@@ -13,8 +13,14 @@ public class MikoshiControllerImada : MonoBehaviour
 
     private int currentHP;
 
+    // Expose read-only properties for UI and other systems
+    public int CurrentHP => currentHP;
+    public int MaxHP => maxHP;
+
     private int currentIndex;
     private bool isMoving = true;
+
+    public static event Action OnMikoshiReachedGoal;
 
     // 終点に到達したかどうかのフラグ
     public bool hasReachedEnd { get; private set; } = false;
@@ -94,6 +100,10 @@ public class MikoshiControllerImada : MonoBehaviour
             isMoving = false;
             hasReachedEnd = true;  // ← 終点に到達したらフラグON
             Debug.Log("神輿がゴールしました");
+
+            Time.timeScale = 0f;
+            OnMikoshiReachedGoal?.Invoke();
+            
             return lineRenderer.GetPosition(currentIndex) + lineRenderer.transform.position;
         }
 

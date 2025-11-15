@@ -8,6 +8,9 @@ public class ResultControler : MonoBehaviour
 {
     [SerializeField]
     public TextMeshProUGUI resultText;
+    [Header("UI SFX")]
+    [SerializeField] private AudioSource uiAudioSource;
+    [SerializeField] private AudioClip transitionClip;
 
     void Start()
     {
@@ -161,8 +164,8 @@ public class ResultControler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             const string titleScene = "TitleScene";
-            if (IsSceneInBuild(titleScene))
-            {
+                if (IsSceneInBuild(titleScene))
+                {
                 // Reset stats shown on the result screen before leaving
                 try
                 {
@@ -179,7 +182,51 @@ public class ResultControler : MonoBehaviour
                 }
                 catch { }
 
-                SceneManager.LoadScene(titleScene);
+                    // Prefer using UIScene.TryLoadScene so transition SFX logic is respected if UIScene exists.
+                    UIScene uiScene = null;
+#if UNITY_2023_2_OR_NEWER
+                    uiScene = UnityEngine.Object.FindAnyObjectByType<UIScene>();
+#elif UNITY_2023_1_OR_NEWER
+                    {
+                        var found = UnityEngine.Object.FindObjectsByType<UIScene>(UnityEngine.FindObjectsSortMode.None);
+                        if (found != null && found.Length > 0) uiScene = found[0];
+                    }
+#else
+                    {
+                        var found = UnityEngine.Object.FindObjectsOfType<UIScene>();
+                        if (found != null && found.Length > 0) uiScene = found[0];
+                    }
+#endif
+                    if (uiScene != null)
+                    {
+                        uiScene.TryLoadScene(titleScene);
+                    }
+                    else
+                    {
+                        // If this Result scene doesn't have a UIScene helper, play a local transitionClip if assigned
+                        if (transitionClip != null)
+                        {
+                            if (uiAudioSource != null)
+                            {
+                                uiAudioSource.PlayOneShot(transitionClip);
+                            }
+                            else
+                            {
+                                var tmp = new GameObject("_TempResultTransitionSfx");
+                                var src = tmp.AddComponent<AudioSource>();
+                                src.clip = transitionClip;
+                                src.playOnAwake = false;
+                                src.spatialBlend = 0f;
+                                src.loop = false;
+                                src.volume = AudioListener.volume;
+                                UnityEngine.Object.DontDestroyOnLoad(tmp);
+                                src.Play();
+                                UnityEngine.Object.Destroy(tmp, transitionClip.length + 0.1f);
+                            }
+                        }
+
+                        SceneManager.LoadScene(titleScene);
+                    }
             }
             else
             {

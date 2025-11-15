@@ -149,7 +149,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 15
+  m_LinearDamping: 1
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -172,12 +172,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3896097207300228232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3433cd4d0c0e39f4a91e3d369f7c63ac, type: 3}
+  m_Script: {fileID: 11500000, guid: c38f955003d0de24fa564d85307187b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   allyArrowPrefab: {fileID: 1356009557014254736, guid: 179b44dbf4875f84ab9ce33860fead15, type: 3}
   attackInterval: 1
-  speed: 15
+  speed: 2
   attackPower: 10
   sightRange: 8
   isFrontDefense: 0
