@@ -175,10 +175,19 @@ public class UIScene : MonoBehaviour
 
         // ResultScene handling is managed elsewhere; no per-frame Enter handling here.
 
-        // ExplainScene1 -> D -> ExplainScene2
-        if (current == "ExplainScene1" && Input.GetKeyDown(KeyCode.D))
+        // ExplainScene0 -> D -> ExplainScene1
+        if (current == "ExplainScene0" && Input.GetKeyDown(KeyCode.D))
         {
-            TryLoadScene("ExplainScene2");
+            TryLoadScene("ExplainScene1");
+            return;
+        }
+
+        // ExplainScene1 -> A -> ExplainScene0
+        // ExplainScene1 -> D -> ExplainScene2
+        if (current == "ExplainScene1")
+        {
+            if (Input.GetKeyDown(KeyCode.A)) TryLoadScene("ExplainScene0");
+            else if (Input.GetKeyDown(KeyCode.D)) TryLoadScene("ExplainScene2");
             return;
         }
 
@@ -220,7 +229,7 @@ public class UIScene : MonoBehaviour
             // - ResultScene -> TitleScene
             bool IsExplainScene(string n)
             {
-                return n == "ExplainScene1" || n == "ExplainScene2" || n == "ExplainScene3" || n == "ExplainScene4";
+                return n == "ExplainScene0" || n == "ExplainScene1" || n == "ExplainScene2" || n == "ExplainScene3" || n == "ExplainScene4";
             }
 
             string current = SceneManager.GetActiveScene().name;

@@ -462,6 +462,7 @@ GameObject:
   - component: {fileID: 1115322790}
   - component: {fileID: 1115322789}
   - component: {fileID: 1115322791}
+  - component: {fileID: 1115322792}
   m_Layer: 0
   m_Name: UIMaintain
   m_TagString: Untagged
@@ -483,6 +484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiAudioSource: {fileID: 0}
   transitionClip: {fileID: 8300000, guid: 6f4038e54885a7a42995886fb303f27b, type: 3}
+  mikoshiHpText: {fileID: 0}
 --- !u!4 &1115322790
 Transform:
   m_ObjectHideFlags: 0
@@ -595,6 +597,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1115322792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115322788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea6e44a0d00cf1e439d17c789829c0e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  returnScene: TitleScene
 --- !u!1 &1814188564
 GameObject:
   m_ObjectHideFlags: 0
