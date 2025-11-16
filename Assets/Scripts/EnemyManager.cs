@@ -1,4 +1,4 @@
-﻿using System.Collections;  
+using System.Collections;  
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
 
     [Header("敵設定 — EnemyDatabase から参照")]
     [Tooltip("敵データベースへの参照（ウェーブで生成する敵の定義）")]
-    [SerializeField] public EnemyDatabase enemyDatabase;
+    [SerializeField] public WaveDatabase waveDatabase;
     [SerializeField] private WaveConfig[] waves = new WaveConfig[0];
     [Tooltip("最後のウェーブ後に最初へ戻す")]
     [SerializeField] private bool loopWaves = true;
@@ -60,9 +60,9 @@ public class EnemyManager : MonoBehaviour
             mikoshiObject = GameObject.FindWithTag("Mikoshi");
         }
 
-        if (enemyDatabase == null || enemyDatabase.allEnemies == null || enemyDatabase.allEnemies.Count == 0)
+        if (waveDatabase == null || waveDatabase.allEnemies == null || waveDatabase.allEnemies.Count == 0)
         {
-            Debug.LogWarning("EnemyManager: EnemyDatabase が未設定または敵が0です。生成は行われません。", this);
+            Debug.LogWarning("EnemyManager: WaveDatabase が未設定または敵が0です。生成は行われません。", this);
             return;
         }
 
@@ -141,33 +141,33 @@ public class EnemyManager : MonoBehaviour
         spawnRoutine = null;
     }
 
-    // weight（整数）に基づく敵の抽選（EnemyDatabase から）
-    private EnemyData PickEnemyByWeight()
+    // weight（整数）に基づく敵の抽選（WaveDatabase から）
+    private WaveData PickEnemyByWeight()
     {
-        if (enemyDatabase == null || enemyDatabase.allEnemies == null || enemyDatabase.allEnemies.Count == 0)
+        if (waveDatabase == null || waveDatabase.allEnemies == null || waveDatabase.allEnemies.Count == 0)
             return null;
 
         int totalWeight = 0;
-        foreach (var e in enemyDatabase.allEnemies)
+        foreach (var e in waveDatabase.allEnemies)
             totalWeight += (e != null) ? Mathf.Max(0, e.weight) : 0;
 
         if (totalWeight <= 0)
         {
             // 全て 0 の場合は均等選択
-            int idx = Random.Range(0, enemyDatabase.allEnemies.Count);
-            return enemyDatabase.allEnemies[idx];
+            int idx = Random.Range(0, waveDatabase.allEnemies.Count);
+            return waveDatabase.allEnemies[idx];
         }
 
         int r = Random.Range(0, totalWeight);
         int acc = 0;
-        foreach (var e in enemyDatabase.allEnemies)
+        foreach (var e in waveDatabase.allEnemies)
         {
             if (e == null) continue;
             acc += Mathf.Max(0, e.weight);
             if (r < acc) return e;
         }
 
-        return enemyDatabase.allEnemies[enemyDatabase.allEnemies.Count - 1];
+        return waveDatabase.allEnemies[waveDatabase.allEnemies.Count - 1];
     }
 
     private Vector3 GetSpawnCenter()
