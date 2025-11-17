@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // public class EnemyMikoshiChaser : MonoBehaviour
-// etc...
-// EnemyBase used here
+// «
+// EnemyBase ‚ğŒp³‚µ‚Ü‚·
 public class EnemyMikoshiChaser : EnemyController
 {
-    // ï¼ˆåŸºåº•ã‚¯ãƒ©ã‚¹ EnemyBaseï¼‰ã§å¿…è¦ãªå‡¦ç†ã‚’å®Ÿè£…ã—ã¦ã„ã‚‹
-    // ExecuteAI() ã®æŒ™å‹•ã¯ã€Œè¿½è·¡ï¼ˆoverrideï¼‰ã€ã‚’è¡Œã„ã¾ã™ã€‚
+    // eiEnemyBasej‚ªu•K‚¸‘‚¯v‚Æ–½—ß‚µ‚½
+    // ExecuteAI() ‚Ì’†g‚ğuã‘‚«ioverridejv‚µ‚Ü‚·B
     protected override void ExecuteAI()
     {
-        // ã“ã®æ•µã®AIã¯ã€Œç¥è¼¿ã‚’è¿½ã†ã€ã‚‚ã®ã§ã™ã€‚
-        // FollowTarget ã¯å¯¾è±¡ã‚’è¿½å°¾ã™ã‚‹åŸºæœ¬çš„ãªé–¢æ•°ã§ã™ã€‚
+        // ‚±‚Ì“G‚ÌAI‚Íuƒ~ƒRƒV‚ğ’Ç‚¤v‚¾‚¯B
+        // FollowTarget ‚Íe‚ª‚Á‚Ä‚¢‚é‹¤’Ê‹@”\‚ğg‚¢‚Ü‚·B
         FollowTarget(mikoshiObject);
     }
 }
