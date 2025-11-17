@@ -552,19 +552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnMinRange: 5
   spawnMaxRange: 10
-  enemies:
-  - name: 
-    prefab: {fileID: 1121158916325124476, guid: 8aabb29fc2aaad447ba666a7775bdfe0, type: 3}
-    weight: 0
-    normalizedProbability: 0.33333334
-  - name: 
-    prefab: {fileID: 1121158916325124476, guid: 155c6dd83bad3d2498a784bfc9b72ff5, type: 3}
-    weight: 0
-    normalizedProbability: 0.33333334
-  - name: 
-    prefab: {fileID: 1957592607741172030, guid: 514d1b24cca4a1646a62302297de4c40, type: 3}
-    weight: 0
-    normalizedProbability: 0.33333334
+  enemyDatabase: {fileID: 11400000, guid: 5c208b74d32dcb5469f821b66b8109b4, type: 2}
   waves:
   - waveName: 
     enemyCount: 5
