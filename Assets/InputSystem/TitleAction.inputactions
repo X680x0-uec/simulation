@@ -1,0 +1,54 @@
+{
+    "name": "TitleAction",
+    "maps": [
+        {
+            "name": "TitleCarsol",
+            "id": "0a9f2cc0-c4bc-4faf-b5cf-01b328626413",
+            "actions": [
+                {
+                    "name": "Crick",
+                    "type": "Button",
+                    "id": "84b86687-8dfc-46dc-929a-6971e6757c5d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Choice",
+                    "type": "Value",
+                    "id": "f528e026-4014-4b8f-b893-6ae35847fbe4",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "10d836c5-7874-49eb-98a6-fe17acabbf8f",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Crick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c89c3ecc-fe43-471d-b628-623740c0d2a8",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Choice",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
