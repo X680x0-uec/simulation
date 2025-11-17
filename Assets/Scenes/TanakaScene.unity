@@ -2671,6 +2671,7 @@ MonoBehaviour:
   spawnMinRange: 3
   spawnMaxRange: 10
   waveDatabase: {fileID: 11400000, guid: f191d38a2d2ae534d9e0857ce4d54e58, type: 2}
+  enemyDatabase: {fileID: 11400000, guid: 5c208b74d32dcb5469f821b66b8109b4, type: 2}
   waves:
   - waveName: Wave1
     enemyCount: 6
@@ -2996,6 +2997,7 @@ MonoBehaviour:
   - stageB
   - stageC
   - stageD
+  allyTeleportRadius: 3
 --- !u!4 &2080547924
 Transform:
   m_ObjectHideFlags: 0
