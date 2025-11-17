@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement; // 追加
 
 public class MikoshiControllerImada : MonoBehaviour
 {
@@ -17,10 +18,12 @@ public class MikoshiControllerImada : MonoBehaviour
         if (currentHP <= 0)
         {
             currentHP = 0;
-            // 死亡時の処理は必要に応じて拡張してください（エフェクト、ゲームオーバー判定など）
             isMoving = false;
-            Debug.Log("Mikoshi destroyed");
-            // Destroy(gameObject); // 基本的には破壊せず別処理で扱う想定
+            Debug.Log("Mikoshi destroyed - Loading GameOverScene");
+            
+            // Time.timeScale をリセットしてからシーン遷移
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("GameOverScene");
         }
     }
     [SerializeField] private float speed = 2f;
