@@ -268,18 +268,18 @@ public partial class @MikoshiActions: IInputActionCollection2, IDisposable
             ""id"": ""3082fd33-cd9a-49f5-a5fc-e3ec2fd81ce4"",
             ""actions"": [
                 {
-                    ""name"": ""Next"",
+                    ""name"": ""Enter"",
                     ""type"": ""Button"",
-                    ""id"": ""d2c24997-997b-4c62-a1d7-e92ea11107cf"",
+                    ""id"": ""3126c329-73bc-4ab5-b987-466fcdc6a581"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Prev"",
+                    ""name"": ""Back"",
                     ""type"": ""Button"",
-                    ""id"": ""a2a645b6-48eb-457c-8a63-c12b09ab4092"",
+                    ""id"": ""c1fb8fc9-ca18-466f-8b0d-34abc4a2812f"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -289,89 +289,56 @@ public partial class @MikoshiActions: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""bfc781c0-1597-4a43-a58b-6318a836b0ab"",
-                    ""path"": ""<Gamepad>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Next"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""11438276-5fc9-4472-8826-a2b262aedd02"",
+                    ""id"": ""41d1749f-0216-4abe-853b-98b1ac25151a"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Next"",
+                    ""action"": ""Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e50a3f08-1727-44ba-8361-86f1f042456b"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""id"": ""e045a1a0-4341-4326-9b02-41bf1993e18c"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Next"",
+                    ""action"": ""Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f366960c-1b0a-447c-8384-6a70a999134b"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""id"": ""bd335c6b-9b9f-4497-b784-d9abe5aee363"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Next"",
+                    ""action"": ""Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""03faf11a-dcab-4410-81e2-609d64a61200"",
+                    ""id"": ""b0cfaf69-1491-4e16-8759-7c5ce4f610bc"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Next"",
+                    ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""12e72af8-e34a-49e8-a9a8-cf9446d04808"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""id"": ""e2f2e165-7156-4a6a-a7e9-0703bfccf05e"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Next"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4d4dcf37-250c-4679-bf3a-3081cd189e22"",
-                    ""path"": ""<Gamepad>/dpad/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Prev"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""78b2432e-0a9a-42da-899f-547251e7a66e"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Prev"",
+                    ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -388,8 +355,8 @@ public partial class @MikoshiActions: IInputActionCollection2, IDisposable
         m_Battle_Left = m_Battle.FindAction("Left", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_Next = m_UI.FindAction("Next", throwIfNotFound: true);
-        m_UI_Prev = m_UI.FindAction("Prev", throwIfNotFound: true);
+        m_UI_Enter = m_UI.FindAction("Enter", throwIfNotFound: true);
+        m_UI_Back = m_UI.FindAction("Back", throwIfNotFound: true);
     }
 
     ~@MikoshiActions()
@@ -600,8 +567,8 @@ public partial class @MikoshiActions: IInputActionCollection2, IDisposable
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-    private readonly InputAction m_UI_Next;
-    private readonly InputAction m_UI_Prev;
+    private readonly InputAction m_UI_Enter;
+    private readonly InputAction m_UI_Back;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -614,13 +581,13 @@ public partial class @MikoshiActions: IInputActionCollection2, IDisposable
         /// </summary>
         public UIActions(@MikoshiActions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "UI/Next".
+        /// Provides access to the underlying input action "UI/Enter".
         /// </summary>
-        public InputAction @Next => m_Wrapper.m_UI_Next;
+        public InputAction @Enter => m_Wrapper.m_UI_Enter;
         /// <summary>
-        /// Provides access to the underlying input action "UI/Prev".
+        /// Provides access to the underlying input action "UI/Back".
         /// </summary>
-        public InputAction @Prev => m_Wrapper.m_UI_Prev;
+        public InputAction @Back => m_Wrapper.m_UI_Back;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -647,12 +614,12 @@ public partial class @MikoshiActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-            @Next.started += instance.OnNext;
-            @Next.performed += instance.OnNext;
-            @Next.canceled += instance.OnNext;
-            @Prev.started += instance.OnPrev;
-            @Prev.performed += instance.OnPrev;
-            @Prev.canceled += instance.OnPrev;
+            @Enter.started += instance.OnEnter;
+            @Enter.performed += instance.OnEnter;
+            @Enter.canceled += instance.OnEnter;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
         }
 
         /// <summary>
@@ -664,12 +631,12 @@ public partial class @MikoshiActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UIActions" />
         private void UnregisterCallbacks(IUIActions instance)
         {
-            @Next.started -= instance.OnNext;
-            @Next.performed -= instance.OnNext;
-            @Next.canceled -= instance.OnNext;
-            @Prev.started -= instance.OnPrev;
-            @Prev.performed -= instance.OnPrev;
-            @Prev.canceled -= instance.OnPrev;
+            @Enter.started -= instance.OnEnter;
+            @Enter.performed -= instance.OnEnter;
+            @Enter.canceled -= instance.OnEnter;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
         }
 
         /// <summary>
@@ -747,18 +714,18 @@ public partial class @MikoshiActions: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Next" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Enter" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnNext(InputAction.CallbackContext context);
+        void OnEnter(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Prev" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Back" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnPrev(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
     }
 }

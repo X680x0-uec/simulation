@@ -178,13 +178,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7902cdace75f24b499b062ae4c6ee04c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3
+  maxSpeed: 3
+  minForceDistance: 0.1
+  maxForceDistance: 1
   lineRenderer: {fileID: 0}
   reachThreshold: 0.1
   maxHP: 100
-  enableHitStop: 1
-  hitStopDuration: 0.15
-  hitStopTimeScale: 0.02
 --- !u!95 &6358241805413361762
 Animator:
   serializedVersion: 7
@@ -219,6 +219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c60af99b3275b4f976b112cbe9e380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableHitStop: 1
+  hitStopDuration: 0.15
+  hitStopTimeScale: 0.02
 --- !u!1 &6880172460166416619
 GameObject:
   m_ObjectHideFlags: 0
