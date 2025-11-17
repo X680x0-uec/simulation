@@ -16,15 +16,15 @@ MonoBehaviour:
   - name: Attacker
     prefab: {fileID: 6968254768228882653, guid: ddfcee7e56dc69b41a3a380eafa358d7, type: 3}
     health: 50
-    cost: 0
+    cost: 3
     icon: {fileID: 0}
   - name: Defender
     prefab: {fileID: 5266812767448107305, guid: df9883f73abd7e148bf4b08878878865, type: 3}
     health: 50
-    cost: 0
+    cost: 6
     icon: {fileID: 0}
   - name: Archer
     prefab: {fileID: 3896097207300228232, guid: ee73ae1c749d3034d9b1f91403d61273, type: 3}
     health: 50
-    cost: 0
+    cost: 10
     icon: {fileID: 0}
