@@ -10,6 +10,9 @@ public class GameFlowManager : MonoBehaviour
     [SerializeField] private LineRenderer[] stageLines;         // 各ステージのラインレンダラー（4つ）
     [SerializeField] private string[] stageNames = { "stageA", "stageB", "stageC", "stageD" }; // ステージ名
 
+    [Header("味方転移設定")]
+    [SerializeField] private float allyTeleportRadius = 3f;     // 味方を配置する半径
+
     private int currentStage = 0;
     private bool isTransitioning = false;
     private List<int> currentStageIndices = new List<int>(); // 現在表示中のステージインデックス
@@ -115,6 +118,13 @@ public class GameFlowManager : MonoBehaviour
 
             if (mikoshi != null)
             {
+                // 開始位置に移動
+                Vector3 newMikoshiPosition = stageStartPoints[currentStage].position;
+                mikoshi.transform.position = newMikoshiPosition;
+
+                // 味方ユニットを神輿の周囲に転移
+                TeleportAlliesToMikoshi(newMikoshiPosition);
+
                 // ステージに対応したラインを設定
                 if (currentStage < stageLines.Length && stageLines[currentStage] != null)
                 {
@@ -125,8 +135,6 @@ public class GameFlowManager : MonoBehaviour
                     Debug.LogError($"ステージ {currentStage} のラインが設定されていません");
                 }
 
-                // 開始位置に移動
-                mikoshi.transform.position = stageStartPoints[currentStage].position;
                 mikoshi.BeginMove();
             }
 
@@ -134,6 +142,43 @@ public class GameFlowManager : MonoBehaviour
         }
 
         isTransitioning = false;
+    }
+
+    // 味方ユニットを神輿の周囲に転移させる
+    private void TeleportAlliesToMikoshi(Vector3 mikoshiPosition)
+    {
+        GameObject[] allies = GameObject.FindGameObjectsWithTag("Ally");
+        
+        if (allies.Length == 0)
+        {
+            Debug.Log("転移させる味方ユニットがいません");
+            return;
+        }
+
+        // 円形に配置
+        float angleStep = 360f / allies.Length;
+        
+        for (int i = 0; i < allies.Length; i++)
+        {
+            float angle = i * angleStep * Mathf.Deg2Rad;
+            Vector3 offset = new Vector3(
+                Mathf.Cos(angle) * allyTeleportRadius,
+                Mathf.Sin(angle) * allyTeleportRadius,
+                0
+            );
+            
+            allies[i].transform.position = mikoshiPosition + offset;
+
+            // Rigidbody2D の速度をリセット
+            Rigidbody2D rb = allies[i].GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.angularVelocity = 0f;
+            }
+        }
+
+        Debug.Log($"味方 {allies.Length} 体を神輿の周囲に転移させました");
     }
 
     private void ClearEnemyUnits()
