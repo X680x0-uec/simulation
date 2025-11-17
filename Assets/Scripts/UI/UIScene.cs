@@ -224,7 +224,7 @@ public class UIScene : MonoBehaviour
         if (IsSceneInBuild(sceneName))
         {
             // Play UI transition SFX only for these flows:
-            // - ExplainScene1..4 <-> ExplainScene1..4
+            // - ExplainScene0..4 <-> ExplainScene1..4
             // - TanakaScene -> ResultScene
             // - ResultScene -> TitleScene
             bool IsExplainScene(string n)

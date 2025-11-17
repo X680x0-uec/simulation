@@ -7,6 +7,7 @@ public class EnemyData
     public string name;
     public GameObject prefab;
     public int health;
+    public int damage;
     
 }
 
