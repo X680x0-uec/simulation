@@ -34,9 +34,14 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float spawnMaxRange = 10f;
     // 角度範囲は固定で -30〜30 度（元の実装と同じ）
 
-    [Header("敵設定 — EnemyDatabase から参照")]
+    [Header("敵設定 — WaveDatabase から参照")]
     [Tooltip("敵データベースへの参照（ウェーブで生成する敵の定義）")]
     [SerializeField] public WaveDatabase waveDatabase;
+    
+    [Header("敵パラメータ参照")]
+    [Tooltip("敵のHP/ダメージを参照するデータベース")]
+    [SerializeField] private EnemyDatabase enemyDatabase;
+    
     [SerializeField] private WaveConfig[] waves = new WaveConfig[0];
     [Tooltip("最後のウェーブ後に最初へ戻す")]
     [SerializeField] private bool loopWaves = true;
@@ -117,7 +122,22 @@ public class EnemyManager : MonoBehaviour
                     if (enemy != null && enemy.prefab != null)
                     {
                         Vector3 pos = CalculateSpawnPosition(spawnCenter);
-                        Instantiate(enemy.prefab, pos, Quaternion.identity);
+                        GameObject enemyObj = Instantiate(enemy.prefab, pos, Quaternion.identity);
+                        
+                        // EnemyDatabase から対応するデータを検索して初期化
+                        EnemyController controller = enemyObj.GetComponent<EnemyController>();
+                        if (controller != null && enemyDatabase != null)
+                        {
+                            EnemyData data = enemyDatabase.allEnemies.Find(e => e.prefab == enemy.prefab);
+                            if (data != null)
+                            {
+                                controller.InitializeFromData(data.health, data.damage);
+                            }
+                            else
+                            {
+                                Debug.LogWarning($"EnemyDatabase に {enemy.prefab.name} のデータが見つかりません");
+                            }
+                        }
                     }
 
                     if (spawnDelay > 0f)
