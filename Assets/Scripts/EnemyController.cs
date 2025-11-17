@@ -124,6 +124,7 @@ public abstract class EnemyController : MonoBehaviour
         {
             // --- ① ダメージを与える ---
             // MikoshiController.mikoshiHP -= 10;
+            SoundManager.instance.PlayMikoshiAttacked();//SE
 
             // --- ② ノックバック ---
             StartCoroutine(Knockback());
@@ -146,10 +147,12 @@ public abstract class EnemyController : MonoBehaviour
     public void TakeDamage(int damage, Vector3 attackerPosition)
     {
         currentHP -= damage;
+        SoundManager.instance.PlayEnemyAttacked();//SE
         Debug.Log(gameObject.name + "は" + damage + "のダメージを受けたじゅう！ 残りHP: " + currentHP);
         if (currentHP <= 0)
         {
             Debug.Log(gameObject.name + "は倒れたじゅう！");
+            SoundManager.instance.PlayEnemyDefeated();//SE
             Destroy(gameObject);
             return;
         }
