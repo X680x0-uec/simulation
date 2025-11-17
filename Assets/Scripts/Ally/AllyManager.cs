@@ -63,11 +63,13 @@ public class AllyManager : MonoBehaviour
         AllyData ally = allyDatabase.allAllies[index];
         if (ally.prefab != null)
         {
+            // Use cost from AllyDatabase (AllyData.cost)
             if (CostManager.Instance != null)
             {
-                var go = CostManager.Instance.TrySpendAndSpawn(ally.prefab, spawnPosition, Quaternion.identity);
-                if (go != null)
+                int cost = ally.cost;
+                if (CostManager.Instance.TrySpend(cost))
                 {
+                    var go = Instantiate(ally.prefab, spawnPosition, Quaternion.identity);
                     Debug.Log(ally.name + " Spawned (paid)");
                     NumSpawn[0] = NumSpawn[0] + 1;
                     // Ensure the spawned object has an AllyUnit and initialize HP/type
@@ -78,7 +80,10 @@ public class AllyManager : MonoBehaviour
                     unit.OwnerManager = this;
                     spawnedAllies.Add(unit);
                 }
-                else Debug.Log(ally.prefab.name + " spawn failed: not enough points");
+                else
+                {
+                    Debug.Log(ally.prefab.name + " spawn failed: not enough points or cost entry");
+                }
             }
             else
             {

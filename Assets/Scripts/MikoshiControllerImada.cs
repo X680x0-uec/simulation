@@ -1,22 +1,38 @@
 using System;
 using System.Collections;
-using UnityEditor.Callbacks;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MikoshiControllerImada : MonoBehaviour
 {
+
+    // --- 外部から呼び出すダメージ処理 ---
+    /// <summary>
+    /// Mikoshi にダメージを与える（外部から呼び出すための API）。
+    /// attackerPosition を渡すと簡易ノックバックを行います。
+    /// </summary>
+    public void TakeDamage(int damage, Vector3 attackerPosition)
+    {
+        currentHP -= damage;
+        Debug.Log($"Mikoshi took {damage} damage. Remaining HP: {currentHP}");
+        if (currentHP <= 0)
+        {
+            currentHP = 0;
+            // 死亡時の処理は必要に応じて拡張してください（エフェクト、ゲームオーバー判定など）
+            isMoving = false;
+            Debug.Log("Mikoshi destroyed");
+            // Destroy(gameObject); // 基本的には破壊せず別処理で扱う想定
+        }
+    }
     [SerializeField] private float speed = 2f;
-    [SerializeField] private float maxSpeed = 5f; // 最高速度を制限して暴れを抑える
-    [SerializeField] private float minForceDistance = 0.1f; // 距離に対する力の下限
-    [SerializeField] private float maxForceDistance = 1f; // 距離に対する力の上限（正規化前のスケール）
+    [SerializeField] private float maxSpeed = 5f;
+    [SerializeField] private float minForceDistance = 0.1f;
+    [SerializeField] private float maxForceDistance = 1f;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float reachThreshold = 0.1f;
     [SerializeField] private int maxHP = 100;
 
     private int currentHP;
 
-    // Expose read-only properties for UI and other systems
     public int CurrentHP => currentHP;
     public int MaxHP => maxHP;
 
@@ -25,11 +41,9 @@ public class MikoshiControllerImada : MonoBehaviour
 
     public static event Action OnMikoshiReachedGoal;
 
-    // 終点に到達したかどうかのフラグ
     public bool hasReachedEnd { get; private set; } = false;
 
     private Rigidbody2D rb;
-    
 
     void Start()
     {
@@ -37,60 +51,79 @@ public class MikoshiControllerImada : MonoBehaviour
         currentHP = maxHP;
         BeginMove();
     }
+
     void Update()
     {
-    if (isMoving)
+        if (isMoving)
         {
             Vector2 targetPosition = GetTargetPosition();
             Vector2 direction = targetPosition - (Vector2)transform.position;
 
-            // 距離に応じて力の大きさを滑らかに決める（過剰な力を与えない）
             float distance = direction.magnitude;
             if (distance > reachThreshold)
             {
                 Vector2 dir = direction.normalized;
-                // distance を [minForceDistance, maxForceDistance] にクランプして力に反映
                 float forceScale = Mathf.Clamp(distance, minForceDistance, maxForceDistance);
                 float force = speed * Mathf.Min(forceScale, 1f);
                 rb.AddForce(dir * force);
             }
             else
             {
-                // 目的地に近ければ速度を止めて振動を抑える
                 if (rb != null) rb.linearVelocity = Vector2.zero;
             }
 
-            // 速度が大きくなりすぎたら制限する
+            // 速度制限
             if (rb != null && rb.linearVelocity.magnitude > maxSpeed)
             {
                 rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
             }
-            // Debug.Log("神輿が移動中");
         }
+    }
 
+    // 新しいラインを設定するメソッド
+    public void SetLineRenderer(LineRenderer newLine)
+    {
+        if (newLine != null)
+        {
+            lineRenderer = newLine;
+            Debug.Log($"新しいラインが設定されました: {newLine.name}");
+        }
+        else
+        {
+            Debug.LogError("SetLineRenderer: 無効な LineRenderer が渡されました");
+        }
     }
 
     public void BeginMove()
     {
         currentIndex = 0;
         isMoving = true;
-        hasReachedEnd = false; // ← リセット
-        transform.position = lineRenderer.GetPosition(currentIndex) + lineRenderer.transform.position;
-        // 前回の勢いをリセット（シーン遷移やリトライ後の暴れ防止）
-        if (rb != null) rb.linearVelocity = Vector2.zero;
+        hasReachedEnd = false;
+
+        if (lineRenderer != null)
+        {
+            transform.position = lineRenderer.GetPosition(currentIndex) + lineRenderer.transform.position;
+        }
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
     private Vector2 GetTargetPosition()
     {
+        if (lineRenderer == null)
+            return transform.position;
+
         int nextIndex = currentIndex + 1;
 
         if (lineRenderer.positionCount <= nextIndex)
         {
             isMoving = false;
-            hasReachedEnd = true;  // ← 終点に到達したらフラグON
+            hasReachedEnd = true;
             Debug.Log("神輿がゴールしました");
 
-            // 停止させてからイベント通知（残った速度で飛んでいかないように）
             if (rb != null) rb.linearVelocity = Vector2.zero;
             Time.timeScale = 0f;
             OnMikoshiReachedGoal?.Invoke();

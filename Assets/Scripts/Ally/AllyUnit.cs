@@ -38,6 +38,20 @@ public class AllyUnit : MonoBehaviour
         }
     }
 
+    // 外部から攻撃座標を渡してノックバック付きでダメージを与えるオーバーロード
+    public void TakeDamage(int damage, Vector3 attackerPosition)
+    {
+        TakeDamage(damage);
+        // ノックバック表現（Rigidbody2D があれば軽く弾く）
+        var rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            Vector2 backDir = ((Vector2)(transform.position - attackerPosition)).normalized;
+            float kbPower = 1.0f; // 固定値（必要なら Inspector で調整できるように later）
+            rb.AddForce(backDir * kbPower, ForceMode2D.Impulse);
+        }
+    }
+
     private void Die()
     {
         // notify global stats
