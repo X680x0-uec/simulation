@@ -16,6 +16,7 @@ public class GameFlowManager : MonoBehaviour
     private int currentStage = 0;
     private bool isTransitioning = false;
     private List<int> currentStageIndices = new List<int>(); // 現在表示中のステージインデックス
+    private int goalCount = 0; // ゴール回数カウント
 
     private void Start()
     {
@@ -43,11 +44,23 @@ public class GameFlowManager : MonoBehaviour
 
     private void OnGoalReached()
     {
-        Debug.Log("ゴール！マップ選択UIを表示");
+        goalCount++;
+        Debug.Log($"ゴール！マップ選択UIを表示（{goalCount}回目のゴール）");
         Time.timeScale = 0f;
 
-        // 4つのステージからランダムに3つを選択
-        currentStageIndices = GetRandomStageIndices(3);
+        if (goalCount == 1)
+        {
+            // 1回目：ステージ3（インデックス3）以外から3つ選択
+            currentStageIndices = GetRandomStageIndicesExcluding(3, 3);
+        }
+        else if (goalCount == 2)
+        {
+            // 2回目：ステージ3（インデックス3）のみを表示
+            currentStageIndices = new List<int> { 3 };
+        }
+
+        // 配列番号の小さい順にソート
+        currentStageIndices.Sort();
         
         // 選択肢の名前を取得
         string[] options = new string[currentStageIndices.Count];
@@ -66,13 +79,16 @@ public class GameFlowManager : MonoBehaviour
         Debug.Log($"表示されたステージ: {string.Join(", ", options)}");
     }
 
-    // ランダムにステージインデックスを選択
-    private List<int> GetRandomStageIndices(int count)
+    // ランダムにステージインデックスを選択（特定のインデックスを除外）
+    private List<int> GetRandomStageIndicesExcluding(int excludeIndex, int count)
     {
         List<int> allIndices = new List<int>();
         for (int i = 0; i < stageStartPoints.Length; i++)
         {
-            allIndices.Add(i);
+            if (i != excludeIndex) // 指定されたインデックスを除外
+            {
+                allIndices.Add(i);
+            }
         }
 
         // シャッフル
@@ -184,9 +200,28 @@ public class GameFlowManager : MonoBehaviour
     private void ClearEnemyUnits()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        
         foreach (GameObject enemy in enemies)
         {
-            Destroy(enemy);
+            if (enemy != null)
+            {
+                // Collider を無効化してから削除
+                Collider2D collider = enemy.GetComponent<Collider2D>();
+                if (collider != null)
+                {
+                    collider.enabled = false;
+                }
+
+                // スクリプトを無効化
+                MonoBehaviour[] scripts = enemy.GetComponents<MonoBehaviour>();
+                foreach (var script in scripts)
+                {
+                    if (script != null)
+                        script.enabled = false;
+                }
+
+                Destroy(enemy);
+            }
         }
 
         Debug.Log($"敵 {enemies.Length} 体を削除しました。");
