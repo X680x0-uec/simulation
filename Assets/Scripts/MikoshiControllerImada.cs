@@ -4,6 +4,25 @@ using UnityEngine;
 
 public class MikoshiControllerImada : MonoBehaviour
 {
+
+    // --- 外部から呼び出すダメージ処理 ---
+    /// <summary>
+    /// Mikoshi にダメージを与える（外部から呼び出すための API）。
+    /// attackerPosition を渡すと簡易ノックバックを行います。
+    /// </summary>
+    public void TakeDamage(int damage, Vector3 attackerPosition)
+    {
+        currentHP -= damage;
+        Debug.Log($"Mikoshi took {damage} damage. Remaining HP: {currentHP}");
+        if (currentHP <= 0)
+        {
+            currentHP = 0;
+            // 死亡時の処理は必要に応じて拡張してください（エフェクト、ゲームオーバー判定など）
+            isMoving = false;
+            Debug.Log("Mikoshi destroyed");
+            // Destroy(gameObject); // 基本的には破壊せず別処理で扱う想定
+        }
+    }
     [SerializeField] private float speed = 2f;
     [SerializeField] private float maxSpeed = 5f;
     [SerializeField] private float minForceDistance = 0.1f;
