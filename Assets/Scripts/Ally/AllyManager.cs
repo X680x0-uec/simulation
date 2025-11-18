@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class AllyManager : MonoBehaviour
 {
     public AllyDatabase allyDatabase;
+    [SerializeField] private float knockbackPower = 1.0f;
     [SerializeField] private Transform spawnPoint;
     // 味方ユニットの出現数を記録する配列
     static public int[] NumSpawn = {0, 0, 0};
@@ -76,7 +77,7 @@ public class AllyManager : MonoBehaviour
                     var unit = go.GetComponent<AllyUnit>();
                     if (unit == null) unit = go.AddComponent<AllyUnit>();
                     int hp = ally.health;
-                    unit.Initialize(hp, 0);
+                    unit.Initialize(hp, 0, knockbackPower);
                     unit.OwnerManager = this;
                     spawnedAllies.Add(unit);
                 }
@@ -93,7 +94,7 @@ public class AllyManager : MonoBehaviour
                 var unit = inst.GetComponent<AllyUnit>();
                 if (unit == null) unit = inst.AddComponent<AllyUnit>();
                 int hp = ally.health;
-                unit.Initialize(hp, 0);
+                unit.Initialize(hp, 0, knockbackPower);
                 unit.OwnerManager = this;
                 spawnedAllies.Add(unit);
                 Debug.Log(ally.name + " Spawned (no CostManager)");
