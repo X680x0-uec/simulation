@@ -1,31 +1,10 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement; // 追加
+using UnityEngine.SceneManagement;
 
 public class MikoshiControllerImada : MonoBehaviour
 {
-
-    // --- 外部から呼び出すダメージ処理 ---
-    /// <summary>
-    /// Mikoshi にダメージを与える（外部から呼び出すための API）。
-    /// attackerPosition を渡すと簡易ノックバックを行います。
-    /// </summary>
-    public void TakeDamage(int damage, Vector3 attackerPosition)
-    {
-        currentHP -= damage;
-        Debug.Log($"Mikoshi took {damage} damage. Remaining HP: {currentHP}");
-        if (currentHP <= 0)
-        {
-            currentHP = 0;
-            isMoving = false;
-            Debug.Log("Mikoshi destroyed - Loading GameOverScene");
-            
-            // Time.timeScale をリセットしてからシーン遷移
-            Time.timeScale = 1f;
-            SceneManager.LoadScene("GameOverScene");
-        }
-    }
     [SerializeField] private float speed = 2f;
     [SerializeField] private float maxSpeed = 5f;
     [SerializeField] private float minForceDistance = 0.1f;
@@ -34,7 +13,8 @@ public class MikoshiControllerImada : MonoBehaviour
     [SerializeField] private float reachThreshold = 0.1f;
     [SerializeField] private int maxHP = 100;
 
-    private int currentHP;
+    [Header("現在の状態")]
+    [SerializeField] private int currentHP; // Inspector に表示
 
     public int CurrentHP => currentHP;
     public int MaxHP => maxHP;
@@ -80,6 +60,27 @@ public class MikoshiControllerImada : MonoBehaviour
             {
                 rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
             }
+        }
+    }
+
+    /// <summary>
+    /// Mikoshi にダメージを与える（外部から呼び出すための API）。
+    /// attackerPosition を渡すと簡易ノックバックを行います。
+    /// </summary>
+    public void TakeDamage(int damage, Vector3 attackerPosition)
+    {
+        currentHP -= damage;
+        Debug.Log($"Mikoshi took {damage} damage. Remaining HP: {currentHP}/{maxHP}");
+        
+        if (currentHP <= 0)
+        {
+            currentHP = 0;
+            isMoving = false;
+            Debug.Log("Mikoshi destroyed - Loading GameOverScene");
+            
+            // Time.timeScale をリセットしてからシーン遷移
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("GameOverScene");
         }
     }
 
