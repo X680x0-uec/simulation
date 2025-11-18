@@ -45,7 +45,7 @@ public class WaveConfig
     public List<EnemyEntry> enemyEntries = new List<EnemyEntry>();
 
 #if UNITY_EDITOR
-    private void OnValidate()
+    public void OnValidate()
     {
         // 敵の重みから表示用確率を計算
         if (enemyEntries != null && enemyEntries.Count > 0)
@@ -94,4 +94,20 @@ public class WaveDatabase : ScriptableObject
     public bool loopWaves = true;
     [Tooltip("開始ウェーブのインデックス")]
     public int startWaveIndex = 0;
+    #if UNITY_EDITOR
+    private void OnValidate()
+    {
+        // 各ウェーブの検証
+        if (waves != null)
+        {
+            for (int i = 0; i < waves.Length; i++)
+            {
+                if (waves[i] != null)
+                {
+                    waves[i].OnValidate();
+                }
+            }
+        }
+    }
+    #endif
 }

@@ -286,10 +286,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -314,7 +314,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -2663,19 +2663,6 @@ MonoBehaviour:
   spawnMaxRange: 20
   waveDatabase: {fileID: 11400000, guid: f191d38a2d2ae534d9e0857ce4d54e58, type: 2}
   enemyDatabase: {fileID: 11400000, guid: 5c208b74d32dcb5469f821b66b8109b4, type: 2}
-  waves:
-  - waveName: Wave1
-    enemyCount: 6
-    waveDuration: 0
-    intervalBeforeWave: 2
-    intervalAfterWave: 1
-  - waveName: wave2
-    enemyCount: 6
-    waveDuration: 0
-    intervalBeforeWave: 2
-    intervalAfterWave: 1
-  loopWaves: 1
-  startWaveIndex: 0
   mikoshiObject: {fileID: 2059931300}
   manualSpawnCenter: {x: 0, y: 0, z: 0}
   preferMikoshiTag: 1
