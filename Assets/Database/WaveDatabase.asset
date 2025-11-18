@@ -12,9 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 352bfaf47c33fa245b96aa43f343b038, type: 3}
   m_Name: WaveDatabase
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
-  waves: []
-=======
   waves:
   - waveName: 
     enemyCount: 0
@@ -34,6 +31,5 @@ MonoBehaviour:
       prefab: {fileID: 1957592607741172030, guid: 514d1b24cca4a1646a62302297de4c40, type: 3}
       weight: 1
       normalizedProbability: 0
->>>>>>> 7c4586a12b1ab1cc2f155845fbf1cb2fa92dbb2b
   loopWaves: 1
   startWaveIndex: 0
