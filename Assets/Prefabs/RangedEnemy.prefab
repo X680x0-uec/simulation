@@ -168,12 +168,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
+  attackDamage: 0
   speed: 6
   mikoshiObject: {fileID: 0}
   allys_list: []
   giveUpTime: 1
   recoilTime: 0.5
-  knockbackPower: 30
+  knockbackPower: 10
   destroyXPosition: 5
   range: 3
   firstRange: 2
@@ -214,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
+  attackDamage: 0
   speed: 6
   mikoshiObject: {fileID: 0}
   allys_list: []

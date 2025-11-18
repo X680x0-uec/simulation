@@ -20,8 +20,11 @@ public class EnemyAllyChaser : EnemyController
             // ���t���[���A�^�[�Q�b�g�������_���ɑI�ђ���
             targetnumber = Random.Range(0, allys_list.Count);
 
-            // ���ʋ@�\�� FollowTarget ���g���Ēǔ�
-            FollowTarget(allys_list[targetnumber]);
+            if (allys_list[targetnumber] != null)
+            {
+                // ���ʋ@�\�� FollowTarget ���g���Ēǔ�
+                FollowTarget(allys_list[targetnumber]);
+            }
         }
         else
         {

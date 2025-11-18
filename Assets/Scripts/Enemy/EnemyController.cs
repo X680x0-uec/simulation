@@ -7,7 +7,7 @@ public abstract class EnemyController : MonoBehaviour
     [Header("基本設定")]
     [SerializeField] protected int maxHP = 100;
     protected int currentHP;
-    protected int attackDamage = 10; // EnemyDatabase から設定される
+    public int attackDamage; // EnemyDatabase から設定される
 
     [Header("追尾設定")]
     [SerializeField] protected float speed = 2f;

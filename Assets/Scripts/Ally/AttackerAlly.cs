@@ -31,14 +31,24 @@ public class AttackerAlly : MonoBehaviour
     private Transform target;
     private Rigidbody2D rb;
 
+    // ★追加: 画像の向きを変えるためのコンポーネント
+    private SpriteRenderer spriteRenderer;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        // ★追加: 子オブジェクトにあるかもしれないので InChildren で取得
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
         mikoshi = GameObject.FindWithTag("Mikoshi").transform;
     }
 
     void Update()
     {
+        // ★追加: 毎フレーム向きを更新
+        UpdateFacingDirection();
+
         switch (state)
         {
             case State.Idle:
@@ -66,6 +76,32 @@ public class AttackerAlly : MonoBehaviour
                 // 死亡状態の処理
                 break;
         }
+    }
+
+    // ★追加: 向き（左右反転）を制御するメソッド
+    void UpdateFacingDirection()
+    {
+        // SpriteRendererがない場合は何もしない（エラー防止）
+        if (spriteRenderer == null) return;
+
+        if (target != null)
+        {
+            // ターゲットがいる時はターゲットの方を向く
+            // ターゲットが自分より左(xが小さい)なら反転
+            if (target.position.x < transform.position.x)
+                spriteRenderer.flipX = true;
+            else
+                spriteRenderer.flipX = false;
+        }
+        else if (Mathf.Abs(rb.linearVelocity.x) > 0.1f) // 移動中なら
+        {
+            // 移動方向を向く
+            if (rb.linearVelocity.x < -0.1f)
+                spriteRenderer.flipX = true; // 左移動
+            else if (rb.linearVelocity.x > 0.1f)
+                spriteRenderer.flipX = false; // 右移動
+        }
+        // ※もし元の絵が「左向き」の場合は true/false を逆にしてください
     }
 
     void MoveToTarget()
