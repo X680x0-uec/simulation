@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3175289527430071584}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,8 +102,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf82278e3bb5eb3409ab28b0129c78b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
-  attackDamage: 0
+  maxHP: 1
+  attackDamage: 5
   speed: 2
   mikoshiObject: {fileID: 0}
   allys_list: []
@@ -111,6 +111,7 @@ MonoBehaviour:
   recoilTime: 0.15
   knockbackPower: 1
   destroyXPosition: 5
+  homingDuration: 1
 --- !u!58 &-7251585709329620090
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -160,7 +161,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 1
+  m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}

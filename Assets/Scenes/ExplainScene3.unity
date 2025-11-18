@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 81122713}
   - component: {fileID: 81122712}
   - component: {fileID: 81122714}
+  - component: {fileID: 81122715}
   m_Layer: 0
   m_Name: UIMaintain
   m_TagString: Untagged
@@ -180,6 +181,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   returnScene: TitleScene
+--- !u!114 &81122715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81122711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 203594c3f45d8f7419535cf30e16ae45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIAudioSource: {fileID: 0}
+  transitionClip: {fileID: 0}
 --- !u!1 &229330110
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,7 +350,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2972915244330628007, guid: 7a343cf031857b143a50092f5acb384f, type: 3}
+  m_Sprite: {fileID: 8624126766612176230, guid: ae381b895d2102544ab74d58bd9bca9b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

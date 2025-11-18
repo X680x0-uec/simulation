@@ -22,7 +22,7 @@ public class AllyUnit : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.gameObject.tag == "Enemy")
+		if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Bullet")
         {
             EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
             if (enemy != null)
