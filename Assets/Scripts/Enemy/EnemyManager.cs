@@ -208,9 +208,10 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnBullet(GameObject prefab, Vector3 position, GameObject shooter, Vector2 targetPosition)
     {
-        EnemyData shooterData = enemyDatabase.allEnemies.Find(e => e.prefab.name == shooter.name);
+        EnemyData shooterData = enemyDatabase.allEnemies.Find(e => e.name == shooter.name.Replace("(Clone)", "").Trim());
         Vector2 direction = (targetPosition - (Vector2)position).normalized;
-        Instantiate(prefab, position, Quaternion.identity);
+        Quaternion rotation = Quaternion.Euler(direction);
+        Instantiate(prefab, position, rotation);
         BulletController bulletController = prefab.GetComponent<BulletController>();
         if (bulletController != null && shooterData != null)
         {
