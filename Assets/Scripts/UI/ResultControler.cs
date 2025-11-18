@@ -150,13 +150,13 @@ public class ResultControler : MonoBehaviour
         // 非改行スペース(U+00A0)を使って単語の途中で改行されないようにする
         string nbsp = "\u00A0";
         string kLine = $"Killed Enemies:{nbsp}{killedEnemies}{nbsp}Times";
-        string dLine1 = $"Dead Attackers:{nbsp}{deadA}{nbsp}Times";
-        string dLine2 = $"Dead Defencers:{nbsp}{deadB}{nbsp}Times";
-        string dLine3 = $"Dead Archers:{nbsp}{deadC}{nbsp}Times";
+        string dLine1 = $"Attackers:{nbsp}{deadA}{nbsp}Times";
+        string dLine2 = $"Defencers:{nbsp}{deadB}{nbsp}Times";
+        string dLine3 = $"Archers:{nbsp}{deadC}{nbsp}Times";
 
-        string sLine1 = $"Spawned Attackers:{nbsp}{spawnA}{nbsp}Times";
-        string sLine2 = $"Spawned Defencers:{nbsp}{spawnB}{nbsp}Times";
-        string sLine3 = $"Spawned Archers:{nbsp}{spawnC}{nbsp}Times";
+        string sLine1 = $"Attackers:{nbsp}{spawnA}{nbsp}Times";
+        string sLine2 = $"Defencers:{nbsp}{spawnB}{nbsp}Times";
+        string sLine3 = $"Archers:{nbsp}{spawnC}{nbsp}Times";
 
         string text = string.Join("\n", new[] { kLine, dLine1, dLine2, dLine3, "", sLine1, sLine2, sLine3 });
         resultText.text = text;

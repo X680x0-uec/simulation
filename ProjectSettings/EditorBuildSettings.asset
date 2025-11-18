@@ -6,34 +6,34 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scripts/Scenes/MainScene.unity
+    path: Assets/Scenes/MainScene.unity
     guid: 515a1779c95b3f949bd4850eaffb45dc
   - enabled: 1
-    path: Assets/Scripts/Scenes/TanakaScene.unity
+    path: Assets/Scenes/TanakaScene.unity
     guid: af370ad6115583b4aafb59d6338ebab3
   - enabled: 1
-    path: Assets/Scripts/Scenes/TitleScene.unity
+    path: Assets/Scenes/TitleScene.unity
     guid: f93b72b13e360f449a8bb2e85f0ec8ba
   - enabled: 1
-    path: Assets/Scripts/Scenes/ExplainScene0.unity
+    path: Assets/Scenes/ExplainScene0.unity
     guid: d3f920de87d4c684f846dbf3e865a5d7
   - enabled: 1
-    path: Assets/Scripts/Scenes/ExplainScene1.unity
+    path: Assets/Scenes/ExplainScene1.unity
     guid: 9237341a499161043ba1cb33cb12796a
   - enabled: 1
     path: Assets/Scripts/Scenes/ExplainScene2.unity
     guid: 6232230660f54bf46aa732404e2d5c76
   - enabled: 1
-    path: Assets/Scripts/Scenes/ExplainScene3.unity
+    path: Assets/Scenes/ExplainScene3.unity
     guid: 9c0bc3430dd6d2f45ac7f12db0d2c5e5
   - enabled: 1
-    path: Assets/Scripts/Scenes/ExplainScene4.unity
+    path: Assets/Scenes/ExplainScene4.unity
     guid: baf67cd723ef3b043bdbb2fb772e6fa3
   - enabled: 1
-    path: Assets/Scripts/Scenes/ResultScene.unity
+    path: Assets/Scenes/ResultScene.unity
     guid: 6ae3eb237471ac24c926af48d60ce8c5
   - enabled: 1
-    path: Assets/Scripts/Scenes/GameOverScene.unity
+    path: Assets/Scenes/GameOverScene.unity
     guid: fc992cb2bf35c8947a2e6004f10e155f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3ca9b5f0e60b4004283bb88380ef45cb, type: 3}
