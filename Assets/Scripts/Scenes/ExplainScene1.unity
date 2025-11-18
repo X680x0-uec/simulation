@@ -463,6 +463,7 @@ GameObject:
   - component: {fileID: 1115322789}
   - component: {fileID: 1115322791}
   - component: {fileID: 1115322792}
+  - component: {fileID: 1115322793}
   m_Layer: 0
   m_Name: UIMaintain
   m_TagString: Untagged
@@ -610,6 +611,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   returnScene: TitleScene
+--- !u!114 &1115322793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115322788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 203594c3f45d8f7419535cf30e16ae45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1814188564
 GameObject:
   m_ObjectHideFlags: 0
