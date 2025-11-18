@@ -216,13 +216,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7902cdace75f24b499b062ae4c6ee04c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  maxSpeed: 5
+  speed: 50
+  maxSpeed: 100
   minForceDistance: 0.1
   maxForceDistance: 1
   lineRenderer: {fileID: 0}
   reachThreshold: 0.1
-  maxHP: 1000
+  maxHP: 100
 --- !u!1 &5782566917846796926
 GameObject:
   m_ObjectHideFlags: 0
