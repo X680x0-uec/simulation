@@ -4,29 +4,6 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class EnemyManager : MonoBehaviour
 {
-    [System.Serializable]
-    public class WaveConfig
-    {
-        [Tooltip("ウェーブ名")]
-        public string waveName = "Wave";
-
-        [Tooltip("このウェーブで召喚する敵の数（固定）")]
-        [Min(0)]
-        public int enemyCount = 10;
-
-        [Tooltip("ウェーブの長さ（秒）。敵はこの時間内に等間隔で召喚されます。0 にすると同フレームで一括生成")]
-        [Min(0f)]
-        public float waveDuration = 0f;
-
-        [Tooltip("ウェーブ開始前、ウェーブが始まるまでの待ち時間（秒）")]
-        [Min(0f)]
-        public float intervalBeforeWave = 0f;
-
-        [Tooltip("ウェーブ終了後、次のウェーブが始まるまでの待ち時間（秒）")]
-        [Min(0f)]
-        public float intervalAfterWave = 2f;
-    }
-
     [Header("出現位置設定（グローバル）")]
     [Tooltip("出現最小距離")]
     [SerializeField] private float spawnMinRange = 5f;
@@ -41,12 +18,6 @@ public class EnemyManager : MonoBehaviour
     [Header("敵パラメータ参照")]
     [Tooltip("敵のHP/ダメージを参照するデータベース")]
     [SerializeField] private EnemyDatabase enemyDatabase;
-    
-    [SerializeField] private WaveConfig[] waves = new WaveConfig[0];
-    [Tooltip("最後のウェーブ後に最初へ戻す")]
-    [SerializeField] private bool loopWaves = true;
-    [Tooltip("開始ウェーブのインデックス")]
-    [SerializeField] private int startWaveIndex = 0;
 
     [Header("出現中心")]
     [Tooltip("優先して使用する対象オブジェクト（未指定時は Mikoshi タグで検索）")]
@@ -65,13 +36,13 @@ public class EnemyManager : MonoBehaviour
             mikoshiObject = GameObject.FindWithTag("Mikoshi");
         }
 
-        if (waveDatabase == null || waveDatabase.allEnemies == null || waveDatabase.allEnemies.Count == 0)
+        if (waveDatabase == null || waveDatabase.waves == null || waveDatabase.waves.Length == 0)
         {
             Debug.LogWarning("EnemyManager: WaveDatabase が未設定または敵が0です。生成は行われません。", this);
             return;
         }
 
-        if (waves == null || waves.Length == 0)
+        if (waveDatabase.waves == null || waveDatabase.waves.Length == 0)
         {
             Debug.LogWarning("EnemyManager: waves 配列が空です。生成は行われません。", this);
             return;
@@ -94,11 +65,11 @@ public class EnemyManager : MonoBehaviour
 
     private IEnumerator SpawnLoop()
     {
-        int waveIndex = Mathf.Clamp(startWaveIndex, 0, waves.Length - 1);
+        int waveIndex = Mathf.Clamp(waveDatabase.startWaveIndex, 0, waveDatabase.waves.Length - 1);
 
         do
         {
-            var wave = waves[waveIndex];
+            var wave = waveDatabase.waves[waveIndex];
             Vector3 spawnCenter = GetSpawnCenter();
 
             // ウェーブ開始前インターバル（各ウェーブごとに設定可能）
@@ -118,7 +89,7 @@ public class EnemyManager : MonoBehaviour
             {
                 for (int i = 0; i < count; i++)
                 {
-                    var enemy = PickEnemyByWeight();
+                    var enemy = PickEnemyByWeight(waveIndex);
                     if (enemy != null && enemy.prefab != null)
                     {
                         Vector3 pos = CalculateSpawnPosition(spawnCenter);
@@ -151,9 +122,9 @@ public class EnemyManager : MonoBehaviour
             yield return new WaitForSeconds(Mathf.Max(0f, wave.intervalAfterWave));
 
             waveIndex++;
-            if (waveIndex >= waves.Length)
+            if (waveIndex >= waveDatabase.waves.Length)
             {
-                if (loopWaves) waveIndex = 0;
+                if (waveDatabase.loopWaves) waveIndex = 0;
                 else break;
             }
         } while (true);
@@ -162,32 +133,32 @@ public class EnemyManager : MonoBehaviour
     }
 
     // weight（整数）に基づく敵の抽選（WaveDatabase から）
-    private WaveData PickEnemyByWeight()
+    private EnemyEntry PickEnemyByWeight(int waveIndex)
     {
-        if (waveDatabase == null || waveDatabase.allEnemies == null || waveDatabase.allEnemies.Count == 0)
+        if (waveDatabase == null || waveDatabase.waves == null || waveDatabase.waves.Length == 0)
             return null;
 
         int totalWeight = 0;
-        foreach (var e in waveDatabase.allEnemies)
+        foreach (var e in waveDatabase.waves[waveIndex].enemyEntries)
             totalWeight += (e != null) ? Mathf.Max(0, e.weight) : 0;
 
         if (totalWeight <= 0)
         {
             // 全て 0 の場合は均等選択
-            int idx = Random.Range(0, waveDatabase.allEnemies.Count);
-            return waveDatabase.allEnemies[idx];
+            int idx = Random.Range(0, waveDatabase.waves[waveIndex].enemyEntries.Count);
+            return waveDatabase.waves[waveIndex].enemyEntries[idx];
         }
 
         int r = Random.Range(0, totalWeight);
         int acc = 0;
-        foreach (var e in waveDatabase.allEnemies)
+        foreach (var e in waveDatabase.waves[waveIndex].enemyEntries)
         {
             if (e == null) continue;
             acc += Mathf.Max(0, e.weight);
             if (r < acc) return e;
         }
 
-        return waveDatabase.allEnemies[waveDatabase.allEnemies.Count - 1];
+        return waveDatabase.waves[0].enemyEntries[waveDatabase.waves[0].enemyEntries.Count - 1];
     }
 
     private Vector3 GetSpawnCenter()
@@ -223,11 +194,11 @@ public class EnemyManager : MonoBehaviour
     private void OnValidate()
     {
         // ウェーブ設定を検証
-        if (waves != null)
+        if (waveDatabase != null && waveDatabase.waves != null)
         {
-            for (int i = 0; i < waves.Length; i++)
+            for (int i = 0; i < waveDatabase.waves.Length; i++)
             {
-                var w = waves[i];
+                var w = waveDatabase.waves[i];
                 if (w == null) continue;
                 w.enemyCount = Mathf.Max(0, w.enemyCount);
                 w.waveDuration = Mathf.Max(0f, w.waveDuration);

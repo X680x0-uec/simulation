@@ -176,10 +176,11 @@ MonoBehaviour:
   recoilTime: 0.5
   knockbackPower: 10
   destroyXPosition: 5
-  range: 3
-  firstRange: 2
+  range: 7
+  firstRange: 5
   attackInterval: 1
   enemyPrefab: {fileID: 7001208399576536039, guid: 8bac8ed18c2e00142b355eae0a8152da, type: 3}
+  enemyManager: {fileID: 0}
 --- !u!95 &8780044178628912161
 Animator:
   serializedVersion: 7
@@ -223,7 +224,8 @@ MonoBehaviour:
   recoilTime: 0.5
   knockbackPower: 30
   destroyXPosition: 5
-  range: 3
-  firstRange: 2
+  range: 10
+  firstRange: 5
   attackInterval: 1
   enemyPrefab: {fileID: 7001208399576536039, guid: 8bac8ed18c2e00142b355eae0a8152da, type: 3}
+  enemyManager: {fileID: 0}

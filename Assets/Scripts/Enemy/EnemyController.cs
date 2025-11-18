@@ -115,7 +115,11 @@ public abstract class EnemyController : MonoBehaviour
             {
                 SoundManager.instance.PlayMikoshiAttacked();
             }
-
+            // ノックバック
+            StartCoroutine(Knockback());
+        }
+        else if (other.CompareTag("Ally"))
+        {
             // ノックバック
             StartCoroutine(Knockback());
         }
