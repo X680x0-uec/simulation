@@ -16,10 +16,16 @@ public class RangedEnemyController : EnemyController
     [SerializeField] private float attackInterval = 1f; //攻撃間隔
 
     [SerializeField] private GameObject enemyPrefab; //弾丸
+    [SerializeField] private EnemyManager enemyManager;
 
     protected override void Awake()
     {
         base.Awake();
+
+        if (enemyManager == null)
+        {
+            enemyManager = FindFirstObjectByType<EnemyManager>();
+        }
 
         // オブジェクトの色を青に変更(追尾モード)
         GetComponent<Renderer>().material.color = Color.blue;
@@ -52,10 +58,6 @@ public class RangedEnemyController : EnemyController
 
         distanceToMikoshi = Vector2.Distance(currentPosition, target.transform.position);
     }
-    void SpawnEnemy()
-    {
-        Instantiate(enemyPrefab, currentPosition, Quaternion.identity);
-    }
 
     protected override void ExecuteAI()
     {
@@ -67,7 +69,7 @@ public class RangedEnemyController : EnemyController
         {
             if (Time.time - spawnTimer >= attackInterval)
             {
-                SpawnEnemy();
+                enemyManager.SpawnBullet(enemyPrefab, currentPosition, gameObject, mikoshiObject.transform.position);
                 spawnTimer = Time.time;
             }
         }
