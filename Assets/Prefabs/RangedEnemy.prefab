@@ -122,7 +122,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -168,12 +168,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
+  attackDamage: 0
   speed: 6
   mikoshiObject: {fileID: 0}
   allys_list: []
   giveUpTime: 1
   recoilTime: 0.5
-  knockbackPower: 30
+  knockbackPower: 10
   destroyXPosition: 5
   range: 3
   firstRange: 2
@@ -214,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
+  attackDamage: 0
   speed: 6
   mikoshiObject: {fileID: 0}
   allys_list: []

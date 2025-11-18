@@ -12,6 +12,7 @@ public class AllyUnit : MonoBehaviour
     public int CurrentHP { get; private set; }
     private int typeIndex = -1; // 0=Attacker,1=Defencer,2=Archer
     // Reference back to the manager that spawned this unit (set by AllyManager)
+    private float kbPower = 1.0f;
     public AllyManager OwnerManager { get; set; }
 
     private void Awake()
@@ -19,14 +20,27 @@ public class AllyUnit : MonoBehaviour
         CurrentHP = maxHP;
     }
 
-    /// <summary>
-    /// Initialize sets max hp and type index. Call this after instantiating a prefab.
-    /// </summary>
-    public void Initialize(int hp, int type)
+	void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.gameObject.tag == "Enemy")
+        {
+            EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+            if (enemy != null)
+            {
+                TakeDamage(enemy.attackDamage, collision.transform.position);
+            }
+        }
+	}
+
+	/// <summary>
+	/// Initialize sets max hp and type index. Call this after instantiating a prefab.
+	/// </summary>
+	public void Initialize(int hp, int type, float knockbackPower)
     {
         maxHP = hp;
         CurrentHP = maxHP;
         typeIndex = type;
+        kbPower = knockbackPower;
     }
 
     public void TakeDamage(int damage)
@@ -47,7 +61,6 @@ public class AllyUnit : MonoBehaviour
         if (rb != null)
         {
             Vector2 backDir = ((Vector2)(transform.position - attackerPosition)).normalized;
-            float kbPower = 1.0f; // 固定値（必要なら Inspector で調整できるように later）
             rb.AddForce(backDir * kbPower, ForceMode2D.Impulse);
         }
     }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3059788053306692203}
   - component: {fileID: -7660927239157966865}
   - component: {fileID: -2039345470470657732}
+  - component: {fileID: 2902109216883413183}
   m_Layer: 0
   m_Name: AttackerAlly
   m_TagString: Ally
@@ -183,3 +184,25 @@ MonoBehaviour:
   moveThreshold: 0.5
   followDistance: 4
   moveIntervalTime: 2.5
+--- !u!95 &2902109216883413183
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6968254768228882653}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e3572d3d38a518b4a867aa6f1bcb6779, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

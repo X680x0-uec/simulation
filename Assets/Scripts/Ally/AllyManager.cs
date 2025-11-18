@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class AllyManager : MonoBehaviour
 {
     public AllyDatabase allyDatabase;
+    [SerializeField] private float knockbackPower = 1.0f;
     [SerializeField] private Transform spawnPoint;
     // 味方ユニットの出現数を記録する配列
     static public int[] NumSpawn = {0, 0, 0};
@@ -49,8 +50,6 @@ public class AllyManager : MonoBehaviour
 
     void Update()
     {
-        spawnPosition = spawnPoint.position;
-
         // Debug damage: press P to apply configured damage to allies in spawn order
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -69,14 +68,14 @@ public class AllyManager : MonoBehaviour
                 int cost = ally.cost;
                 if (CostManager.Instance.TrySpend(cost))
                 {
-                    var go = Instantiate(ally.prefab, spawnPosition, Quaternion.identity);
+                    var go = Instantiate(ally.prefab, spawnPoint.position, Quaternion.identity);
                     Debug.Log(ally.name + " Spawned (paid)");
                     NumSpawn[0] = NumSpawn[0] + 1;
                     // Ensure the spawned object has an AllyUnit and initialize HP/type
                     var unit = go.GetComponent<AllyUnit>();
                     if (unit == null) unit = go.AddComponent<AllyUnit>();
                     int hp = ally.health;
-                    unit.Initialize(hp, 0);
+                    unit.Initialize(hp, 0, knockbackPower);
                     unit.OwnerManager = this;
                     spawnedAllies.Add(unit);
                 }
@@ -87,13 +86,13 @@ public class AllyManager : MonoBehaviour
             }
             else
             {
-                var inst = Instantiate(ally.prefab, spawnPosition, Quaternion.identity);
+                var inst = Instantiate(ally.prefab, spawnPoint.position, Quaternion.identity);
                 NumSpawn[0] = NumSpawn[0] + 1;
                 // Initialize HP
                 var unit = inst.GetComponent<AllyUnit>();
                 if (unit == null) unit = inst.AddComponent<AllyUnit>();
                 int hp = ally.health;
-                unit.Initialize(hp, 0);
+                unit.Initialize(hp, 0, knockbackPower);
                 unit.OwnerManager = this;
                 spawnedAllies.Add(unit);
                 Debug.Log(ally.name + " Spawned (no CostManager)");
