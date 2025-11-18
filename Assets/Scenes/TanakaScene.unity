@@ -2868,6 +2868,10 @@ PrefabInstance:
       value: Mikoshi
       objectReference: {fileID: 0}
     - target: {fileID: 6142497468939432842, guid: 197b34ff13c38fe46bb42616ab1d412e, type: 3}
+      propertyPath: maxHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6142497468939432842, guid: 197b34ff13c38fe46bb42616ab1d412e, type: 3}
       propertyPath: lineRenderer
       value: 
       objectReference: {fileID: 1000121743}
