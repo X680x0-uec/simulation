@@ -1599,6 +1599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allyDatabase: {fileID: 11400000, guid: f64edc053caa77342829a95265e6f2d8, type: 2}
+  knockbackPower: 10
   spawnPoint: {fileID: 992122541}
   debugDamageOnP: 10
   allyIconManager: {fileID: 1519278527}
