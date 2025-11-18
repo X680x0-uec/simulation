@@ -217,12 +217,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  maxSpeed: 5
+  maxSpeed: 3
   minForceDistance: 0.1
   maxForceDistance: 1
   lineRenderer: {fileID: 0}
   reachThreshold: 0.1
-  maxHP: 1000
+  maxHP: 1111
 --- !u!1 &5782566917846796926
 GameObject:
   m_ObjectHideFlags: 0
