@@ -50,8 +50,6 @@ public class AllyManager : MonoBehaviour
 
     void Update()
     {
-        spawnPosition = spawnPoint.position;
-
         // Debug damage: press P to apply configured damage to allies in spawn order
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -70,7 +68,7 @@ public class AllyManager : MonoBehaviour
                 int cost = ally.cost;
                 if (CostManager.Instance.TrySpend(cost))
                 {
-                    var go = Instantiate(ally.prefab, spawnPosition, Quaternion.identity);
+                    var go = Instantiate(ally.prefab, spawnPoint.position, Quaternion.identity);
                     Debug.Log(ally.name + " Spawned (paid)");
                     NumSpawn[0] = NumSpawn[0] + 1;
                     // Ensure the spawned object has an AllyUnit and initialize HP/type
@@ -88,7 +86,7 @@ public class AllyManager : MonoBehaviour
             }
             else
             {
-                var inst = Instantiate(ally.prefab, spawnPosition, Quaternion.identity);
+                var inst = Instantiate(ally.prefab, spawnPoint.position, Quaternion.identity);
                 NumSpawn[0] = NumSpawn[0] + 1;
                 // Initialize HP
                 var unit = inst.GetComponent<AllyUnit>();
