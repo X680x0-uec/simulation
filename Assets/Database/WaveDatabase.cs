@@ -45,7 +45,7 @@ public class WaveConfig
     public List<EnemyEntry> enemyEntries = new List<EnemyEntry>();
 
 #if UNITY_EDITOR
-    public void OnValidate()
+    public void CalculateRatio()
     {
         // 敵の重みから表示用確率を計算
         if (enemyEntries != null && enemyEntries.Count > 0)
@@ -104,7 +104,7 @@ public class WaveDatabase : ScriptableObject
             {
                 if (waves[i] != null)
                 {
-                    waves[i].OnValidate();
+                    waves[i].CalculateRatio();
                 }
             }
         }
