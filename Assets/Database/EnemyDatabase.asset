@@ -24,4 +24,4 @@ MonoBehaviour:
   - name: RangedEnemy
     prefab: {fileID: 1957592607741172030, guid: 514d1b24cca4a1646a62302297de4c40, type: 3}
     health: 100
-    damage: 0
+    damage: 5
