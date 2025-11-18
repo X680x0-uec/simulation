@@ -1,32 +1,52 @@
 using System;
 using System.Collections;
-using UnityEditor.Callbacks;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement; // 追加
 
 public class MikoshiControllerImada : MonoBehaviour
 {
+
+    // --- 外部から呼び出すダメージ処理 ---
+    /// <summary>
+    /// Mikoshi にダメージを与える（外部から呼び出すための API）。
+    /// attackerPosition を渡すと簡易ノックバックを行います。
+    /// </summary>
+    public void TakeDamage(int damage, Vector3 attackerPosition)
+    {
+        currentHP -= damage;
+        Debug.Log($"Mikoshi took {damage} damage. Remaining HP: {currentHP}");
+        if (currentHP <= 0)
+        {
+            currentHP = 0;
+            isMoving = false;
+            Debug.Log("Mikoshi destroyed - Loading GameOverScene");
+            
+            // Time.timeScale をリセットしてからシーン遷移
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("GameOverScene");
+        }
+    }
     [SerializeField] private float speed = 2f;
+    [SerializeField] private float maxSpeed = 5f;
+    [SerializeField] private float minForceDistance = 0.1f;
+    [SerializeField] private float maxForceDistance = 1f;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float reachThreshold = 0.1f;
     [SerializeField] private int maxHP = 100;
 
     private int currentHP;
 
+    public int CurrentHP => currentHP;
+    public int MaxHP => maxHP;
+
     private int currentIndex;
     private bool isMoving = true;
 
     public static event Action OnMikoshiReachedGoal;
 
-    // 終点に到達したかどうかのフラグ
     public bool hasReachedEnd { get; private set; } = false;
 
     private Rigidbody2D rb;
-    private bool usedSpecial = false; // 必殺技を使ったかどうか（1度きり）
-    [Header("Special / HitStop")]
-    [SerializeField] private bool enableHitStop = true;
-    [SerializeField] private float hitStopDuration = 0.15f; // 秒（real time）
-    [SerializeField] [Range(0.0f, 1.0f)] private float hitStopTimeScale = 0.02f; // 小さくするほど止まって見える
 
     void Start()
     {
@@ -37,66 +57,77 @@ public class MikoshiControllerImada : MonoBehaviour
 
     void Update()
     {
-        // スペースキーで必殺技（画面全体の敵を一掃）
-        if (!usedSpecial && Input.GetKeyDown(KeyCode.Space))
-        {
-            const int specialCost = 30;
-            if (CostManager.Instance != null)
-            {
-                if (CostManager.Instance.TrySpend(specialCost))
-                {
-                    usedSpecial = true;
-                    // ヒットストップ演出を挟んでから敵を消す
-                    if (enableHitStop)
-                    {
-                        StartCoroutine(PerformHitStopAndClear());
-                    }
-                    else
-                    {
-                        ClearAllEnemies();
-                    }
-                    Debug.Log("Mikoshi special used: Cleared all enemies (or will clear after hit-stop).");
-                }
-                else
-                {
-                    Debug.Log("Not enough points for Mikoshi special.");
-                }
-            }
-            else
-            {
-                // CostManagerが無い場合は動作させない
-                Debug.LogWarning("CostManager not found - cannot use special");
-            }
-        }
-
         if (isMoving)
         {
             Vector2 targetPosition = GetTargetPosition();
             Vector2 direction = targetPosition - (Vector2)transform.position;
-            rb.AddForce(direction * speed);
-            // Debug.Log("神輿が移動中");
-        }
 
+            float distance = direction.magnitude;
+            if (distance > reachThreshold)
+            {
+                Vector2 dir = direction.normalized;
+                float forceScale = Mathf.Clamp(distance, minForceDistance, maxForceDistance);
+                float force = speed * Mathf.Min(forceScale, 1f);
+                rb.AddForce(dir * force);
+            }
+            else
+            {
+                if (rb != null) rb.linearVelocity = Vector2.zero;
+            }
+
+            // 速度制限
+            if (rb != null && rb.linearVelocity.magnitude > maxSpeed)
+            {
+                rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+            }
+        }
+    }
+
+    // 新しいラインを設定するメソッド
+    public void SetLineRenderer(LineRenderer newLine)
+    {
+        if (newLine != null)
+        {
+            lineRenderer = newLine;
+            Debug.Log($"新しいラインが設定されました: {newLine.name}");
+        }
+        else
+        {
+            Debug.LogError("SetLineRenderer: 無効な LineRenderer が渡されました");
+        }
     }
 
     public void BeginMove()
     {
         currentIndex = 0;
         isMoving = true;
-        hasReachedEnd = false; // ← リセット
-        transform.position = lineRenderer.GetPosition(currentIndex) + lineRenderer.transform.position;
+        hasReachedEnd = false;
+
+        if (lineRenderer != null)
+        {
+            transform.position = lineRenderer.GetPosition(currentIndex) + lineRenderer.transform.position;
+        }
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
     private Vector2 GetTargetPosition()
     {
+        if (lineRenderer == null)
+            return transform.position;
+
         int nextIndex = currentIndex + 1;
 
         if (lineRenderer.positionCount <= nextIndex)
         {
             isMoving = false;
-            hasReachedEnd = true;  // ← 終点に到達したらフラグON
+            hasReachedEnd = true;
             Debug.Log("神輿がゴールしました");
 
+            if (rb != null) rb.linearVelocity = Vector2.zero;
             Time.timeScale = 0f;
             OnMikoshiReachedGoal?.Invoke();
             
@@ -110,39 +141,5 @@ public class MikoshiControllerImada : MonoBehaviour
             return GetTargetPosition();
         }
         return targetPosition;
-    }
-
-    private void ClearAllEnemies()
-    {
-        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        int count = 0;
-        foreach (var e in enemies)
-        {
-            Destroy(e);
-            count++;
-        }
-        Debug.Log($"ClearAllEnemies: destroyed {count} enemies.");
-    }
-
-    private IEnumerator PerformHitStopAndClear()
-    {
-        // 現在の timeScale / fixedDeltaTime を保存
-        float prevTimeScale = Time.timeScale;
-        float prevFixedDelta = Time.fixedDeltaTime;
-
-        // timeScale を落とす（ほぼ停止）
-        Time.timeScale = Mathf.Clamp(hitStopTimeScale, 0.0001f, 1f);
-        Time.fixedDeltaTime = prevFixedDelta * Time.timeScale;
-
-        // 実時間で待つ
-        yield return new WaitForSecondsRealtime(hitStopDuration);
-
-        // 復帰
-        Time.timeScale = prevTimeScale;
-        Time.fixedDeltaTime = prevFixedDelta;
-
-        // 時間が戻ったら敵を消す
-        ClearAllEnemies();
-        Debug.Log("PerformHitStopAndClear: hit-stop finished and enemies cleared.");
     }
 }

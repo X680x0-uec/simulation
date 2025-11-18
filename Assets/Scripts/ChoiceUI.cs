@@ -7,10 +7,11 @@ public class ChoiceUI : MonoBehaviour
 {
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private Transform buttonParent;
+    [SerializeField] private float buttonTextSize = 36f;
+    [SerializeField] private Vector2 buttonSize = new Vector2(200f, 80f);
 
     private Action<int> onChoiceCallback;
 
-    // 新しい版：string配列と選択時のコールバックを受け取る
     public void ShowChoices(string[] options, Action<int> callback)
     {
         onChoiceCallback = callback;
@@ -20,16 +21,28 @@ public class ChoiceUI : MonoBehaviour
         foreach (Transform child in buttonParent)
             Destroy(child.gameObject);
 
-        // options の数だけボタンを生成
+        // ボタン生成
         for (int i = 0; i < options.Length; i++)
         {
             int choiceIndex = i;
             GameObject btnObj = Instantiate(buttonPrefab, buttonParent);
 
+            // ボタンサイズ設定（LayoutGroupが制御するのでsizeDeltaのみでOK）
+            RectTransform rectTransform = btnObj.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                rectTransform.sizeDelta = buttonSize;
+            }
+
+            // テキスト設定
             TMP_Text text = btnObj.GetComponentInChildren<TMP_Text>();
             if (text != null)
-                text.text = options[i];  // options[i] を使用
+            {
+                text.text = options[i];
+                text.fontSize = buttonTextSize;
+            }
 
+            // クリックイベント
             Button btn = btnObj.GetComponent<Button>();
             if (btn != null)
                 btn.onClick.AddListener(() => OnButtonClicked(choiceIndex));

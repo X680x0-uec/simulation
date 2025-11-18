@@ -130,6 +130,8 @@ GameObject:
   - component: {fileID: 231802179}
   - component: {fileID: 231802178}
   - component: {fileID: 231802177}
+  - component: {fileID: 231802180}
+  - component: {fileID: 231802181}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -198,6 +200,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &231802180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231802176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6796cee7500d2b4282d2321d98bd20a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiAudioSource: {fileID: 0}
+  transitionClip: {fileID: 8300000, guid: 6f4038e54885a7a42995886fb303f27b, type: 3}
+  mikoshiHpText: {fileID: 0}
+--- !u!114 &231802181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231802176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8714aed9799f849b8a3325fb6be5b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionClip: {fileID: 8300000, guid: 6f4038e54885a7a42995886fb303f27b, type: 3}
 --- !u!1 &239548828
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +705,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resultText: {fileID: 1141175622}
+  uiAudioSource: {fileID: 0}
+  transitionClip: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
