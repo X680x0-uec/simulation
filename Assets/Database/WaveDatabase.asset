@@ -12,12 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 352bfaf47c33fa245b96aa43f343b038, type: 3}
   m_Name: WaveDatabase
   m_EditorClassIdentifier: 
-  waves:
-  - waveName: 
-    enemyCount: 0
-    waveDuration: 0
-    intervalBeforeWave: 0
-    intervalAfterWave: 0
-    enemyEntries: []
+  waves: []
   loopWaves: 1
   startWaveIndex: 0
