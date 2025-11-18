@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1489164821193254014}
   - component: {fileID: 2084375047034185705}
   - component: {fileID: 8780044178628912161}
+  - component: {fileID: -321184624468480681}
   m_Layer: 0
   m_Name: RangedEnemy
   m_TagString: Enemy
@@ -161,7 +162,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957592607741172030}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4720cb83c41895548b7a51ee0766460b, type: 3}
   m_Name: 
@@ -169,14 +170,15 @@ MonoBehaviour:
   maxHP: 100
   speed: 6
   mikoshiObject: {fileID: 0}
+  allys_list: []
   giveUpTime: 1
-  range: 3
-  firstRange: 2
   recoilTime: 0.5
   knockbackPower: 30
   destroyXPosition: 5
-  enemyPrefab: {fileID: 7001208399576536039, guid: 8bac8ed18c2e00142b355eae0a8152da, type: 3}
+  range: 3
+  firstRange: 2
   attackInterval: 1
+  enemyPrefab: {fileID: 7001208399576536039, guid: 8bac8ed18c2e00142b355eae0a8152da, type: 3}
 --- !u!95 &8780044178628912161
 Animator:
   serializedVersion: 7
@@ -199,3 +201,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-321184624468480681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957592607741172030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4720cb83c41895548b7a51ee0766460b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  speed: 6
+  mikoshiObject: {fileID: 0}
+  allys_list: []
+  giveUpTime: 2
+  recoilTime: 0.5
+  knockbackPower: 30
+  destroyXPosition: 5
+  range: 3
+  firstRange: 2
+  attackInterval: 1
+  enemyPrefab: {fileID: 7001208399576536039, guid: 8bac8ed18c2e00142b355eae0a8152da, type: 3}
