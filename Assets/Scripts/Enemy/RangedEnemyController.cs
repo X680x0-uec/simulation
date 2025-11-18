@@ -5,15 +5,14 @@ using UnityEngine;
 
 public class RangedEnemyController : EnemyController
 {
+
+    [Header("攻撃設定")]
     [SerializeField] private float range = 1f; // 射程
     [SerializeField] private float firstRange = 0.5f; // 感知距離
 
     private bool attackMode = false;
-
-    [Header("攻撃設定")]
-    private float spawnTimer = 0f;
-        
     [SerializeField] private float attackInterval = 1f; //攻撃間隔
+    private float spawnTimer = 0f;
 
     [SerializeField] private GameObject enemyPrefab; //弾丸
     [SerializeField] private EnemyManager enemyManager;
