@@ -1591,7 +1591,7 @@ MonoBehaviour:
     normalizedProbability: 0
   - name: RangedEnemy
     prefab: {fileID: 1957592607741172030, guid: 514d1b24cca4a1646a62302297de4c40, type: 3}
-    weight: 100
+    weight: 33
     normalizedProbability: 1
   waves:
   - waveName: Wave1
