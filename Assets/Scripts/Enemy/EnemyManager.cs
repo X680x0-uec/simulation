@@ -206,6 +206,18 @@ public class EnemyManager : MonoBehaviour
         return new Vector3(center.x + offset2D.x, center.y + offset2D.y, center.z);
     }
 
+    public void SpawnBullet(GameObject prefab, Vector3 position, GameObject shooter, Vector2 targetPosition)
+    {
+        EnemyData shooterData = enemyDatabase.allEnemies.Find(e => e.prefab.name == shooter.name);
+        Vector2 direction = (targetPosition - (Vector2)position).normalized;
+        Instantiate(prefab, position, Quaternion.identity);
+        BulletController bulletController = prefab.GetComponent<BulletController>();
+        if (bulletController != null && shooterData != null)
+        {
+            bulletController.InitializeFromData(1, shooterData.damage); // 弾丸の体力は1に設定
+        }
+    }
+
 #if UNITY_EDITOR
     private void OnValidate()
     {
