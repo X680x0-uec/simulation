@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: 62a7ffa2fe4806844bf1cba078effdb4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - allyDatabase: {fileID: 11400000, guid: f64edc053caa77342829a95265e6f2d8, type: 2}
+  - spawnPoint: {instanceID: 0}
+  - allyIconManager: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
