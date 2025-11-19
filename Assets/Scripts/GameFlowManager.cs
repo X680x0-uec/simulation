@@ -112,8 +112,8 @@ public class GameFlowManager : MonoBehaviour
 
     private void OnChoiceSelected(int index)
     {
-        if (isTransitioning)
-            return;
+        Debug.Log($"選択されたステージインデックス: {index}");
+        if (isTransitioning) return;
 
         isTransitioning = true;
 

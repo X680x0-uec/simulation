@@ -245,7 +245,6 @@ public class UIScene : MonoBehaviour
             }
         }
     }
-    // UIScene クラス内に追加してください
 
     // TextMeshProUGUI をシーン内（非アクティブ含む）から取得する安全なヘルパー
     private TextMeshProUGUI[] GetAllTMPTexts()
