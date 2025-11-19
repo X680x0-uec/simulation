@@ -59,6 +59,7 @@ public class AllyManager : MonoBehaviour
 
     public void SpawnAlly()
     {
+        if(this == null) return;
         AllyData ally = allyDatabase.allAllies[index];
         if (ally.prefab != null)
         {
