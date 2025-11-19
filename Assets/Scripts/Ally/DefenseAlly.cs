@@ -50,7 +50,7 @@ public class DefenseAllyImada : MonoBehaviour
         totalAllies.Remove(gameObject);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // 半円追従
         FollowMikoshi();

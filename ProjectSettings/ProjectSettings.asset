@@ -879,8 +879,8 @@ PlayerSettings:
   cloudProjectId: c5caa795-6332-4d70-8f0f-ac3680193d95
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  organizationId: taitai3810
   projectName: MikoshiDeffense
+  organizationId: petori
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

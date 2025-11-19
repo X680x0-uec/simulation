@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 1
   attackDamage: 5
-  speed: 2
+  speed: 10
   mikoshiObject: {fileID: 0}
   allys_list: []
   giveUpTime: 2

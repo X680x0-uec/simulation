@@ -44,7 +44,7 @@ public class AttackerAlly : MonoBehaviour
         mikoshi = GameObject.FindWithTag("Mikoshi").transform;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // ★追加: 毎フレーム向きを更新
         UpdateFacingDirection();
