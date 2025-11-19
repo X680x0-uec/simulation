@@ -35,7 +35,7 @@ public class MikoshiControllerImada : MonoBehaviour
         BeginMove();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (isMoving)
         {
@@ -49,10 +49,6 @@ public class MikoshiControllerImada : MonoBehaviour
                 float forceScale = Mathf.Clamp(distance, minForceDistance, maxForceDistance);
                 float force = speed * Mathf.Min(forceScale, 1f);
                 rb.AddForce(dir * force);
-            }
-            else
-            {
-                if (rb != null) rb.linearVelocity = Vector2.zero;
             }
 
             // 速度制限

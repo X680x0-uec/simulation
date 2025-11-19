@@ -848,7 +848,13 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Build: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -870,11 +876,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: bee2d064-7c0b-4cf5-8187-dc43cb25b504
+  cloudProjectId: c5caa795-6332-4d70-8f0f-ac3680193d95
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 2025 simulation x68
-  organizationId: taitai3810
+  projectName: MikoshiDeffense
+  organizationId: petori
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

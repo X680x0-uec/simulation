@@ -57,7 +57,7 @@ public abstract class EnemyController : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (mikoshiObject != null && canMove)
         {

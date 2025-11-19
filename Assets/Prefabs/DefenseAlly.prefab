@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mikoshi: {fileID: 0}
   radius: 2
-  moveSpeed: 15
+  moveSpeed: 40
   moveThreshold: 0.1
   attackRange: 1.5
   attackRangeIndicator: {fileID: 5943508509082681126}

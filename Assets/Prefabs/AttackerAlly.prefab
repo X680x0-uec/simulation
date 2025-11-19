@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c257ddbe1df766945968ae0e0c68f97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 40
   attackPower: 50
   sightRange: 3
   isFrontDefense: 1

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
 
-
 public class AllyIconManager : MonoBehaviour
 {
     [SerializeField] private AllyManager allyManager;
@@ -12,18 +11,17 @@ public class AllyIconManager : MonoBehaviour
     private Image[] AllyIconImages;
     private TextMeshProUGUI[] AllyIconTexts;
 
-    // --- 修正箇所
     [Header("アイコンのサイズ設定")]
     [SerializeField] private Vector2 defaultSize = new Vector2(100f, 100f);
     [SerializeField] private Vector2 centerSize = new Vector2(150f, 150f);
-
-    [Header("アイコンの間隔設定")]
+    [Header("�A�C�R���̊Ԋu�ݒ�")]
     [SerializeField] private float iconSpacing = 120f;
 
+
+    // ���ǉ�: �I�𒆂Ɣ�I�𒆂̐F�ݒ�
     [Header("色の設定")]
-    [SerializeField] private Color selectedColor = Color.white; // 選択中のアイコンの色
-    [SerializeField] private Color unselectedColor = new Color(0.5f, 0.5f, 0.5f, 1f); // 未選択（グレー）
-    // ---------------------------------------------------
+    [SerializeField] private Color selectedColor = Color.white; // �I�𒆁i�^���������̐F�j
+    [SerializeField] private Color unselectedColor = new Color(0.5f, 0.5f, 0.5f, 1f); // ��I���i�O���[�j
 
     void OnEnable()
     {
