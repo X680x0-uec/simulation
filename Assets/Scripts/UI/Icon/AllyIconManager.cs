@@ -11,19 +11,12 @@ public class AllyIconManager : MonoBehaviour
     private Image[] AllyIconImages;
     private TextMeshProUGUI[] AllyIconTexts;
 
-    [Header("�A�C�R���̃T�C�Y�ݒ�")]
+    [Header("アイコンのサイズ設定")]
     [SerializeField] private Vector2 defaultSize = new Vector2(100f, 100f);
     [SerializeField] private Vector2 centerSize = new Vector2(150f, 150f);
     [Header("�A�C�R���̊Ԋu�ݒ�")]
     [SerializeField] private float iconSpacing = 120f;
 
-    // ���ǉ�: �I�𒆂Ɣ�I�𒆂̐F�ݒ�
-    [Header("�F�̐ݒ�")]
-    [Header("アイコンのサイズ設定")]
-    [SerializeField] private Vector2 defaultSize = new Vector2(100f, 100f);
-    [SerializeField] private Vector2 centerSize = new Vector2(150f, 150f);
-    [Header("アイコンの間隔設定")]
-    [SerializeField] private float iconSpacing = 120f;
 
     // ���ǉ�: �I�𒆂Ɣ�I�𒆂̐F�ݒ�
     [Header("色の設定")]
