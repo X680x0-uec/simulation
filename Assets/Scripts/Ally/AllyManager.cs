@@ -65,12 +65,12 @@ public class AllyManager : MonoBehaviour
                 {
                     var go = Instantiate(ally.prefab, spawnPoint.position, Quaternion.identity);
                     Debug.Log(ally.name + " Spawned (paid)");
-                    NumSpawn[0] = NumSpawn[0] + 1;
+                    NumSpawn[index] = NumSpawn[index] + 1;
                     // Ensure the spawned object has an AllyUnit and initialize HP/type
                     var unit = go.GetComponent<AllyUnit>();
                     if (unit == null) unit = go.AddComponent<AllyUnit>();
                     int hp = ally.health;
-                    unit.Initialize(hp, 0, knockbackPower);
+                    unit.Initialize(hp, index, knockbackPower);
                     unit.OwnerManager = this;
                     spawnedAllies.Add(unit);
                 }
@@ -82,12 +82,12 @@ public class AllyManager : MonoBehaviour
             else
             {
                 var inst = Instantiate(ally.prefab, spawnPoint.position, Quaternion.identity);
-                NumSpawn[0] = NumSpawn[0] + 1;
+                NumSpawn[index] = NumSpawn[index] + 1;
                 // Initialize HP
                 var unit = inst.GetComponent<AllyUnit>();
                 if (unit == null) unit = inst.AddComponent<AllyUnit>();
                 int hp = ally.health;
-                unit.Initialize(hp, 0, knockbackPower);
+                unit.Initialize(hp, index, knockbackPower);
                 unit.OwnerManager = this;
                 spawnedAllies.Add(unit);
                 Debug.Log(ally.name + " Spawned (no CostManager)");
