@@ -178,7 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allyArrowPrefab: {fileID: 1356009557014254736, guid: 179b44dbf4875f84ab9ce33860fead15, type: 3}
   attackInterval: 1
-  speed: 2
+  speed: 1.6
   attackPower: 10
   sightRange: 8
   isFrontDefense: 0
