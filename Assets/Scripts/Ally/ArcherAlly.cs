@@ -93,7 +93,7 @@ public class ArcherAlly : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // ★追加: 向きの制御（常に移動方向や敵の方を向く）
         UpdateFacingDirection();
