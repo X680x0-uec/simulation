@@ -28,32 +28,26 @@ public class AllyManager : MonoBehaviour
         rightShift = InputSystem.actions.FindAction("Right");
         leftShift = InputSystem.actions.FindAction("Left");
         index = 0;
-        rightShift.performed += ctx =>
-        {
-            index = (index + 1) % allyDatabase.allAllies.Count;
-            // Debug.Log("Selected Ally Index: " + index);
-            allyIconManager.SwitchIcon(index, allyDatabase);
-        };
-
-        leftShift.performed += ctx =>
-        {
-            index = (index + allyDatabase.allAllies.Count - 1) % allyDatabase.allAllies.Count;
-            // Debug.Log("Selected Ally Index: " + index);
-            allyIconManager.SwitchIcon(index, allyDatabase);
-        };
-        spawnAction.performed += ctx => SpawnAlly();
-
-        spawnAction.Enable();
-        rightShift.Enable();
-        leftShift.Enable();
-	}
-
+    }
+    
     void Update()
     {
         // Debug damage: press P to apply configured damage to allies in spawn order
         if (Input.GetKeyDown(KeyCode.P))
         {
             ApplyDebugDamageToAllies(debugDamageOnP);
+        }
+        if (rightShift.WasPerformedThisFrame())
+        {
+            RightShift();
+        }
+        if (leftShift.WasPerformedThisFrame())
+        {
+            LeftShift();
+        }
+        if (spawnAction.WasPerformedThisFrame())
+        {
+            SpawnAlly();
         }
     }
 
@@ -99,6 +93,19 @@ public class AllyManager : MonoBehaviour
                 Debug.Log(ally.name + " Spawned (no CostManager)");
             }
         }
+    }
+
+    private void RightShift()
+	{
+        index = (index + 1) % allyDatabase.allAllies.Count;
+        Debug.Log("Selected Ally Index: " + index);
+        allyIconManager.SwitchIcon(index, allyDatabase);
+	}
+    private void LeftShift()
+    {
+        index = (index + allyDatabase.allAllies.Count - 1) % allyDatabase.allAllies.Count;
+        Debug.Log("Selected Ally Index: " + index);
+        allyIconManager.SwitchIcon(index, allyDatabase);
     }
 
     // Called by AllyUnit when it dies to remove from our list

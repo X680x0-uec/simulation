@@ -11,18 +11,18 @@ public class AllyIconManager : MonoBehaviour
     private Image[] AllyIconImages;
     private TextMeshProUGUI[] AllyIconTexts;
 
-    [Header("ƒAƒCƒRƒ“‚ÌƒTƒCƒYİ’è")]
+    [Header("ï¿½Aï¿½Cï¿½Rï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½İ’ï¿½")]
     [SerializeField] private Vector2 defaultSize = new Vector2(100f, 100f);
     [SerializeField] private Vector2 centerSize = new Vector2(150f, 150f);
-    [Header("ƒAƒCƒRƒ“‚ÌŠÔŠuİ’è")]
+    [Header("ï¿½Aï¿½Cï¿½Rï¿½ï¿½ï¿½ÌŠÔŠuï¿½İ’ï¿½")]
     [SerializeField] private float iconSpacing = 120f;
 
-    // š’Ç‰Á: ‘I‘ğ’†‚Æ”ñ‘I‘ğ’†‚ÌFİ’è
-    [Header("F‚Ìİ’è")]
-    [SerializeField] private Color selectedColor = Color.white; // ‘I‘ğ’†i^‚Á”’Œ³‚ÌFj
-    [SerializeField] private Color unselectedColor = new Color(0.5f, 0.5f, 0.5f, 1f); // ”ñ‘I‘ğiƒOƒŒ[j
+    // ï¿½ï¿½ï¿½Ç‰ï¿½: ï¿½Iï¿½ğ’†‚Æ”ï¿½Iï¿½ğ’†‚ÌFï¿½İ’ï¿½
+    [Header("ï¿½Fï¿½Ìİ’ï¿½")]
+    [SerializeField] private Color selectedColor = Color.white; // ï¿½Iï¿½ğ’†iï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌFï¿½j
+    [SerializeField] private Color unselectedColor = new Color(0.5f, 0.5f, 0.5f, 1f); // ï¿½ï¿½Iï¿½ï¿½ï¿½iï¿½Oï¿½ï¿½ï¿½[ï¿½j
 
-    void Awake()
+    void OnEnable()
     {
         AllyIconImages = new Image[3];
         AllyIconTexts = new TextMeshProUGUI[3];
@@ -33,7 +33,7 @@ public class AllyIconManager : MonoBehaviour
             AllyIconTexts[i] = AllyIcons[i].GetComponentInChildren<TextMeshProUGUI>();
             if (AllyIconImages[i] != null) AllyIconImages[i].preserveAspect = true;
         }
-        // š’Ç‰Á: ^‚ñ’†‚ÌƒAƒCƒRƒ“(index 1)‚ğÅ‘O–ÊiƒqƒGƒ‰ƒ‹ƒL[‚ÌÅŒãj‚ÉˆÚ“®‚³‚¹‚é
+        // ï¿½ï¿½ï¿½Ç‰ï¿½: ï¿½^ï¿½ñ’†‚ÌƒAï¿½Cï¿½Rï¿½ï¿½(index 1)ï¿½ï¿½ï¿½Å‘Oï¿½Êiï¿½qï¿½Gï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½ÌÅŒï¿½jï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (AllyIcons.Length > 1 && AllyIcons[1] != null)
         {
             AllyIcons[1].transform.SetAsLastSibling();
@@ -52,14 +52,14 @@ public class AllyIconManager : MonoBehaviour
                 AllyData ally = allyDatabase.allAllies[index];
                 RectTransform rect = AllyIconImages[i].rectTransform;
 
-                // --- 1. ‰æ‘œ‚ÆƒeƒLƒXƒg‚ÌXV ---
+                // --- 1. ï¿½æ‘œï¿½Æƒeï¿½Lï¿½Xï¿½gï¿½ÌXï¿½V ---
                 if (ally.icon != null)
                 {
                     AllyIconImages[i].sprite = ally.icon;
                     AllyIconTexts[i].text = "";
 
-                    // š•ÏX: ‚±‚±‚ÅF‚ğŒˆ‚ß‚é
-                    // i == 1 (^‚ñ’†) ‚È‚çu‘I‘ğFvA‚»‚êˆÈŠO‚Íu”ñ‘I‘ğFv
+                    // ï¿½ï¿½ï¿½ÏX: ï¿½ï¿½ï¿½ï¿½ï¿½ÅFï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
+                    // i == 1 (ï¿½^ï¿½ï¿½) ï¿½È‚ï¿½uï¿½Iï¿½ï¿½Fï¿½vï¿½Aï¿½ï¿½ï¿½ï¿½ÈŠOï¿½Íuï¿½ï¿½Iï¿½ï¿½Fï¿½v
                     if (i == 1)
                     {
                         AllyIconImages[i].color = selectedColor;
@@ -71,24 +71,24 @@ public class AllyIconManager : MonoBehaviour
                 }
                 else
                 {
-                    // ‰æ‘œ‚ª‚È‚¢ê‡‚Í“§–¾‚É‚·‚é
+                    // ï¿½æ‘œï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í“ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
                     AllyIconImages[i].sprite = null;
                     AllyIconTexts[i].text = ally.name;
                     AllyIconImages[i].color = Color.clear;
                 }
 
-                // --- 2. ƒTƒCƒY‚ÆˆÊ’u‚Ì’²® ---
-                if (i == 1) // ^‚ñ’†
+                // --- 2. ï¿½Tï¿½Cï¿½Yï¿½ÆˆÊ’uï¿½Ì’ï¿½ï¿½ï¿½ ---
+                if (i == 1) // ï¿½^ï¿½ï¿½
                 {
                     rect.sizeDelta = centerSize;
                     rect.anchoredPosition = Vector2.zero;
                 }
-                else if (i == 0) // ¶
+                else if (i == 0) // ï¿½ï¿½
                 {
                     rect.sizeDelta = defaultSize;
                     rect.anchoredPosition = new Vector2(-iconSpacing, 0);
                 }
-                else if (i == 2) // ‰E
+                else if (i == 2) // ï¿½E
                 {
                     rect.sizeDelta = defaultSize;
                     rect.anchoredPosition = new Vector2(iconSpacing, 0);
