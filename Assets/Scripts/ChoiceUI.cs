@@ -9,6 +9,7 @@ public class ChoiceUI : MonoBehaviour
     [SerializeField] private Transform buttonParent;
     [SerializeField] private float buttonTextSize = 36f;
     [SerializeField] private Vector2 buttonSize = new Vector2(200f, 80f);
+    [SerializeField] private VirtualMousePositionAdjuster virtualMousePositionAdjuster;
 
     private Action<int> onChoiceCallback;
 
@@ -16,6 +17,7 @@ public class ChoiceUI : MonoBehaviour
     {
         onChoiceCallback = callback;
         gameObject.SetActive(true);
+        virtualMousePositionAdjuster.isActive = true;
 
         // 古いボタンを削除
         foreach (Transform child in buttonParent)
@@ -64,5 +66,6 @@ public class ChoiceUI : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
+        virtualMousePositionAdjuster.isActive = false;
     }
 }
