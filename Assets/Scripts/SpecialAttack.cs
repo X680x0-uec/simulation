@@ -63,6 +63,7 @@ public class SpecialAttack : MonoBehaviour
             count++;
         }
         Debug.Log($"ClearAllEnemies: destroyed {count} enemies.");
+        GameStats.IncrementEnemyKill(count);
     }
 
     private IEnumerator PerformHitStopAndClear()

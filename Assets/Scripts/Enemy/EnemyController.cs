@@ -154,6 +154,7 @@ public abstract class EnemyController : MonoBehaviour
                 SoundManager.instance.PlayEnemyDefeated();
             }
             Destroy(gameObject);
+            GameStats.IncrementEnemyKill();
             return;
         }
 
