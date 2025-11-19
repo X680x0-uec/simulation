@@ -44,11 +44,13 @@ public class ChoiceUI : MonoBehaviour
 
             // クリックイベント
             Button btn = btnObj.GetComponent<Button>();
-            Debug.Log("ボタンは押された。番号は"+ options[i]);
+            // Debug.Log("ボタンは押された。番号は"+ options[i]);
             if (btn != null)
             {
-             Debug.Log($"[ChoiceUI] Setting up button for option: {options[i]}");
-            btn.onClick.AddListener(() => OnButtonClicked(choiceIndex));       
+                Debug.Log($"[ChoiceUI] Setting up button for option: {options[i]}");
+                var clickedEvent = new Button.ButtonClickedEvent();
+                clickedEvent.AddListener(() => OnButtonClicked(choiceIndex));
+                btn.onClick = clickedEvent;
             }
         }
     }

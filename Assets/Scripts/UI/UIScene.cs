@@ -23,23 +23,23 @@ public class UIScene : MonoBehaviour
 
     private static bool hpInitialized = false;
 
-    void Awake()
-    {
-        // シングルトン化して DontDestroyOnLoad（複製を防ぐ）
-        if (Instance != null && Instance != this)
-        {
-            Debug.Log("[UIScene] Duplicate detected, destroying this instance.");
-            Destroy(gameObject);
-            return;
-        }
+    // void Awake()
+    // {
+    //     // シングルトン化して DontDestroyOnLoad（複製を防ぐ）
+    //     if (Instance != null && Instance != this)
+    //     {
+    //         Debug.Log("[UIScene] Duplicate detected, destroying this instance.");
+    //         Destroy(gameObject);
+    //         return;
+    //     }
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-        Debug.Log("[UIScene] Instance set and DontDestroyOnLoad applied");
+    //     Instance = this;
+    //     DontDestroyOnLoad(gameObject);
+    //     Debug.Log("[UIScene] Instance set and DontDestroyOnLoad applied");
 
-        // 起動時に EventSystem の重複がないか整理
-        RemoveDuplicateEventSystems();
-    }
+    //     // 起動時に EventSystem の重複がないか整理
+    //     // RemoveDuplicateEventSystems();
+    // }
 
     private void OnEnable()
     {
@@ -85,12 +85,12 @@ public class UIScene : MonoBehaviour
         UpdateHPVisibility();
 
         // EventSystem の重複は再生中のみ安全に遅延除去
-#if UNITY_EDITOR
-        if (Application.isPlaying)
-            UnityEditor.EditorApplication.delayCall += () => RemoveDuplicateEventSystems();
-#else
-        RemoveDuplicateEventSystems();
-#endif
+// #if UNITY_EDITOR
+//         if (Application.isPlaying)
+//             UnityEditor.EditorApplication.delayCall += () => RemoveDuplicateEventSystems();
+// #else
+//         RemoveDuplicateEventSystems();
+// #endif
 
         if (newScene.name == "TanakaScene")
         {
@@ -101,42 +101,42 @@ public class UIScene : MonoBehaviour
     private void OnSceneUnloaded(Scene unloadedScene)
     {
         Debug.Log($"[UIScene] Scene unloaded: {unloadedScene.name}");
-        RemoveDuplicateEventSystems();
+        // RemoveDuplicateEventSystems();
     }
 
     // EventSystem の重複を検出して 1 つにまとめる
-    private void RemoveDuplicateEventSystems()
-    {
-        // 再生中のみ整理 (エディタ停止時の Destroy で例外を避ける)
-        if (!Application.isPlaying) return;
+//     private void RemoveDuplicateEventSystems()
+//     {
+//         // 再生中のみ整理 (エディタ停止時の Destroy で例外を避ける)
+//         if (!Application.isPlaying) return;
 
-        var systems = GetAllEventSystems();
-        if (systems == null || systems.Length <= 1) return;
+//         var systems = GetAllEventSystems();
+//         if (systems == null || systems.Length <= 1) return;
 
-        Debug.Log($"[UIScene] Found {systems.Length} EventSystems. Cleaning up duplicates.");
+//         Debug.Log($"[UIScene] Found {systems.Length} EventSystems. Cleaning up duplicates.");
 
-        EventSystem keep = EventSystem.current;
-        if (keep == null) keep = systems[0];
+//         EventSystem keep = EventSystem.current;
+//         if (keep == null) keep = systems[0];
 
-        foreach (var s in systems)
-        {
-            if (s == keep) continue;
-            // 選択されているオブジェクトは後で破棄
-#if UNITY_EDITOR
-            if (UnityEditor.Selection.activeGameObject == s.gameObject)
-            {
-                UnityEditor.EditorApplication.delayCall += () =>
-                {
-                    if (s != null) Destroy(s.gameObject);
-                };
-            }
-            else
-#endif
-            {
-                Destroy(s.gameObject);
-            }
-        }
-    }
+//         foreach (var s in systems)
+//         {
+//             if (s == keep) continue;
+//             // 選択されているオブジェクトは後で破棄
+// #if UNITY_EDITOR
+//             if (UnityEditor.Selection.activeGameObject == s.gameObject)
+//             {
+//                 UnityEditor.EditorApplication.delayCall += () =>
+//                 {
+//                     if (s != null) Destroy(s.gameObject);
+//                 };
+//             }
+//             else
+// #endif
+//             {
+//                 Destroy(s.gameObject);
+//             }
+//         }
+//     }
 
 
     // HP 表示管理 --------------------------------------------------------
@@ -268,24 +268,24 @@ public class UIScene : MonoBehaviour
     }
 
     // EventSystem をシーン内（非アクティブ含む）から取得する安全なヘルパー
-    private EventSystem[] GetAllEventSystems()
-    {
-        var all = Resources.FindObjectsOfTypeAll<EventSystem>();
-        if (all == null || all.Length == 0) return new EventSystem[0];
+    // private EventSystem[] GetAllEventSystems()
+    // {
+    //     var all = Resources.FindObjectsOfTypeAll<EventSystem>();
+    //     if (all == null || all.Length == 0) return new EventSystem[0];
 
-        var list = new System.Collections.Generic.List<EventSystem>(all.Length);
-        foreach (var e in all)
-        {
-            if (e == null) continue;
-            var go = e.gameObject;
-            if (go == null) continue;
-            if (go.scene.IsValid() && go.scene.isLoaded)
-            {
-                list.Add(e);
-            }
-        }
-        return list.ToArray();
-    }
+    //     var list = new System.Collections.Generic.List<EventSystem>(all.Length);
+    //     foreach (var e in all)
+    //     {
+    //         if (e == null) continue;
+    //         var go = e.gameObject;
+    //         if (go == null) continue;
+    //         if (go.scene.IsValid() && go.scene.isLoaded)
+    //         {
+    //             list.Add(e);
+    //         }
+    //     }
+    //     return list.ToArray();
+    // }
 
 
 
