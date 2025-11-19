@@ -21,6 +21,8 @@ public class UIScene : MonoBehaviour
     [Header("Mikoshi UI")]
     [SerializeField] private TextMeshProUGUI mikoshiHpText;
 
+    private static bool hpInitialized = false;
+
     void Awake()
     {
         // シングルトン化して DontDestroyOnLoad（複製を防ぐ）
@@ -76,17 +78,20 @@ public class UIScene : MonoBehaviour
     {
         Debug.Log($"[UIScene] Scene changed: {oldScene.name} -> {newScene.name}");
 
-        // シーン変更時に mikoshiInstance と mikoshiHpText をリセット
+        // mikoshiInstance はシーン依存のためクリア
         mikoshiInstance = null;
-        mikoshiHpText = null;
 
-        // HP表示の可視性を更新
+        // HP表示は保持し、再生成しない
         UpdateHPVisibility();
 
-        // EventSystem の重複を再チェック
+        // EventSystem の重複は再生中のみ安全に遅延除去
+#if UNITY_EDITOR
+        if (Application.isPlaying)
+            UnityEditor.EditorApplication.delayCall += () => RemoveDuplicateEventSystems();
+#else
         RemoveDuplicateEventSystems();
+#endif
 
-        // TanakaScene に入ったら念のためリセット
         if (newScene.name == "TanakaScene")
         {
             ResetGameState();
@@ -102,33 +107,34 @@ public class UIScene : MonoBehaviour
     // EventSystem の重複を検出して 1 つにまとめる
     private void RemoveDuplicateEventSystems()
     {
-        EventSystem[] systems = GetAllEventSystems();
+        // 再生中のみ整理 (エディタ停止時の Destroy で例外を避ける)
+        if (!Application.isPlaying) return;
+
+        var systems = GetAllEventSystems();
         if (systems == null || systems.Length <= 1) return;
 
         Debug.Log($"[UIScene] Found {systems.Length} EventSystems. Cleaning up duplicates.");
 
         EventSystem keep = EventSystem.current;
-
-        if (keep == null)
-        {
-            foreach (var s in systems)
-            {
-                if (s.gameObject.transform.IsChildOf(transform))
-                {
-                    keep = s;
-                    break;
-                }
-            }
-        }
-
         if (keep == null) keep = systems[0];
 
         foreach (var s in systems)
         {
             if (s == keep) continue;
-            Debug.Log($"[UIScene] Destroying duplicate EventSystem on GameObject: {s.gameObject.name}");
-            Destroy(s.gameObject);
-            // もし GameObject を残したい場合は Destroy(s) に変更してください
+            // 選択されているオブジェクトは後で破棄
+#if UNITY_EDITOR
+            if (UnityEditor.Selection.activeGameObject == s.gameObject)
+            {
+                UnityEditor.EditorApplication.delayCall += () =>
+                {
+                    if (s != null) Destroy(s.gameObject);
+                };
+            }
+            else
+#endif
+            {
+                Destroy(s.gameObject);
+            }
         }
     }
 
@@ -137,37 +143,81 @@ public class UIScene : MonoBehaviour
 
     private void UpdateHPVisibility()
     {
-        Debug.Log("[UIScene] UpdateHPVisibility called");
+        string currentScene = SceneManager.GetActiveScene().name;
+        bool shouldShow = currentScene == "TanakaScene";
 
-        // シーン内の既存HPテキストを探す
-        FindExistingHPText();
+        EnsureHpCanvasAndText(); // 1回だけ生成
+
+        if (mikoshiHpText != null)
+            mikoshiHpText.gameObject.SetActive(shouldShow);
+
+        Debug.Log($"[UIScene] HP表示: {(shouldShow ? "ON" : "OFF")} (Scene: {currentScene})");
+    }
+
+    private void EnsureHpCanvasAndText()
+    {
+        if (hpInitialized && hpCanvas != null && mikoshiHpText != null) return;
+
+        // 既存の子を検索
+        if (hpCanvas == null)
+        {
+            var child = transform.Find("HP_Canvas_Runtime");
+            if (child != null)
+                hpCanvas = child.GetComponent<Canvas>();
+        }
+
+        if (hpCanvas == null)
+        {
+            var canvasGO = new GameObject("HP_Canvas_Runtime");
+            canvasGO.transform.SetParent(this.transform, false);
+            hpCanvas = canvasGO.AddComponent<Canvas>();
+            hpCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            hpCanvas.sortingOrder = 9999;
+
+            var scaler = canvasGO.AddComponent<UnityEngine.UI.CanvasScaler>();
+            scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920, 1080);
+
+            canvasGO.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+        }
 
         if (mikoshiHpText == null)
         {
-            Debug.Log("[UIScene] mikoshiHpText is null, calling EnsureMikoshiHpTextExists");
-            EnsureMikoshiHpTextExists();
-            if (mikoshiHpText == null)
+            var existing = hpCanvas.GetComponentInChildren<TextMeshProUGUI>(true);
+            if (existing != null && existing.gameObject.name == "MikoshiHpText_Runtime")
             {
-                Debug.LogError("[UIScene] Failed to create mikoshiHpText!");
-                return;
+                mikoshiHpText = existing;
+            }
+            else
+            {
+                var go = new GameObject("MikoshiHpText_Runtime");
+                go.transform.SetParent(hpCanvas.transform, false);
+
+                var tmp = go.AddComponent<TextMeshProUGUI>();
+                tmp.text = "HP: --/--";
+                tmp.fontSize = 48;
+                tmp.color = Color.white;
+                tmp.fontStyle = FontStyles.Bold;
+                tmp.raycastTarget = false;
+                tmp.alignment = TextAlignmentOptions.TopLeft;
+
+                var outline = go.AddComponent<UnityEngine.UI.Outline>();
+                outline.effectColor = Color.black;
+                outline.effectDistance = new Vector2(3, -3);
+
+                var rt = go.GetComponent<RectTransform>();
+                rt.anchorMin = new Vector2(0f, 1f);
+                rt.anchorMax = new Vector2(0f, 1f);
+                rt.pivot = new Vector2(0f, 1f);
+                rt.anchoredPosition = new Vector2(30f, -30f);
+                rt.sizeDelta = new Vector2(500f, 80f);
+
+                mikoshiHpText = tmp;
+                Debug.Log("[UIScene] HPテキスト生成");
             }
         }
 
-        string currentScene = SceneManager.GetActiveScene().name;
-
-        // TanakaScene のみ表示、それ以外は非表示
-        bool shouldShow = (currentScene == "TanakaScene");
-
-        // Canvas を確認してアクティブ化
-        if (hpCanvas != null)
-        {
-            hpCanvas.gameObject.SetActive(shouldShow);
-            Debug.Log($"[UIScene] HP Canvas active: {hpCanvas.gameObject.activeSelf}");
-        }
-
-        mikoshiHpText.gameObject.SetActive(shouldShow);
-
-        Debug.Log($"[UIScene] HP表示: {(shouldShow ? "ON" : "OFF")} (Scene: {currentScene})");
+        hpInitialized = true;
     }
 
     private void FindExistingHPText()
@@ -240,71 +290,75 @@ public class UIScene : MonoBehaviour
 
 
 
-    private void EnsureMikoshiHpTextExists()
-    {
-        Debug.Log("[UIScene] EnsureMikoshiHpTextExists called");
+    // private void EnsureMikoshiHpTextExists()
+    // {
+    //     Debug.Log("[UIScene] EnsureMikoshiHpTextExists called");
 
-        if (mikoshiHpText != null)
-        {
-            Debug.Log("[UIScene] mikoshiHpText already exists");
-            return;
-        }
+    //     if (mikoshiHpText != null)
+    //     {
+    //         Debug.Log("[UIScene] mikoshiHpText already exists");
+    //         return;
+    //     }
 
-        // 既存の HP Canvas を探す（Runtime作成のもの）
-        GameObject existingCanvas = GameObject.Find("HP_Canvas_Runtime");
-        if (existingCanvas != null)
-        {
-            hpCanvas = existingCanvas.GetComponent<Canvas>();
-            mikoshiHpText = existingCanvas.GetComponentInChildren<TextMeshProUGUI>();
-            if (mikoshiHpText != null)
-            {
-                Debug.Log("[UIScene] 既存の HP_Canvas_Runtime を使用");
-                return;
-            }
-        }
+    //     // まず UIScene の子を探す（UIScene 自体が DontDestroyOnLoad なので子も永続化される）
+    //     Transform existingTransform = this.transform.Find("HP_Canvas_Runtime");
+    //     GameObject existingCanvas = (existingTransform != null) ? existingTransform.gameObject : null;
 
-        // HP専用の Canvas を作成
-        Debug.Log("[UIScene] Creating new HP_Canvas_Runtime");
-        var canvasGO = new GameObject("HP_Canvas_Runtime");
-        hpCanvas = canvasGO.AddComponent<Canvas>();
-        hpCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        hpCanvas.sortingOrder = 9999; // 最前面に表示
+    //     if (existingCanvas != null)
+    //     {
+    //         hpCanvas = existingCanvas.GetComponent<Canvas>();
+    //         mikoshiHpText = existingCanvas.GetComponentInChildren<TextMeshProUGUI>();
+    //         if (mikoshiHpText != null)
+    //         {
+    //             Debug.Log("[UIScene] 既存の HP_Canvas_Runtime を使用");
+    //             return;
+    //         }
+    //     }
 
-        var scaler = canvasGO.AddComponent<UnityEngine.UI.CanvasScaler>();
-        scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920, 1080);
+    //     // HP専用の Canvas を作成
+    //     // Debug.Log("[UIScene] Creating new HP_Canvas_Runtime");
+    //     // var canvasGO = new GameObject("HP_Canvas_Runtime");
+    //     // canvasGO.transform.SetParent(this.transform, false); // UIScene の子にする
+    //     // hpCanvas = canvasGO.AddComponent<Canvas>();
+    //     // hpCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+    //     // hpCanvas.sortingOrder = 9999; // 最前面に表示
 
-        canvasGO.AddComponent<UnityEngine.UI.GraphicRaycaster>();
-        DontDestroyOnLoad(canvasGO);
+    //     // var scaler = canvasGO.AddComponent<UnityEngine.UI.CanvasScaler>();
+    //     // scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+    //     // scaler.referenceResolution = new Vector2(1920, 1080);
 
-        // TextMeshProUGUI を作成
-        var go = new GameObject("MikoshiHpText_Runtime");
-        go.transform.SetParent(canvasGO.transform, false);
+    //     // canvasGO.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+    //     // // UIScene 自体が DontDestroyOnLoad なので子にして永続化する（重複は上の検索で防ぐ）
+    //     // // DontDestroyOnLoad(canvasGO);
 
-        var tmp = go.AddComponent<TextMeshProUGUI>();
-        tmp.text = "HP: 100/100";
-        tmp.fontSize = 48;
-        tmp.color = Color.white;
-        tmp.fontStyle = FontStyles.Bold;
-        tmp.raycastTarget = false;
-        tmp.alignment = TextAlignmentOptions.TopLeft;
+    //     // TextMeshProUGUI を作成
+    //     // var go = new GameObject("MikoshiHpText_Runtime");
+    //     // go.transform.SetParent(canvasGO.transform, false);
 
-        // 影をつけて見やすく
-        var outline = go.AddComponent<UnityEngine.UI.Outline>();
-        outline.effectColor = Color.black;
-        outline.effectDistance = new Vector2(3, -3);
+    //     // var tmp = go.AddComponent<TextMeshProUGUI>();
+    //     // tmp.text = "HP: 100/100";
+    //     // tmp.fontSize = 48;
+    //     // tmp.color = Color.white;
+    //     // tmp.fontStyle = FontStyles.Bold;
+    //     // tmp.raycastTarget = false;
+    //     // tmp.alignment = TextAlignmentOptions.TopLeft;
 
-        // RectTransform を画面左上に固定
-        var rt = go.GetComponent<RectTransform>();
-        rt.anchorMin = new Vector2(0f, 1f);
-        rt.anchorMax = new Vector2(0f, 1f);
-        rt.pivot = new Vector2(0f, 1f);
-        rt.anchoredPosition = new Vector2(30f, -30f);
-        rt.sizeDelta = new Vector2(500f, 80f);
+    //     // // 影をつけて見やすく
+    //     // var outline = go.AddComponent<UnityEngine.UI.Outline>();
+    //     // outline.effectColor = Color.black;
+    //     // outline.effectDistance = new Vector2(3, -3);
 
-        mikoshiHpText = tmp;
-        Debug.Log($"[UIScene] HP表示を作成完了 (Position: {rt.anchoredPosition}, Size: {rt.sizeDelta})");
-    }
+    //     // // RectTransform を画面左上に固定
+    //     // var rt = go.GetComponent<RectTransform>();
+    //     // rt.anchorMin = new Vector2(0f, 1f);
+    //     // rt.anchorMax = new Vector2(0f, 1f);
+    //     // rt.pivot = new Vector2(0f, 1f);
+    //     // rt.anchoredPosition = new Vector2(30f, -30f);
+    //     // rt.sizeDelta = new Vector2(500f, 80f);
+
+    //     mikoshiHpText = tmp;
+    //     Debug.Log($"[UIScene] HP表示を作成完了 (Position: {rt.anchoredPosition}, Size: {rt.sizeDelta})");
+    // }
 
     void Start()
     {
@@ -314,10 +368,10 @@ public class UIScene : MonoBehaviour
         FindExistingHPText();
 
         // Inspector に未設定の場合はランタイムで自動生成する
-        if (mikoshiHpText == null)
-        {
-            EnsureMikoshiHpTextExists();
-        }
+        // if (mikoshiHpText == null)
+        // {
+        //     EnsureMikoshiHpTextExists();
+        // }
 
         // 初回の表示状態を設定
         UpdateHPVisibility();
@@ -456,19 +510,20 @@ public class UIScene : MonoBehaviour
                 {
                     uiAudioSource.PlayOneShot(transitionClip);
                 }
-                else
-                {
-                    var tmp = new GameObject("_TempUITransitionSfx");
-                    var src = tmp.AddComponent<AudioSource>();
-                    src.clip = transitionClip;
-                    src.playOnAwake = false;
-                    src.spatialBlend = 0f;
-                    src.loop = false;
-                    src.volume = AudioListener.volume;
-                    DontDestroyOnLoad(tmp);
-                    src.Play();
-                    Destroy(tmp, transitionClip.length + 0.1f);
-                }
+                // else
+                // {
+                //     // 一時 SFX は UIScene の子として生成し、DontDestroyOnLoad を付けずに再利用／自動破棄する
+                //     // var tmp = new GameObject("_TempUITransitionSfx");
+                //     // tmp.transform.SetParent(this.transform, false);
+                //     // var src = tmp.AddComponent<AudioSource>();
+                //     // src.clip = transitionClip;
+                //     // src.playOnAwake = false;
+                //     // src.spatialBlend = 0f;
+                //     // src.loop = false;
+                //     // src.volume = AudioListener.volume;
+                //     // src.Play();
+                //     // Destroy(tmp, transitionClip.length + 0.1f);
+                // }
             }
 
             SceneManager.LoadScene(sceneName);
