@@ -149,7 +149,7 @@ MonoBehaviour:
       prefab: {fileID: 1121158916325124476, guid: 8aabb29fc2aaad447ba666a7775bdfe0, type: 3}
       weight: 0
       normalizedProbability: 0.33333334
-  - waveName: wave8
+  - waveName: wave9
     enemyCount: 7
     waveDuration: 1
     intervalBeforeWave: 5
@@ -167,7 +167,7 @@ MonoBehaviour:
       prefab: {fileID: 1121158916325124476, guid: 8aabb29fc2aaad447ba666a7775bdfe0, type: 3}
       weight: 0
       normalizedProbability: 0.33333334
-  - waveName: wave8
+  - waveName: wave10
     enemyCount: 15
     waveDuration: 1
     intervalBeforeWave: 9
@@ -185,7 +185,7 @@ MonoBehaviour:
       prefab: {fileID: 1121158916325124476, guid: 8aabb29fc2aaad447ba666a7775bdfe0, type: 3}
       weight: 1
       normalizedProbability: 0.083333336
-  - waveName: wave8
+  - waveName: wave11
     enemyCount: 20
     waveDuration: 1
     intervalBeforeWave: 9
@@ -204,4 +204,4 @@ MonoBehaviour:
       weight: 1
       normalizedProbability: 0.083333336
   loopWaves: 1
-  startWaveIndex: 12
+  startWaveIndex: 0

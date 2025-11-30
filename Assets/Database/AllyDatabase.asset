@@ -20,11 +20,11 @@ MonoBehaviour:
     icon: {fileID: 2642226324263434297, guid: b3c6701db0655b14983fadc2b805a656, type: 3}
   - name: Attacker
     prefab: {fileID: 6968254768228882653, guid: ddfcee7e56dc69b41a3a380eafa358d7, type: 3}
-    health: 55
+    health: 60
     cost: 5
     icon: {fileID: -5713155019667976332, guid: a7b7ce72dde96dd4c8ba4a25cf0dd866, type: 3}
   - name: Archer
     prefab: {fileID: 3896097207300228232, guid: ee73ae1c749d3034d9b1f91403d61273, type: 3}
     health: 30
-    cost: 10
+    cost: 7
     icon: {fileID: 8676169745149496314, guid: 6266d558bffb0ce43b7d30ad230cb1f6, type: 3}

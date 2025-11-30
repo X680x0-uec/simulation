@@ -154,8 +154,8 @@ public class ResultControler : MonoBehaviour
         string dLine2 = $"Killed Defencers:{nbsp}{deadB}{nbsp}";
         string dLine3 = $"Killed Archers:{nbsp}{deadC}{nbsp}";
 
-        string sLine1 = $"Spawned Attackers:{nbsp}{spawnA}{nbsp}";
-        string sLine2 = $"Spawned Defencers:{nbsp}{spawnB}{nbsp}";
+        string sLine1 = $"Spawned Attackers:{nbsp}{spawnB}{nbsp}";
+        string sLine2 = $"Spawned Defencers:{nbsp}{spawnA}{nbsp}";
         string sLine3 = $"Spawned Archers:{nbsp}{spawnC}{nbsp}";
 
         string text = string.Join("\n", new[] { kLine, dLine1, dLine2, dLine3, "", sLine1, sLine2, sLine3 });

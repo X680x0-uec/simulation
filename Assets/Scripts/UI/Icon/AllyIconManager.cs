@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ public class AllyIconManager : MonoBehaviour
 {
     [SerializeField] private AllyManager allyManager;
     [SerializeField] private GameObject[] AllyIcons;
+	[SerializeField] private TextMeshProUGUI infoText;
 
     private Image[] AllyIconImages;
     private TextMeshProUGUI[] AllyIconTexts;
@@ -66,6 +68,7 @@ public class AllyIconManager : MonoBehaviour
                     if (i == 1)
                     {
                         AllyIconImages[i].color = selectedColor;
+						infoText.text = ally.name + ":\n" + ally.cost + " points";
                     }
                     else
                     {
