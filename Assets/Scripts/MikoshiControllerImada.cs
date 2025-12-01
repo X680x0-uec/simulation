@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class MikoshiControllerImada : MonoBehaviour
@@ -15,6 +17,8 @@ public class MikoshiControllerImada : MonoBehaviour
 
     [Header("現在の状態")]
     [SerializeField] private int currentHP; // Inspector に表示
+
+	[SerializeField] private FullScreenPassRendererFeature gameOverEffect;
 
     public int CurrentHP => currentHP;
     public int MaxHP => maxHP;
@@ -70,14 +74,8 @@ public class MikoshiControllerImada : MonoBehaviour
         
         if (currentHP <= 0)
         {
-            currentHP = 0;
-            isMoving = false;
-            Debug.Log("Mikoshi destroyed - Loading GameOverScene");
-            
-            // Time.timeScale をリセットしてからシーン遷移
-            Time.timeScale = 1f;
-            SceneManager.LoadScene("GameOverScene");
-        }
+			StartCoroutine(GameOver());
+		}
     }
 
     // 新しいラインを設定するメソッド
@@ -138,5 +136,21 @@ public class MikoshiControllerImada : MonoBehaviour
             return GetTargetPosition();
         }
         return targetPosition;
+    }
+    private IEnumerator GameOver()
+    {
+        currentHP = 0;
+        isMoving = false;
+        Debug.Log("Mikoshi destroyed - Loading GameOverScene");
+        
+        // Time.timeScale をリセットしてからシーン遷移
+        Time.timeScale = 1f;
+        
+		gameOverEffect.SetActive(true);
+		yield return new WaitForSeconds(0.5f); // 少し待つことで、プレイヤーにダメージを受けたことを認識させる
+		gameOverEffect.SetActive(false);
+        SceneManager.LoadScene("GameOverScene");
+        // Ensure this IEnumerator method always yields/returns
+        yield break;
     }
 }

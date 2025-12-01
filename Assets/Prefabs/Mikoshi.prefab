@@ -224,6 +224,7 @@ MonoBehaviour:
   reachThreshold: 0.1
   maxHP: 1111
   currentHP: 0
+  gameOverEffect: {fileID: 7641803417098577264, guid: b92e56072c20539459acd4f071299e7e, type: 2}
 --- !u!1 &5782566917846796926
 GameObject:
   m_ObjectHideFlags: 0

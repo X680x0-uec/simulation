@@ -2924,6 +2924,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4887119325615436771, guid: 197b34ff13c38fe46bb42616ab1d412e, type: 3}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5275119290982696435, guid: 197b34ff13c38fe46bb42616ab1d412e, type: 3}
       propertyPath: m_Name
       value: Mikoshi
