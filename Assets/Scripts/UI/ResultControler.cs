@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using JetBrains.Annotations;
 
 public class ResultControler : MonoBehaviour
 {
@@ -123,7 +124,6 @@ public class ResultControler : MonoBehaviour
     void Update()
     {
         if (resultText == null) return;
-
         int spawnA = 0, spawnB = 0, spawnC = 0;
         if (AllyManager.NumSpawn != null)
         {
@@ -145,7 +145,12 @@ public class ResultControler : MonoBehaviour
                 if (GameStats.AllyDeaths.Length > 2) deadC = GameStats.AllyDeaths[2];
             }
         }
+        
         catch { }
+
+        // スコアは『200*倒した敵の総数*召喚した味方の総数/倒れた味方の総数』で計算。
+
+        int scorePoint = 200 * killedEnemies * (spawnA + spawnB + spawnC)/(deadA + deadB + deadC);
 
         // 非改行スペース(U+00A0)を使って単語の途中で改行されないようにする
         string nbsp = "\u00A0";
@@ -158,7 +163,9 @@ public class ResultControler : MonoBehaviour
         string sLine2 = $"Spawned Defencers:{nbsp}{spawnA}{nbsp}";
         string sLine3 = $"Spawned Archers:{nbsp}{spawnC}{nbsp}";
 
-        string text = string.Join("\n", new[] { kLine, dLine1, dLine2, dLine3, "", sLine1, sLine2, sLine3 });
+        string pLine = $"Total Score:{scorePoint}";
+
+        string text = string.Join("\n", new[] { kLine, dLine1, dLine2, dLine3, "", sLine1, sLine2, sLine3, "", pLine });
         resultText.text = text;
         // Press Enter to go back to TitleScene (if present in Build Settings)
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
