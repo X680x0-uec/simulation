@@ -20,20 +20,21 @@ public class MikoshiControllerImada : MonoBehaviour
 
 	[SerializeField] private FullScreenPassRendererFeature gameOverEffect;
 
+    public AudioClip audioClipGameover;
+
+    AudioSource audioSource;
     public int CurrentHP => currentHP;
     public int MaxHP => maxHP;
-
     private int currentIndex;
+
     private bool isMoving = true;
-
     public static event Action OnMikoshiReachedGoal;
-
     public bool hasReachedEnd { get; private set; } = false;
-
     private Rigidbody2D rb;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         currentHP = maxHP;
         BeginMove();
@@ -149,8 +150,15 @@ public class MikoshiControllerImada : MonoBehaviour
 		gameOverEffect.SetActive(true);
 		yield return new WaitForSeconds(0.5f); // 少し待つことで、プレイヤーにダメージを受けたことを認識させる
 		gameOverEffect.SetActive(false);
-        SceneManager.LoadScene("GameOverScene");
+        // ゲームオーバーの音を鳴らす
+        audioSource.PlayOneShot(audioClipGameover);
+        Invoke(nameof(BackTitle), 2.0f);
         // Ensure this IEnumerator method always yields/returns
         yield break;
+    }
+
+    void BackTitle()
+    {
+        SceneManager.LoadScene("GameOverScene");
     }
 }
